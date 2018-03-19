@@ -1,6 +1,9 @@
 import numpy as np
 import random
 import matplotlib.pyplot as plt
+from pyCompatible import *
+
+pyPatch()
 
 # seeds can be used: 4, 5
 class Dataset(object):
@@ -8,7 +11,7 @@ class Dataset(object):
 		self.class_num = class_num
 		self.data_num = data_num
 		self.data = np.zeros((data_num * class_num, 2), dtype = np.float32)
-		self.centers = [(0, 1), (2, 2)]
+		self.centers = [(0, 1), (0, 2), (2, 2), (1, 1)]
 		self.colors = ['red', 'blue']
 
 		random.seed(seed)

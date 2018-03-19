@@ -1,4 +1,4 @@
-from sklearn.mixture import GaussianMixture
+from sklearn.mixture import BayesianGaussianMixture
 from dataset import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,9 +8,9 @@ from pyCompatible import *
 
 pyPatch()
 
-class GMM_EM(object):
+class VBEM(object):
 	def __init__(self, n_components = 1, verbose = 2, verbose_interval = 1):
-		self.model = GaussianMixture(
+		self.model = BayesianGaussianMixture(
 			n_components = n_components,
 			verbose = verbose,
 			verbose_interval = verbose_interval)
@@ -18,33 +18,21 @@ class GMM_EM(object):
 		self.dataset = Dataset(class_num = 4)
 		self.dataset.generate()
 		self.data = self.dataset.data
-		self.aic = []
-		self.bic = []
 
 	def train(self):
 		self.model.fit(self.data)
 
-	def aic_select(self):
+	def select(self):
+		scores = []
 		low = 99999
 		for n in xrange(1, self.n_components + 1):
-			gmm = GaussianMixture(n_components = n)
-			gmm.fit(self.data)
-			self.aic.append(gmm.aic(self.data))
-			if self.aic[-1] < low:
-				low = self.aic[-1]
-				self.model = deepcopy(gmm)
-		print '------aic-------\n', self.aic
-
-	def bic_select(self):
-		low = 99999
-		for n in xrange(1, self.n_components + 1):
-			gmm = GaussianMixture(n_components = n)
-			gmm.fit(self.data)
-			self.bic.append(gmm.bic(self.data))
-			if self.bic[-1] < low:
-				low = self.bic[-1]
-				self.model = deepcopy(gmm)
-		print '------bic-------\n', self.bic
+			vbem = BayesianGaussianMixture(n_components = n)
+			vbem.fit(self.data)
+			scores.append(-vbem.score(self.data))
+			if scores[-1] < low:
+				low = scores[-1]
+				self.model = deepcopy(vbem)
+		print '------scores-------\n', scores
 
 	def show(self):
 		plt.figure()
@@ -60,6 +48,6 @@ class GMM_EM(object):
 		plt.show()
 
 if __name__ == '__main__':
-	gmm = GMM(n_components = 4)
+	gmm = VBEM(n_components = 4)
 	gmm.train()
 	gmm.show()
