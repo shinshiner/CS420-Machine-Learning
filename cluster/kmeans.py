@@ -1,4 +1,4 @@
-from sklearn.mixture import BayesianGaussianMixture
+from sklearn.cluster import KMeans
 from dataset import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,13 +8,12 @@ from pyCompatible import *
 
 pyPatch()
 
-class VBEM(object):
-	def __init__(self, n_components = 1, verbose = 2, verbose_interval = 1):
-		self.model = BayesianGaussianMixture(
-			n_components = n_components,
-			verbose = verbose,
-			verbose_interval = verbose_interval)
-		self.n_components = n_components
+class kmeans(object):
+	def __init__(self, n_clusters = 1, verbose = 2):
+		self.model = KMeans(
+			n_clusters = n_clusters,
+			verbose = verbose)
+		self.n_clusters = n_clusters
 		self.dataset = Dataset(class_num = 4)
 		self.dataset.generate()
 		self.data = self.dataset.data
@@ -25,15 +24,15 @@ class VBEM(object):
 	def select(self):
 		scores = []
 		low = 99999
-		for n in xrange(1, self.n_components + 1):
-			vbem = BayesianGaussianMixture(n_components = n)
-			vbem.fit(self.data)
-			scores.append(-vbem.score(self.data))
+		for n in xrange(1, self.n_clusters + 1):
+			kmean = KMeans(n_clusters = n)
+			kmean.fit(self.data)
+			scores.append(-kmean.score(self.data))
 			if scores[-1] < low:
 				low = scores[-1]
-				self.model = deepcopy(vbem)
+				self.model = deepcopy(kmean)
 		print '------scores-------\n', scores
-		print 'selected components:', scores.index(low) + 1, '\n'
+		print 'selected clusters:', scores.index(low) + 1, '\n'
 
 	def show(self):
 		plt.figure()
@@ -47,8 +46,3 @@ class VBEM(object):
 		plt.scatter(self.data[:, 0], self.data[:, 1], c = labels, s = 15)
 
 		plt.show()
-
-if __name__ == '__main__':
-	gmm = VBEM(n_components = 4)
-	gmm.train()
-	gmm.show()

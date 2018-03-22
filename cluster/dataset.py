@@ -11,7 +11,8 @@ class Dataset(object):
 		self.class_num = class_num
 		self.data_num = data_num
 		self.data = np.zeros((data_num * class_num, 2), dtype = np.float32)
-		self.centers = [(0, 1), (0, 2), (2, 2), (1, 1)]
+		# self.centers = [(0, 1), (0, 2), (2, 2), (1, 1)]
+		self.centers = [(0, 1), (0, 0.9), (0, 1.1), (0.1, 1.1)]
 		self.colors = ['red', 'blue']
 
 		random.seed(seed)
@@ -19,8 +20,8 @@ class Dataset(object):
 	def generate(self):
 		for k in xrange(self.class_num):
 			# self.data[:, 2] = k
-			mu_x = self.centers[k][0] + random.random()
-			mu_y = self.centers[k][1] + random.random()
+			mu_x = self.centers[k][0]# + random.random()
+			mu_y = self.centers[k][1]# + random.random()
 			sigma = random.random() * 0.5
 			for i in xrange(self.data_num):
 				self.data[k * self.data_num + i][0] = np.random.normal(mu_x, sigma)

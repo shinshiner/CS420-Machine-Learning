@@ -34,6 +34,7 @@ class GMM_EM(object):
 				low = self.aic[-1]
 				self.model = deepcopy(gmm)
 		print '------aic-------\n', self.aic
+		print 'selected components:', self.aic.index(low) + 1, '\n'
 
 	def bic_select(self):
 		low = 99999
@@ -45,6 +46,7 @@ class GMM_EM(object):
 				low = self.bic[-1]
 				self.model = deepcopy(gmm)
 		print '------bic-------\n', self.bic
+		print 'selected components:', self.bic.index(low) + 1, '\n'
 
 	def show(self):
 		plt.figure()
