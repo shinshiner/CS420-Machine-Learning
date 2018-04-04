@@ -61,9 +61,91 @@
 \Large{\textbf{Report on Homework 1}}\vspace{1mm}\\ 
 CS420, Machine Learning, Shikui Tu, Autumn 2017 \vspace{1mm} \\
 Zelin Ye 515030910468}}
-\vspace{-1.5\baselineskip}
-\section{k-mean vs GMM} % or Problem Description ?
 
+\vspace{-1.5\baselineskip}
+\section{k-means vs GMM}
+
+Basically, k-means employs One-in-K assignment while GMM utilizes soft assignment. It turns out that k-means has bad robust. Therefore, I tend to introduce some of the ideas in GMM into k-means to form a new variant of k-means.
+
+\vspace{0.003\linewidth}
+There are two main differences in my variant of k-means algorithm compared with the original:
+
+\begin{itemize}
+	\setlength{\itemsep}{0pt}
+	\item I introduce parts of the soft assignment into k-means to make it more robust.
+	
+	\item I affiliate a hyper parameter $Thres$ into original k-means. When the posteriori probablity is large than $Thres$, it can be retained, or it would be 0.
+\end{itemize}
+
+The pseudo-codes of my algorithm can refer to \ref{alg:kmean_vs_GMM}.
+
+\begin{algorithm}[H]
+	\SetKwInOut{Input}{input}
+	\SetKwInOut{Output}{output}
+	\caption{Improvements of k-means}
+	\label{alg:kmean_vs_GMM}
+	\vspace{0.25\baselineskip}
+	
+	\Input{The number of clusters $K$}
+	\Output{$\pi_{k}, \mu_{k}, \Sigma_{k}, (k=1,2,...,K)$}
+	Initialize the means $\mu_{k}$, covariances $\Sigma_{k}$, mixing coefficients $\pi_{k}$ and threshold $Thres$.
+	
+	Evaluating the initial value of the log likelihood.
+	
+	\While{the convergence criterion of parameters or log likelihood is not satisfied}{
+	
+		\textbf{E step.} Evaluate the responsibilities using the current parameter values:
+		\BlankLine
+		
+		\begin{center}
+			$\omega \leftarrow \dfrac{\pi_{k}\mathcal{N}(x_{n}|\mu_{k}, \Sigma_{k})}{\sum\limits_{j=1}^{K}\pi_{j}\mathcal{N}(x_{n}|\mu_{j}, \Sigma_{j})}$
+		\end{center}
+		
+		\begin{center}
+			$\gamma(z_{nk})=\left\{
+				\begin{aligned}
+					\omega & & {\omega > Thres} \\
+					0 & & {\omega \leq Thres}
+				\end{aligned}
+			\right.$
+		\end{center}
+		
+		\begin{center}
+			$z_{n} \leftarrow \dfrac{e^{z_{n_{i}}}}{\sum\limits_{j=1}^{K}e^{z_{n_{j}}}}$
+		\end{center}
+		
+		\textbf{M step.} Re-estimate the parameters using the current responsibilities:
+		
+		\begin{center}
+			$N_{k} \leftarrow \sum\limits_{n=1}^{N}\gamma(z_{nk})$
+		\end{center}
+		
+		\begin{center}
+			$\mu^{new}_{k} \leftarrow \dfrac{1}{N_{k}}\sum\limits_{n=1}^{N}\gamma(z_{nk})x_{n}$
+		\end{center}
+		
+		\begin{center}
+			$\Sigma^{new}_{k} \leftarrow \dfrac{1}{N_{k}}\sum\limits_{n=1}^{N}\gamma(z_{nk})(x_{n}-\mu^{new}_{k})(x_{n}-\mu^{new}_{k})^{T}$
+		\end{center}
+		
+		\begin{center}
+			$\pi^{new}_{k} \leftarrow \dfrac{N_{k}}{N}$
+		\end{center}
+		
+		Evaluate the log likelihood:
+		
+		\begin{center}
+			ln $p(X|\mu,\Sigma,\pi) \leftarrow \sum\limits_{k=1}^{K}$ ln$\left\{\sum\limits_{k=1}^{K}\pi_{k}\mathcal{N}(x_{n}|\mu_{k}, \Sigma_{k})\right\}.$
+		\end{center}
+	}
+	\Return $\pi_{k}, \mu_{k}, \Sigma_{k}, (k=1,2,...,K)$\;
+\end{algorithm}
+
+With the introduction of probability, my algorithm is somewhat similar to EM algorithm and would be more robust than k-means. Besides, the $Thres$ would eliminate the negligible posteriori probabilities and improve accuracy under the premise of robustness.
+
+Generally speaking, more hyper parameters would result in more tricks, my algorithm is no exception. The choice of $Thres$ may greatly affect the result.
+
+Additionally, my algorithm also encounters the initialization and unknown $K$ problems. But I think such problems do not contradict with my core ideas, and could be resolved by introducing more components (e.g. the idea of RPCL).
 
 \vspace{-1\baselineskip}
 \section{k-mean vs CL}
