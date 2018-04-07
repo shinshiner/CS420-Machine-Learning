@@ -12,13 +12,13 @@ def testGMM(data, n, aic=True):
     else:
         print('------------test GMM with bic selection------------')
         model.bic_select()
-    model.show(n)
+    model.show_dis(n)
 
 def testVBEM(data, n):
     print('------------test VBEM------------')
     model = VBEM(n_components = 10, Data=data)
     model.select()
-    model.show(n)
+    model.show_dis(n)
 
 def testKmeans():
     print('------------test kmeans------------')
@@ -59,7 +59,21 @@ def sample_size_l():
     plt.savefig('report/demo/sample_line')
     plt.show()
 
+def cluster_distance():
+    dis = [0.3, 0.7, 1.0, 3.0]
+    centers = [[(0, 0), (dis[0], 0), (dis[0] / 2, 0.866 * dis[0])],
+               [(0, 0), (dis[1], 0), (dis[1] / 2, 0.866 * dis[1])],
+               [(0, 0), (dis[2], 0), (dis[2] / 2, 0.866 * dis[2])],
+               [(0, 0), (dis[3], 0), (dis[3] / 2, 0.866 * dis[3])]]
+    for i, center in enumerate(centers):
+        data = Dataset(class_num=3, data_num=50, center=center)
+        data.generate()
+        testGMM(data, int(dis[i] * 10))
+        testGMM(data, int(dis[i] * 10), False)
+        testVBEM(data, int(dis[i] * 10))
+
 if __name__ == '__main__':
     # sample_size()
-    sample_size_l()
+    # sample_size_l()
+    # cluster_distance()
     pass

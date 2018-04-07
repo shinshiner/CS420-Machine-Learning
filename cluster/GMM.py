@@ -76,6 +76,25 @@ class GMM_EM(object):
             else:
                 plt.savefig('report/demo/bic_%d_%d' % (n, self.res_n))
 
+    def show_dis(self, dis = None):
+        plt.figure()
+        x = np.linspace(-0.5, 3, 10)
+        y = np.linspace(0.3, 3, 10)
+        X, Y = np.meshgrid(x, y)
+        #Z = (2-self.model.score_samples(np.array([X.ravel(), Y.ravel()]).T)).reshape(X.shape)
+        labels = self.model.predict(self.data)
+
+        #plt.contour(X, Y, Z, norm=LogNorm(vmin=0.1, vmax=1000.0), levels=np.logspace(0, 2, 15))
+        plt.scatter(self.data[:, 0], self.data[:, 1], c = labels, s = 15)
+
+        if dis == None:
+            plt.show()
+        else:
+            if self.aic_b:
+                plt.savefig('report/demo/dis_aic_%d_%d' % (dis, self.res_n))
+            else:
+                plt.savefig('report/demo/dis_bic_%d_%d' % (dis, self.res_n))
+
 if __name__ == '__main__':
     gmm = GMM_EM(n_components = 4)
     gmm.train()

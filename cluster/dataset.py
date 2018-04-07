@@ -7,12 +7,15 @@ pyPatch()
 
 # seeds can be used: 4, 5
 class Dataset(object):
-    def __init__(self, class_num = 2, data_num = 200, seed = 4):
+    def __init__(self, class_num = 2, data_num = 200, seed = 4, center=None):
         self.class_num = class_num
         self.data_num = data_num
         self.data = np.zeros((data_num * class_num, 2), dtype = np.float32)
-        self.centers = [(0, 0), (0, 1), (1, 1), (1, 0)]
-        # self.centers = [(0, 1), (0, 0.9), (0, 1.1), (0.1, 1.1)]
+        if center == None:
+            self.centers = [(0, 0), (0, 1), (1, 1), (1, 0)]
+            # self.centers = [(0, 1), (0, 0.9), (0, 1.1), (0.1, 1.1)]
+        else:
+            self.centers = center
         self.colors = ['red', 'blue']
 
         random.seed(seed)
