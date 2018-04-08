@@ -12,7 +12,8 @@ class Dataset(object):
         self.data_num = data_num
         self.data = np.zeros((data_num * class_num, 2), dtype = np.float32)
         if center == None:
-            self.centers = [(0, 0), (0, 1), (1, 1), (1, 0)]
+            # self.centers = [(0, 0), (0, 1), (1, 1), (1, 0)]
+            self.centers = [(0, 0), (1, 0), (0.5, 0.866)]
             # self.centers = [(0, 1), (0, 0.9), (0, 1.1), (0.1, 1.1)]
         else:
             self.centers = center
@@ -25,7 +26,7 @@ class Dataset(object):
             # self.data[:, 2] = k
             mu_x = self.centers[k][0]# + random.random()
             mu_y = self.centers[k][1]# + random.random()
-            sigma = random.random() * 0.5
+            sigma = random.random() * 0.4
             for i in range(self.data_num):
                 self.data[k * self.data_num + i][0] = np.random.normal(mu_x, sigma)
                 self.data[k * self.data_num + i][1] = np.random.normal(mu_y, sigma)
