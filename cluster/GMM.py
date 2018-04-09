@@ -59,13 +59,7 @@ class GMM_EM(object):
 
     def show(self, n = None):
         plt.figure()
-        x = np.linspace(-0.5, 3, 10)
-        y = np.linspace(0.3, 3, 10)
-        X, Y = np.meshgrid(x, y)
-        #Z = (2-self.model.score_samples(np.array([X.ravel(), Y.ravel()]).T)).reshape(X.shape)
         labels = self.model.predict(self.data)
-
-        #plt.contour(X, Y, Z, norm=LogNorm(vmin=0.1, vmax=1000.0), levels=np.logspace(0, 2, 15))
         plt.scatter(self.data[:, 0], self.data[:, 1], c = labels, s = 15)
 
         if n == None:
@@ -78,13 +72,8 @@ class GMM_EM(object):
 
     def show_dis(self, dis = None):
         plt.figure()
-        x = np.linspace(-0.5, 3, 10)
-        y = np.linspace(0.3, 3, 10)
-        X, Y = np.meshgrid(x, y)
-        #Z = (2-self.model.score_samples(np.array([X.ravel(), Y.ravel()]).T)).reshape(X.shape)
         labels = self.model.predict(self.data)
 
-        #plt.contour(X, Y, Z, norm=LogNorm(vmin=0.1, vmax=1000.0), levels=np.logspace(0, 2, 15))
         plt.scatter(self.data[:, 0], self.data[:, 1], c = labels, s = 15)
 
         if dis == None:

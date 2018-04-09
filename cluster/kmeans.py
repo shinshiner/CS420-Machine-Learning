@@ -2,14 +2,21 @@ from sklearn.cluster import KMeans
 from dataset import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
-from copy import deepcopy
-import random
 from math import exp
 
 def dis(cor1, cor2):
+    '''
+    distance function
+    :param cor1: first point
+    :param cor2: second point
+    :return: distance
+    '''
     return (cor1[0] - cor2[0])**2 + (cor1[1] - cor2[1])**2
 
 class Center(object):
+    '''
+    cluster center
+    '''
     def __init__(self, x = 0, y = 0):
         self.x = x
         self.y = y
@@ -28,23 +35,11 @@ class kmeans(object):
         self.centers = []
         self.rho = []
 
-    def train(self):
-        self.model.fit(self.data)
-
-    def select(self):
-        scores = []
-        low = 99999
-        for n in range(1, self.n_clusters + 1):
-            kmean = KMeans(n_clusters = n)
-            kmean.fit(self.data)
-            scores.append(-kmean.score(self.data))
-            if scores[-1] < low:
-                low = scores[-1]
-                self.model = deepcopy(kmean)
-        print('------scores-------\n', scores)
-        print('selected clusters:', scores.index(low) + 1, '\n')
-
     def get_density(self):
+        '''
+        get density of each data point
+        :return: None
+        '''
         b = 0.0
         for i in self.data:
             b += dis(self.data[0], i)
@@ -110,20 +105,22 @@ class kmeans(object):
         self.show('report/demo/RPCL_2')
 
     def random_center(self):
+        '''
+        generate centers randomly
+        :return: initial centers
+        '''
         for i in range(8):
             self.centers.append(Center(x=np.random.normal(0.5, 0.2),
                                        y=np.random.normal(0.5, 0.2)))
 
     def show(self, filename = None):
+        '''
+        show results
+        :param filename: file to save
+        :return: None
+        '''
         plt.figure()
-        x = np.linspace(-0.5, 3, 10)
-        y = np.linspace(0.3, 3, 10)
-        X, Y = np.meshgrid(x, y)
-        #Z = (2-self.model.score_samples(np.array([X.ravel(), Y.ravel()]).T)).reshape(X.shape)
-        #labels = self.model.predict(self.data)
 
-        #plt.contour(X, Y, Z, norm=LogNorm(vmin=0.1, vmax=1000.0), levels=np.logspace(0, 2, 15))
-        #plt.scatter(self.data[:, 0], self.data[:, 1], c = labels, s = 15)
         plt.scatter(self.data[:, 0], self.data[:, 1], s=15)
         for c in self.centers:
             if c != None:
@@ -136,4 +133,3 @@ class kmeans(object):
 if __name__ == '__main__':
     km = kmeans()
     km.RPCL()
-    # km.random_center()

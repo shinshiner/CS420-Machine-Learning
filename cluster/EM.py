@@ -1,6 +1,5 @@
 from GMM import GMM_EM
 from VBEM import VBEM
-from kmeans import kmeans
 from dataset import Dataset
 import matplotlib.pyplot as plt
 
@@ -19,12 +18,6 @@ def testVBEM(data, n):
     model = VBEM(n_components = 10, Data=data)
     model.select()
     model.show_dis(n)
-
-def testKmeans():
-    print('------------test kmeans------------')
-    model = kmeans(n_clusters = 10)
-    model.select()
-    model.show()
 
 def sample_size():
     samples = [5, 10, 30, 50, 100]

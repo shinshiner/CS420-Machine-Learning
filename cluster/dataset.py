@@ -1,11 +1,7 @@
 import numpy as np
 import random
 import matplotlib.pyplot as plt
-from pyCompatible import *
 
-pyPatch()
-
-# seeds can be used: 4, 5
 class Dataset(object):
     def __init__(self, class_num = 2, data_num = 200, seed = 4, center=None):
         self.class_num = class_num
@@ -23,9 +19,8 @@ class Dataset(object):
 
     def generate(self):
         for k in range(self.class_num):
-            # self.data[:, 2] = k
-            mu_x = self.centers[k][0]# + random.random()
-            mu_y = self.centers[k][1]# + random.random()
+            mu_x = self.centers[k][0]
+            mu_y = self.centers[k][1]
             sigma = random.random() * 0.4
             for i in range(self.data_num):
                 self.data[k * self.data_num + i][0] = np.random.normal(mu_x, sigma)
@@ -48,4 +43,3 @@ if __name__ == '__main__':
     dataset = Dataset()
     dataset.generate()
     dataset.show()
-    # debug()
