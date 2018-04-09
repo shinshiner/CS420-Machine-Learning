@@ -58,13 +58,13 @@
 %==========================================================
 \noindent\framebox[\linewidth]{\shortstack[c]{
 \Large{\textbf{Report on Homework 1}}\vspace{1mm}\\ 
-CS420, Machine Learning, Shikui Tu, Autumn 2017 \vspace{1mm} \\
+CS420, Machine Learning, Shikui Tu, Summer 2018 \vspace{1mm} \\
 Zelin Ye 515030910468}}
 
 \vspace{-0.5\baselineskip}
 \section{k-means vs GMM}
 
-Basically, k-means employs One-in-K assignment while GMM utilizes soft assignment. It turns out that k-means has bad robust. Therefore, I tend to introduce some of the ideas in GMM into k-means to form a new variant of k-means.
+Basically, k-means employs One-in-K assignment while GMM utilizes soft assignment. It turns out that k-means has bad robust under some circumstances. Therefore, I tend to introduce some of the ideas in GMM into k-means to form a new variant of k-means.
 
 \vspace{0.003\linewidth}
 There are two main differences in my variant of k-means algorithm compared with the original:
@@ -73,27 +73,27 @@ There are two main differences in my variant of k-means algorithm compared with 
 	\setlength{\itemsep}{0pt}
 	\item I introduce parts of the soft assignment into k-means to make it more robust.
 	
-	\item I affiliate a hyper parameter $Thres$ into original k-means. When the posteriori probablity is large than $Thres$, it can be retained, or it would be 0.
+	\item I affiliate a hyper parameter $Thres$ into original k-means. When the posteriori probablity is larger than $Thres$, it can be retained, or it would be 0.
 \end{itemize}
 
-The pseudo-codes of my algorithm can refer to Alg. \ref{alg:kmean_vs_GMM}.
+The details of my algorithm can refer to the pseudo-codes in Alg. \ref{alg:kmean_vs_GMM} (The meanings of most symbols are same as the ones in GMM).
 
 \begin{algorithm}[H]
-	\SetKwInOut{Input}{input}
-	\SetKwInOut{Output}{output}
-	\caption{Improvements of k-means}
+	\SetKwInOut{Input}{Input}
+	\SetKwInOut{Output}{Output}
+	\caption{A variant of k-means}
 	\label{alg:kmean_vs_GMM}
 	\vspace{0.25\baselineskip}
 	
 	\Input{The number of clusters $K$}
 	\Output{$\pi_{k}, \mu_{k}, \Sigma_{k}, (k=1,2,...,K)$}
-	Initialize the means $\mu_{k}$, covariances $\Sigma_{k}$, mixing coefficients $\pi_{k}$ and threshold $Thres$.
+	Initialize the means $\mu_{k}$, covariances $\Sigma_{k}$, mixing coefficients $\pi_{k}$ and threshold $Thres$;
 	
-	Evaluating the initial value of the log likelihood.
+	Evaluating the initial value of the log likelihood;
 	
 	\While{the convergence criterion of parameters or log likelihood is not satisfied}{
 	
-		\textbf{E step.} Evaluate the responsibilities using the current parameter values:
+		\textbf{E step.} Evaluate the responsibilities with the current parameter values:
 		\BlankLine
 		
 		\begin{center}
@@ -110,7 +110,7 @@ The pseudo-codes of my algorithm can refer to Alg. \ref{alg:kmean_vs_GMM}.
 			$z_{n} \leftarrow \dfrac{e^{z_{n_{i}}}}{\sum\limits_{j=1}^{K}e^{z_{n_{j}}}}$
 		\end{center}
 		
-		\textbf{M step.} Re-estimate the parameters using the current responsibilities:
+		\textbf{M step.} Re-estimate the parameters with the current responsibilities:
 		
 		\begin{center}
 			$N_{k} \leftarrow \sum\limits_{n=1}^{N}\gamma(z_{nk})$\quad $,$ \quad
@@ -131,14 +131,14 @@ The pseudo-codes of my algorithm can refer to Alg. \ref{alg:kmean_vs_GMM}.
 			ln $p(X|\mu,\Sigma,\pi) \leftarrow \sum\limits_{k=1}^{K}$ ln$\left\{\sum\limits_{k=1}^{K}\pi_{k}\mathcal{N}(x_{n}|\mu_{k}, \Sigma_{k})\right\}.$
 		\end{center}
 	}
-	\Return $\pi_{k}, \mu_{k}, \Sigma_{k}, (k=1,2,...,K)$\;
+	\Return $\pi_{k}, \mu_{k}, \Sigma_{k}, (k=1,2,...,K)$;
 \end{algorithm}
 
-With the introduction of probability, my algorithm is somewhat similar to EM algorithm and would be more robust than k-means. Besides, the $Thres$ would eliminate the negligible posteriori probabilities and improve accuracy under the premise of robustness.
+With the introduction of probability thoughts, my algorithm is somewhat similar to EM algorithm and would be more robust than k-means. Besides, the $Thres$ would eliminate the negligible posteriori probabilities and improve accuracy under the premise of robustness.
 
 Generally speaking, more hyper parameters would result in more tricks, my algorithm is no exception. The choice of $Thres$ may greatly affect the result.
 
-Additionally, my algorithm also encounters the initialization and unknown $K$ problems. But I think such problems do not contradict with my core ideas, and could be resolved by introducing more components (e.g. the idea of RPCL).
+Additionally, my algorithm also encounters the initialization and unknown $K$ problems. But I think such problems do not contradict with my core ideas, and could be resolved by introducing more components (e.g. the idea of RPCL), which would be discussed in Sec. \ref{sec:RPCL}
 
 \vspace{-1\baselineskip}
 \section{k-means vs CL}
@@ -149,7 +149,7 @@ Additionally, my algorithm also encounters the initialization and unknown $K$ pr
 	\item \textbf{Similarities}
 	
 	\begin{enumerate}
-		\item They can not estimate the total number of clusters from data.
+		\item They can not estimate the total number of clusters just from data.
 		
 		\item The effects of these two algorithms highly rely on initialization.
 		
@@ -165,7 +165,7 @@ Additionally, my algorithm also encounters the initialization and unknown $K$ pr
 		
 		\item CL has a hyper parameter $\eta$ to adjust, making the algorithm a little tricky. But k-means has no hyper parameter.
 		
-		\item k-means would take more time to converge when it comes to large data size. CL avoids this issue by updating the center by one data point each time.
+		\item k-means would take more time to converge when it comes to large data size. CL avoids this issue by updating the centers by one data point each time.
 		
 		\item Comparing to k-means, CL requires less computing resource (CPU, memory and etc).
 
@@ -174,6 +174,7 @@ Additionally, my algorithm also encounters the initialization and unknown $K$ pr
 \end{itemize}
 
 \subsection{Application of RPCL in k-means}
+\label{sec:RPCL}
 
 Since k-means can not estimate the total number of clusters from data while RPCL can make extra centers far away to control the number of clusters, I tend to apply the idea of RPCL to \textbf{the initialization of k-means}.
 
@@ -191,12 +192,12 @@ Suppose the initial number of centers is $m$ and the corresponding weight vector
 	\label{eqn:1}
 \end{equation}
 
-To make the winner approach the center of target cluster faster and keep rival away from it more efficiently, I take the geometric distribution of the data points into consideration. Therefore, a density function for each data point is defined as:
+To make the winner approach the target cluster faster and keep the rival away from it more efficiently, I take the geometric distribution of the data points into consideration. A density function for each data point is hence defined as:
 
 \begin{equation}
 	\rho(x_{j}) = \exp[-\sum\limits_{i=1}^{N}\dfrac{d(x_{i}, x_{j})}{\sum\limits_{i=1}^{N}d(x_{1}, x_{j})}], j = 1,2,...,N
 \end{equation}
-where $d$ denotes the distance function.
+where $d$ denotes the distance function (e.g. Euclidean distance).
 
 Then the adjustment for each weight vector $v_{i}$ can be conducted according to $u_{i}$ and $\rho(x_{j})$:
 
@@ -204,8 +205,8 @@ Then the adjustment for each weight vector $v_{i}$ can be conducted according to
 	\centering
 	\Delta v_{i} = \left\{
 		\begin{aligned}
-			\alpha_{i}\rho(x_{j})&(x_{j}-v_{i}) \quad u_{i} = 1 \\
-			\beta_{i}\rho(x_{j})&(x_{j}-v_{i}) \quad u_{i} = -1 \\
+			\alpha\rho(x_{j})&(x_{j}-v_{i}) \quad u_{i} = 1 \\
+			\beta\rho(x_{j})&(x_{j}-v_{i}) \quad u_{i} = -1 \\
 			& 0 \quad \quad \qquad \text{otherwise}
 		\end{aligned},
 	\right.
@@ -213,27 +214,27 @@ Then the adjustment for each weight vector $v_{i}$ can be conducted according to
 \end{equation}
 where $\alpha$ and $\beta$ are hyper parameters.
 
-Once the weight vectors converge, I will eliminate negligible ones according to a threshold $T$. Then the number of the remaining centers should be the clusters number $K$, and these centers would locate in 'good' initial positions.
+Once the weight vectors converge, I will eliminate negligible ones according to a threshold $T$. Then the number of the remaining centers should be the clusters number - $K$. Besides, these centers would locate in 'good' initial positions.
 
 \vspace{0.008\linewidth}
 The pseudo-codes of my algorithm can refer to Alg. \ref{alg:RPCL}.
 
 \begin{algorithm}[H]
-	\SetKwInOut{Input}{input}
-	\SetKwInOut{Output}{output}
-	\caption{RPCL in k-means}
+	\SetKwInOut{Input}{Input}
+	\SetKwInOut{Output}{Output}
+	\caption{The idea of RPCL in k-means}
 	\label{alg:RPCL}
 	\vspace{0.25\baselineskip}
 	
 	\Input{The dataset}
-	\Output{The initial centers and corresponding weight vectors}
-	Initialize the number of centers $m$ and weight vectors $v_{i}$, threshold $T$, density $\rho(x_{j})$.
+	\Output{The initial $m$ centers and corresponding weight vectors $v_{i}(i=1,...,m)$}
+	Initialize the number of centers $m$ and weight vectors $v_{i}$, threshold $T$, density $\rho(x_{j}) j = 1,2,...,N$.
 	
 	\While {the convergence criterion is not satisfied} {
 		\For {i = 0 to n}{
 			Calculating $u_{i}$ according to Eqn. \ref{eqn:1}.
 			
-			Adjust the weight vectors of each centers via Eqn. \ref{eqn:4}.
+			Adjust the weight vectors of each center via Eqn. \ref{eqn:4}.
 		}
 	}
 	
@@ -243,7 +244,7 @@ The pseudo-codes of my algorithm can refer to Alg. \ref{alg:RPCL}.
 		\begin{equation*}
 			\eta \leftarrow \dfrac{N_{i}}{N},
 		\end{equation*}
-		where $N_{i}$ denotes the number of data points in $ith$ center, $N$ is the number of data points in the dataset.
+		where $N_{i}$ denotes the number of data points that belong to $ith$ center, $N$ is the number of data points in the dataset.
 		
 		\If {$\eta < T$} {
 			Remove center $v_{i}$.
@@ -253,6 +254,7 @@ The pseudo-codes of my algorithm can refer to Alg. \ref{alg:RPCL}.
 	\Return $v$;
 \end{algorithm}
 
+\vspace{0.25\baselineskip}
 I test this application in a three-cluster dataset generated by myself, and the results of initial centers choice can refer to Fig. \ref{fig:RPCL}.
 
 \begin{figure}[htbp]
@@ -274,16 +276,15 @@ I test this application in a three-cluster dataset generated by myself, and the 
 	\label{fig:RPCL}
 \end{figure}
 
-It turns out that RPCL could determine the number of clusters and even provide a good initialization, which greatly speeds up the process of kmeans.
+It turns out that the idea of RPCL could determine the number of clusters and even provides a good initialization, which might greatly speed up the process of kmeans.
 
-%\vspace{-1\baselineskip}
 \section{Model Selection of GMM}
 
 In this section, I compare model selection performances among BIC, AIC and VBEM by varying the sample sizes and the cluster center distances of the dataset (All the datasets are randomly generated based on GMM).
 
 \subsection{Different Sample Sizes}
 \label{sec:1}
-In this experiment, I genetate 4 clusters on the four corners of a square, and run BIC, AIC and VBEM with different sample sizes. Then I visualize the result to check their performaces, which are shown in Fig. \ref{fig:sample_comp1}. The corresponding line chart can refer to Fig. \ref{fig:sample_line}.
+In this experiment, I genetate 4 clusters on the four corners of a square, and run BIC, AIC and VBEM with different sample sizes. Then I visualize the results to check their performaces, which are shown in Fig. \ref{fig:sample_comp1}. The corresponding line chart can refer to Fig. \ref{fig:sample_line}.
 
 \begin{figure}[htbp]
 	\centering
@@ -334,7 +335,7 @@ In this experiment, I genetate 4 clusters on the four corners of a square, and r
 	\subfigure{
 	    \includegraphics[width=0.18\linewidth]{demo/vbem_100_4.png}
 	}
-	\caption{The model selection performances of BIC, AIC and VBEM on different sample sizes. Each row from up to bottom denotes BIC, AIC and VBEM respectively. Each column from left to right denotes different sample sizes(5, 10, 30, 50, 100).}
+	\caption{The model selection performances of BIC, AIC and VBEM on different sample sizes. Each row from up to bottom denotes BIC, AIC and VBEM respectively. Each column from left to right denotes different sample sizes (5, 10, 30, 50, 100).}
 	\label{fig:sample_comp1}
 \end{figure}
 
@@ -345,16 +346,16 @@ In this experiment, I genetate 4 clusters on the four corners of a square, and r
 	\label{fig:sample_line}
 \end{figure}
 
-It can be found from the results that all of the three approaches perform well in middle or large sample sizes. When it comes to small sample sizes, BIC and AIC are more likely to  get pool performance while VBEM can prevent such cases. More exactly, BIC outperforms AIC slightly in small sample sizes.
+It can be found from the results that all of the three approaches perform well in middle or large sample sizes. When it comes to small sample sizes, BIC and AIC are more likely to  get poor performance while VBEM can prevent such cases. More exactly, BIC outperforms AIC slightly in small sample sizes. I infer that this is because BIC has taken sample sizes into account while AIC has not.
 
-In this experiment, VBEM archieve best clutsering result, BIC is the next and AIC is the worst.
+Anyhow, in this experiment, VBEM achieves best clutsering result, BIC is the next and AIC is the worst.
 
 \subsection{Different Distance Among Cluster Centers}
 \label{sec:2}
 
-After exploring the effects of sample sizes on the three approaches, I feel curious about how the distance among cluster centers affect their performance.
+After exploring the effects of sample sizes on the three approaches, I feel curious about how the distance among cluster centers affects their performances.
 
-I generate 3 clusters on the three corners of a  equilateral triangle, reducing the distance among them and visualizing the model selection results in Fig. \ref{fig:dis}.
+I generate 3 clusters on the three corners of a equilateral triangle, increasing the distance among them and visualizing the model selection results in Fig. \ref{fig:dis}.
 
 \begin{figure}[H]
 	\centering
@@ -396,17 +397,19 @@ I generate 3 clusters on the three corners of a  equilateral triangle, reducing 
 	\subfigure[vbem-3-3]{
 	    \includegraphics[width=0.23\linewidth]{demo/dis_vbem_30_3.png}
 	}
-	\caption{The model selection performances of BIC, AIC and VBEM on different cluster center distances. Each row from up to bottom denotes BIC, AIC and VBEM respectively. The two numbers below each figure denote the distance among three cluster centers and the $K$ chosen by corresponding approach respectively.}
+	\caption{The model selection performances of BIC, AIC and VBEM on different cluster center distances. Each row from up to bottom denotes BIC, AIC and VBEM respectively. The two numbers below each figure represent the distance among three cluster centers and the $K$ chosen by corresponding approach respectively.}
 	\label{fig:dis}
 \end{figure}
 
-As is shown in the results, BIC and VBEM outperform AIC a lot, especially in long distance cases, where AIC tends to choose models having more cluster centers.
+As is shown in the results, BIC and VBEM outperform AIC a lot, especially in long distance cases, where AIC tends to choose models having more cluster centers while BIC and VBEM could achieve appropriate model selection.
+
+Combined with the results in Sec. \ref{sec:1}, another significant phenomenon could be discovered. All the three approaches will obtain favorable performance under dataset with high cluster density. Nevertheless, AIC is prone to collapse when facing low cluster density, where BIC and VBEM are more applicable.
 
 \subsection{Discussion \& Conclusion}
 
-In the experiments, I mainly compare the model selection ability of BIC, AIC and VBEM under different sample sizes and cluster center distances. From the results of Sec. \ref{sec:1} and Sec. \ref{sec:2}, VBEM performs best, BIC is just a little bit worse and AIC performs worst.
+In these experiments, I mainly compare the model selection ability of BIC, AIC and VBEM under different sample sizes and cluster center distances. From the results of Sec. \ref{sec:1} and Sec. \ref{sec:2}, VBEM performs best, BIC is just a little bit worse and AIC performs worst.
 
-Actually, though these experiments can reveal their performance to a certain extent, they are only a small portion of comparisons among the three approaches and the results may be variant in other conditions. To be more accurate and comprehensive, more kinds of contrast experiments needed (e.g. different data dimensions, number of clusters).
+Actually, though these experiments can reveal their performance to a certain extent, they are only a small portion of comparisons among the three approaches and the results may be variant in other conditions. To be more accurate and comprehensive, more kinds of contrast experiments are needed (e.g. different data dimensions, number of clusters).
 
 Ultimately, I want to express my sincere thanks to Prof. Shikui Tu and TA Yajing Chen for their patient guidance and great help in this homework! Thank you!
 
