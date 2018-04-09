@@ -16,7 +16,6 @@ def testGMM(data, n, aic=True):
 def testVBEM(data, n):
     print('------------test VBEM------------')
     model = VBEM(n_components = 10, Data=data)
-    model.select()
     model.show_dis(n)
 
 def sample_size():
@@ -61,6 +60,10 @@ def sample_size_l():
     plt.show()
 
 def cluster_distance():
+    '''
+    cluster distance experiment
+    :return: None
+    '''
     dis = [0.3, 0.7, 1.0, 3.0]
     centers = [[(0, 0), (dis[0], 0), (dis[0] / 2, 0.866 * dis[0])],
                [(0, 0), (dis[1], 0), (dis[1] / 2, 0.866 * dis[1])],

@@ -1,16 +1,17 @@
 from sklearn.mixture import GaussianMixture
 from dataset import Dataset
-import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.colors import LogNorm
 from copy import deepcopy
-from pyCompatible import *
-
-pyPatch()
 
 class GMM_EM(object):
     def __init__(self, n_components = 1, verbose = 2, verbose_interval = 1,
                  Data = None):
+        '''
+        :param n_components: cluster number
+        :param verbose: whether to show training details
+        :param verbose_interval: showing training details interval
+        :param Data: dataset
+        '''
         self.model = GaussianMixture(
             n_components = n_components,
             verbose = verbose,
@@ -30,6 +31,10 @@ class GMM_EM(object):
         self.model.fit(self.data)
 
     def aic_select(self):
+        '''
+        using AIC to select model
+        :return: None
+        '''
         self.aic_b = True
         low = 99999
         for n in range(1, self.n_components + 1):
@@ -44,6 +49,10 @@ class GMM_EM(object):
         print('selected components:', self.res_n, '\n')
 
     def bic_select(self):
+        '''
+        using BIC to select model
+        :return: None
+        '''
         self.aic_b = False
         low = 99999
         for n in range(1, self.n_components + 1):
@@ -58,6 +67,11 @@ class GMM_EM(object):
         print('selected components:', self.res_n, '\n')
 
     def show(self, n = None):
+        '''
+        show the result of trained model
+        :param n: just used for save files
+        :return: None
+        '''
         plt.figure()
         labels = self.model.predict(self.data)
         plt.scatter(self.data[:, 0], self.data[:, 1], c = labels, s = 15)
@@ -71,6 +85,11 @@ class GMM_EM(object):
                 plt.savefig('report/demo/bic_%d_%d' % (n, self.res_n))
 
     def show_dis(self, dis = None):
+        '''
+        show the result of trained model
+        :param dis: just used for save files
+        :return: None
+        '''
         plt.figure()
         labels = self.model.predict(self.data)
 
