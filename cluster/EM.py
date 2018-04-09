@@ -20,6 +20,10 @@ def testVBEM(data, n):
     model.show_dis(n)
 
 def sample_size():
+    '''
+    sample size experiment
+    :return: None
+    '''
     samples = [5, 10, 30, 50, 100]
     for n in samples:
         data = Dataset(class_num=4, data_num=n)
@@ -29,6 +33,10 @@ def sample_size():
         testVBEM(data, n)
 
 def sample_size_l():
+    '''
+    sample size experiment line chart
+    :return: None
+    '''
     x = [5, 10, 30, 50, 100]
     y_bic = [10, 4, 4, 4, 4]
     y_aic = [10, 10, 4, 4, 4]
