@@ -2,7 +2,15 @@
 __pycache__/
 *.py[cod]
 *$py.class
+
+# pycharm files
 .idea/
+
+# mnist data
+mnist_project/mnist/mnist_train/mnist_train_data
+mnist_project/mnist/mnist_train/mnist_train_label
+mnist_project/mnist/mnist_test/mnist_test_data
+mnist_project/mnist/mnist_test/mnist_test_label
 
 # C extensions
 *.so
