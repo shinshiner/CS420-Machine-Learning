@@ -1,0 +1,132 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath,amscd,amsbsy,amssymb,latexsym,url,bm,amsthm}
+\usepackage{epsfig,graphicx,subfigure}
+\usepackage{enumitem,balance}
+\usepackage{wrapfig}
+\usepackage{mathrsfs, euscript}
+\usepackage[usenames]{xcolor}
+\usepackage{hyperref}
+\usepackage[vlined,ruled,commentsnumbered,linesnumbered]{algorithm2e}
+\usepackage{float}
+\usepackage{array}
+\usepackage{diagbox}
+\usepackage{color}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{gensymb}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{aurical}
+\usepackage{times}
+\usepackage{caption}
+\usepackage{fontspec}
+\usepackage{booktabs}
+\setmainfont{Times New Roman}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{exercise}{Exercise}[section]
+\newtheorem*{solution}{Solution}
+\theoremstyle{definition}
+
+\newcommand{\postscript}[2]
+ {\setlength{\epsfxsize}{#2\hsize}
+  \centerline{\epsfbox{#1}}}
+\renewcommand{\baselinestretch}{1.0}
+
+\setlength{\oddsidemargin}{-0.365in}
+\setlength{\evensidemargin}{-0.365in}
+\setlength{\topmargin}{-0.3in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\textheight}{10.1in}
+\setlength{\textwidth}{7in}
+\makeatletter \renewenvironment{proof}[1][Proof] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse} \makeatother
+\makeatletter
+\renewenvironment{solution}[1][Solution] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse} \makeatother
+
+\begin{document}
+\noindent
+%==========================================================
+\noindent\framebox[\linewidth]{\shortstack[c]{
+\Large{\textbf{Report on Homework 2}}\vspace{1mm}\\ 
+CS420, Machine Learning, Shikui Tu, Summer 2018 \vspace{1mm} \\
+Zelin Ye 515030910468}}
+
+\section{PCA algorithm}
+
+\begin{algorithm}[H]
+	\SetKwInOut{Input}{Input}
+	\SetKwInOut{Output}{Output}
+	\caption{A variant of k-means}
+	\label{alg:kmean_vs_GMM}
+	\vspace{0.25\baselineskip}
+	
+	\Input{The number of clusters $K$}
+	\Output{$\pi_{k}, \mu_{k}, \Sigma_{k}, (k=1,2,...,K)$}
+	Initialize the means $\mu_{k}$, covariances $\Sigma_{k}$, mixing coefficients $\pi_{k}$ and threshold $Thres$;
+	
+	Evaluating the initial value of the log likelihood;
+	
+	\While{the convergence criterion of parameters or log likelihood is not satisfied}{
+	
+		\textbf{E step.} Evaluate the responsibilities with the current parameter values:
+		\BlankLine
+		
+		\begin{center}
+			$\omega \leftarrow \dfrac{\pi_{k}\mathcal{N}(x_{n}|\mu_{k}, \Sigma_{k})}{\sum\limits_{j=1}^{K}\pi_{j}\mathcal{N}(x_{n}|\mu_{j}, \Sigma_{j})}$\quad $,$ \quad
+			$\gamma(z_{nk}) \leftarrow \left\{
+				\begin{aligned}
+					\omega & & {\omega > Thres} \\
+					0 & & {\omega \leq Thres}
+				\end{aligned}
+			\right.$
+		\end{center}
+		
+		\begin{center}
+			$z_{n} \leftarrow \dfrac{e^{z_{n_{i}}}}{\sum\limits_{j=1}^{K}e^{z_{n_{j}}}}$
+		\end{center}
+		
+		\textbf{M step.} Re-estimate the parameters with the current responsibilities:
+		
+		\begin{center}
+			$N_{k} \leftarrow \sum\limits_{n=1}^{N}\gamma(z_{nk})$\quad $,$ \quad
+			$\mu^{new}_{k} \leftarrow \dfrac{1}{N_{k}}\sum\limits_{n=1}^{N}\gamma(z_{nk})x_{n}$
+		\end{center}
+		
+		\begin{center}
+			$\Sigma^{new}_{k} \leftarrow \dfrac{1}{N_{k}}\sum\limits_{n=1}^{N}\gamma(z_{nk})(x_{n}-\mu^{new}_{k})(x_{n}-\mu^{new}_{k})^{T}$
+		\end{center}
+		
+		\begin{center}
+			$\pi^{new}_{k} \leftarrow \dfrac{N_{k}}{N}$
+		\end{center}
+		
+		Evaluate the log likelihood:
+		
+		\begin{center}
+			ln $p(X|\mu,\Sigma,\pi) \leftarrow \sum\limits_{k=1}^{K}$ ln$\left\{\sum\limits_{k=1}^{K}\pi_{k}\mathcal{N}(x_{n}|\mu_{k}, \Sigma_{k})\right\}.$
+		\end{center}
+	}
+	\Return $\pi_{k}, \mu_{k}, \Sigma_{k}, (k=1,2,...,K)$;
+\end{algorithm}
+
+\section{Factor Analysis (FA)}
+
+pass
+
+\section{Independent Component Analysis (ICA)}
+
+pass
+
+\section{Causal discovery algorithms}
+
+pass
+
+\section{Causal tree reconstruction}
+
+pass
+
+\end{document}
