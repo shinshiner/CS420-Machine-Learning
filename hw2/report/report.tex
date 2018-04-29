@@ -115,11 +115,21 @@ Zelin Ye 515030910468}}
 
 \section{Factor Analysis (FA)}
 
-pass
+\vspace{-0.03\linewidth}
+\begin{large}
+\begin{align*}
+	\centering	
+	p(y|x) &= \dfrac{p(x|y)p(y)}{p(x)} \\
+	&= \dfrac{G(x|Ay+\mu,\Sigma_{e})G(y|0,\Sigma_{y})}{p(x)} \\
+	&= \dfrac{G(x|Ay+\mu,\Sigma_{e})G(y|0,\Sigma_{y})}{G(x|\mu+\mu_{e},AA^{T}\Sigma_{y}+\Sigma_{e})}
+\end{align*}
+\end{large}
+
+where $\mu_{e}$ denotes the mean value of $e$, generally considered to be 0.
 
 \section{Independent Component Analysis (ICA)}
 
-pass
+ICA aims to decompose the source signal into independent parts. If the source signal is non-Gaussian, the decomposition is unique, or there would be a variety of such decomposition.
 
 \section{Causal discovery algorithms}
 
