@@ -57,60 +57,43 @@ Zelin Ye 515030910468}}
 
 \section{PCA algorithm}
 
+When it comes to principal component, the most common used approach is principal component analysis (PCA) algorithm. Thus, I can use the original PCA algorithm to extract the first principal component of the dataset. The computational details can refer to Alg. \ref{alg:pca_1}
+
 \begin{algorithm}[H]
 	\SetKwInOut{Input}{Input}
 	\SetKwInOut{Output}{Output}
-	\caption{A variant of k-means}
-	\label{alg:kmean_vs_GMM}
+	\caption{Original PCA}
+	\label{alg:pca_1}
 	\vspace{0.25\baselineskip}
 	
-	\Input{The number of clusters $K$}
-	\Output{$\pi_{k}, \mu_{k}, \Sigma_{k}, (k=1,2,...,K)$}
-	Initialize the means $\mu_{k}$, covariances $\Sigma_{k}$, mixing coefficients $\pi_{k}$ and threshold $Thres$;
+	\Input{The dataset $X$, a $n \times N$ matrix}
+	\Output{The first principal component $w$}
+	%Rearrange the dataset $X$ by
+	%\begin{equation*}
+	%	\centering
+	%	X \leftarrow X^T,
+	%\end{equation*}
+	%so that each line denotes one data point;
 	
-	Evaluating the initial value of the log likelihood;
+	Conduct normalization for $X$, and make sure the mean of $X$ is 0;
 	
-	\While{the convergence criterion of parameters or log likelihood is not satisfied}{
+	Find the covariance matrix of $X$, denoted by $C$:
+	\begin{equation*}
+		\centering
+		C = XX^{T};
+	\end{equation*}
 	
-		\textbf{E step.} Evaluate the responsibilities with the current parameter values:
-		\BlankLine
-		
-		\begin{center}
-			$\omega \leftarrow \dfrac{\pi_{k}\mathcal{N}(x_{n}|\mu_{k}, \Sigma_{k})}{\sum\limits_{j=1}^{K}\pi_{j}\mathcal{N}(x_{n}|\mu_{j}, \Sigma_{j})}$\quad $,$ \quad
-			$\gamma(z_{nk}) \leftarrow \left\{
-				\begin{aligned}
-					\omega & & {\omega > Thres} \\
-					0 & & {\omega \leq Thres}
-				\end{aligned}
-			\right.$
-		\end{center}
-		
-		\begin{center}
-			$z_{n} \leftarrow \dfrac{e^{z_{n_{i}}}}{\sum\limits_{j=1}^{K}e^{z_{n_{j}}}}$
-		\end{center}
-		
-		\textbf{M step.} Re-estimate the parameters with the current responsibilities:
-		
-		\begin{center}
-			$N_{k} \leftarrow \sum\limits_{n=1}^{N}\gamma(z_{nk})$\quad $,$ \quad
-			$\mu^{new}_{k} \leftarrow \dfrac{1}{N_{k}}\sum\limits_{n=1}^{N}\gamma(z_{nk})x_{n}$
-		\end{center}
-		
-		\begin{center}
-			$\Sigma^{new}_{k} \leftarrow \dfrac{1}{N_{k}}\sum\limits_{n=1}^{N}\gamma(z_{nk})(x_{n}-\mu^{new}_{k})(x_{n}-\mu^{new}_{k})^{T}$
-		\end{center}
-		
-		\begin{center}
-			$\pi^{new}_{k} \leftarrow \dfrac{N_{k}}{N}$
-		\end{center}
-		
-		Evaluate the log likelihood:
-		
-		\begin{center}
-			ln $p(X|\mu,\Sigma,\pi) \leftarrow \sum\limits_{k=1}^{K}$ ln$\left\{\sum\limits_{k=1}^{K}\pi_{k}\mathcal{N}(x_{n}|\mu_{k}, \Sigma_{k})\right\}.$
-		\end{center}
-	}
-	\Return $\pi_{k}, \mu_{k}, \Sigma_{k}, (k=1,2,...,K)$;
+	Calculate the eigenvalues $\lambda$ and eigenvectors $V$ of $X$;
+	
+	Choose the maximal eigenvalue $\lambda_{m}$ and corresponding eigenvector $v_{m}$;
+	
+	Calculate the first principal component:
+	\begin{equation*}
+		\centering
+		w = v_{m}^{T}X;
+	\end{equation*}
+	
+	\Return $w$;
 \end{algorithm}
 
 \section{Factor Analysis (FA)}
