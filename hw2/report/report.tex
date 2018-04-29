@@ -129,7 +129,15 @@ where $\mu_{e}$ denotes the mean value of $e$, generally considered to be 0.
 
 \section{Independent Component Analysis (ICA)}
 
-ICA aims to decompose the source signal into independent parts. If the source signal is non-Gaussian, the decomposition is unique, or there would be a variety of such decomposition.
+ICA aims to decompose the source signal into independent parts. If the source signals are non-Gaussian, the decomposition is unique, or there would be a variety of such decompositions.
+
+Suppose the source signal $s$ consists of two components, conforming to multi-valued normal distribution, namely $s \sim N(0,I)$. Obviously, the probablity density funciton of $s$ is centered on the mean 0, and the projection plane is an ellipse.
+
+Meanwhile, we have $x=As$, where $x$ denotes the actual signals received while $A$ represents a mixing matrix. Then $x$ is also Gaussian, with a mean of 0 and a covariance of $E[xx^{T}]=E[Ass^{T}A^{T}]=AA^{T}$.
+
+Let $C$ be a orthogonal matrix, and $A^{'}=AR$. If $A$ is replaced by $A{'}$, then we can get $x^{'}=A^{'}s$. It is easy to find that $x^{'}$ also conforms to normal distribution, with a mean of 0 and a covariance of $E[x^{'}(x^{'})^{T}]=E[A^{'}ss^{T}(A^{'})^{T}]=E[ACss^{T}(AC)^{T}]=ACC^{T}A^{T}=AA^{T}$.
+
+Apparently, $x$ and $x^{'}$ conform to the same distribution with different mixing matrices. Then we cannot determine the mixing matrix or the source signals from the received signals. Nevertheless, if $x$ is non-Gaussian (e.g. Uniform Distribution), such case would be effectively avoided. Therefore, maximizing non-Gaussianity should be used as a principle for ICA estimation.
 
 \section{Causal discovery algorithms}
 
