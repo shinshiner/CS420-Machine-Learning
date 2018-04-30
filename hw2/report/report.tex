@@ -104,7 +104,9 @@ The above algorithm (PCA) is a classical and commonly used method to solve princ
 \paragraph{Pros:}
 \begin{enumerate}
 	\item PCA has simple logic and is easy to implement;
+	
 	\item The orthogonality among principal components chosen by PCA can eliminate the interaction between original data components;
+	
 	\item PCA belongs to unsupervised learning, and it is not restricted by sample labels.
 \end{enumerate}
 
@@ -112,13 +114,15 @@ The above algorithm (PCA) is a classical and commonly used method to solve princ
 \paragraph{Cons:}
 \begin{enumerate}
 	\item PCA treats all samples, namely the collection of eigenvectors, as a whole and neglects the category attributes. Nevertheless, the projection direction it neglects might contain some important separability information;
-	\item PCA would be time-consuming when facing large amount of data;
+	
+	\item PCA would be time-consuming when encountering large amount of data;
+	
 	\item The actual meanings of principal components extracted by PCA are a little bit ad-hoc and hard to explain.
 \end{enumerate}
 
 The original PCA might have good performance when handling linear data, but it would encounter difficulties under non-linear data. In non-linear cases, a variant of PCA called KPCA (kernel principal components analysis) shows its strength.
 
-The innovation of KPCA is that it introduces a non-linear mapping function, mapping the data from original space to high-dimensional space. The details of KPCA can refer to Alg. \ref{alg:pca_2}.
+The innovation of KPCA is that it introduces a non-linear mapping function $\phi(x)$, mapping the data from original space to high-dimensional space. Besides, the deduction of KPCA takes advantage of the theorem that \textit{each vector in the space could be expressed linearly by all the samples in the space}. The details of KPCA can refer to Alg. \ref{alg:pca_2}.
 
 \vspace{0.01\linewidth}
 \begin{algorithm}[H]
@@ -128,16 +132,16 @@ The innovation of KPCA is that it introduces a non-linear mapping function, mapp
 	\label{alg:pca_2}
 	\vspace{0.25\baselineskip}
 	
-	\Input{The dataset $X$, a $n \times N$ matrix}
-	\Output{The first principal component $w$}
-	%Rearrange the dataset $X$ by
-	%\begin{equation*}
-	%	\centering
-	%	X \leftarrow X^T,
-	%\end{equation*}
-	%so that each line denotes one data point;
-	
+	\Input{The dataset $X$, a $n \times N$ matrix; kernel function $\phi(x)$}
+	\Output{The first principal component $w$}	
 	Conduct normalization for $X$, and make sure the mean of $X$ is 0;
+	
+	Calculate kernel matrix $K$:
+	\begin{equation*}
+		\centering
+		K = X^{T}X,
+	\end{equation*}
+	where X=[$\phi(x_1),...,\phi(x_N)$];
 	
 	Find the covariance matrix of $X$, denoted by $C$:
 	\begin{equation*}
@@ -145,10 +149,19 @@ The innovation of KPCA is that it introduces a non-linear mapping function, mapp
 		C = XX^{T};
 	\end{equation*}
 	
-	Calculate the eigenvalues $\lambda$ and eigenvectors $V$ of $X$;
+	Calculate the eigenvalues $\lambda$ and eigenvectors $U$ of $K$;
 	
-	Choose the maximal eigenvalue $\lambda_{m}$ and corresponding eigenvector $v_{m}$;
+	Choose the maximal eigenvalue $\lambda_{m}$ and calculate corresponding eigenvector $u_{m}$;
 	
+	Calculate the corresponding eigenvectors $v_m$ of covariance matrix $C$ by $u_m$:
+	\begin{align*}
+		\centering
+		v_m &= \dfrac{1}{\|X^Tu_m\|}X^Tu_m \\
+		&= \dfrac{1}{\sqrt{u_m^TXX^Tu_m}}X^Tu_m \\
+		&= \dfrac{1}{\sqrt{u_m^T(\lambda_m u_m)}}X^Tu_m \\
+		&= \dfrac{1}{\sqrt{\lambda_m}}X^Tu_m;
+	\end{align*}
+		
 	Calculate the first principal component:
 	\begin{equation*}
 		\centering
@@ -158,6 +171,30 @@ The innovation of KPCA is that it introduces a non-linear mapping function, mapp
 	\Return $w$;
 \end{algorithm}
 \vspace{0.01\linewidth}
+
+KPCA is a ingenious extension of PCA, and is also widely used (e.g. dimension reduction, clustering). The pros and cons of KPCA are as follows.
+
+\vspace{-0.012\linewidth}
+\paragraph{Pros:}
+\begin{enumerate}
+	\item Basically, KPCA owns almost all of the advantages of PCA;
+
+	\item KPCA has a stronger universality, which could find out the non-linear information contained in dataset;
+	
+	\item KPCA uses simple kernel functions (e.g. polynomial kernel function) to realize complex non-linear transform;
+\end{enumerate}
+
+\vspace{-0.03\linewidth}
+\paragraph{Cons:}
+\begin{enumerate}
+	\item The logic and implementation of KPCA is a little bit complicated;
+	
+	\item The dimension of kernel matrix $K$ is $N \times N$ ($N$ is the number of samples). It might take quantities of time to process $K$ when handling large scale of samples;
+	
+	\item Different choices of kernel functions and parameters would affect the result to a certain extent, which makes this algorithm more tricky.
+	
+	\item Same as PCA, the actual meanings of principal components extracted by KPCA are also inexplicable.
+\end{enumerate}
 
 \section{Factor Analysis (FA)}
 
