@@ -57,8 +57,9 @@ Zelin Ye 515030910468}}
 
 \section{PCA algorithm}
 
-When it comes to principal component, the most common used approach is principal component analysis (PCA) algorithm. Thus, I can use the original PCA algorithm to extract the first principal component of the dataset. The computational details can refer to Alg. \ref{alg:pca_1}
+When it comes to principal component, the most common used approach is principal component analysis (PCA) algorithm. Thus, I can use the original PCA algorithm to extract the first principal component of the dataset. The computational details can refer to Alg. \ref{alg:pca_1}.
 
+\vspace{0.01\linewidth}
 \begin{algorithm}[H]
 	\SetKwInOut{Input}{Input}
 	\SetKwInOut{Output}{Output}
@@ -95,6 +96,68 @@ When it comes to principal component, the most common used approach is principal
 	
 	\Return $w$;
 \end{algorithm}
+\vspace{0.01\linewidth}
+
+The above algorithm (PCA) is a classical and commonly used method to solve principal components, which has the following characteristics.
+
+\vspace{-0.012\linewidth}
+\paragraph{Pros:}
+\begin{enumerate}
+	\item PCA has simple logic and is easy to implement;
+	\item The orthogonality among principal components chosen by PCA can eliminate the interaction between original data components;
+	\item PCA belongs to unsupervised learning, and it is not restricted by sample labels.
+\end{enumerate}
+
+\vspace{-0.03\linewidth}
+\paragraph{Cons:}
+\begin{enumerate}
+	\item PCA treats all samples, namely the collection of eigenvectors, as a whole and neglects the category attributes. Nevertheless, the projection direction it neglects might contain some important separability information;
+	\item PCA would be time-consuming when facing large amount of data;
+	\item The actual meanings of principal components extracted by PCA are a little bit ad-hoc and hard to explain.
+\end{enumerate}
+
+The original PCA might have good performance when handling linear data, but it would encounter difficulties under non-linear data. In non-linear cases, a variant of PCA called KPCA (kernel principal components analysis) shows its strength.
+
+The innovation of KPCA is that it introduces a non-linear mapping function, mapping the data from original space to high-dimensional space. The details of KPCA can refer to Alg. \ref{alg:pca_2}.
+
+\vspace{0.01\linewidth}
+\begin{algorithm}[H]
+	\SetKwInOut{Input}{Input}
+	\SetKwInOut{Output}{Output}
+	\caption{KPCA}
+	\label{alg:pca_2}
+	\vspace{0.25\baselineskip}
+	
+	\Input{The dataset $X$, a $n \times N$ matrix}
+	\Output{The first principal component $w$}
+	%Rearrange the dataset $X$ by
+	%\begin{equation*}
+	%	\centering
+	%	X \leftarrow X^T,
+	%\end{equation*}
+	%so that each line denotes one data point;
+	
+	Conduct normalization for $X$, and make sure the mean of $X$ is 0;
+	
+	Find the covariance matrix of $X$, denoted by $C$:
+	\begin{equation*}
+		\centering
+		C = XX^{T};
+	\end{equation*}
+	
+	Calculate the eigenvalues $\lambda$ and eigenvectors $V$ of $X$;
+	
+	Choose the maximal eigenvalue $\lambda_{m}$ and corresponding eigenvector $v_{m}$;
+	
+	Calculate the first principal component:
+	\begin{equation*}
+		\centering
+		w = v_{m}^{T}X;
+	\end{equation*}
+	
+	\Return $w$;
+\end{algorithm}
+\vspace{0.01\linewidth}
 
 \section{Factor Analysis (FA)}
 
