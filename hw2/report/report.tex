@@ -222,12 +222,57 @@ Let $C$ be a orthogonal matrix, and $A^{'}=AR$. If $A$ is replaced by $A{'}$, th
 
 Apparently, $x$ and $x^{'}$ conform to the same distribution with different mixing matrices. Then we cannot determine the mixing matrix or the source signals from the received signals. Nevertheless, if $x$ is non-Gaussian (e.g. Uniform Distribution), such case would be effectively avoided. Therefore, maximizing non-Gaussianity should be used as a principle for ICA estimation.
 
-\section{Causal discovery algorithms}
+\section{Causal Discovery Algorithms}
+
+\subsection{Problem Description}
+
+Generally speaking, the housing price are affected by many factors, such as the number of rooms, crime rate, pupil-teacher ratio and etc. There also exist some causalities among those factors. It is beneficial for further mastering the housing market if one can figure out these causalities. However, such causalities are often difficult to determine intuitively, it is thus necessary to conduct causal discovery on these factors.
+
+I utilize the factors and corresponding values in the Boston Housing dataset, which is available at the UCI Repository \cite{boston}. The details of the dataset can refer to Appendix \ref{apd:boston}.
+
+\subsection{Approach}
+
+\subsection{Experiments}
+
+\section{Causal Tree Reconstruction}
 
 pass
 
-\section{Causal tree reconstruction}
+\newpage
+\begin{appendix}
+\section{Details of the Boston Housing Dataset}
+\label{apd:boston}
 
-pass
+The Boston Housing Dataset consists of 506 samples, each has 12 features, namely the factors that affect housing price. Table \ref{tab:boston} shows a detailed description of these features.
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{Details of the Features in Boston Housing Dataset}
+	\label{tab:boston}
+	\centering
+	
+	\begin{tabular}{c|c|c}
+		\centering
+		Identifier & Feature Names & Description \\
+		\hline
+		1 & CRIM & per capita crime rate by town \\
+		2 & ZN & proportion of residential land zoned for lots over 25,000 sq.ft. \\
+		3 & INDUS & proportion of non-retail business acres per town \\
+		4 & NOX & nitric oxides concentration (parts per 10 million) \\
+		5 & RM & average number of rooms per dwelling \\
+		6 & AGE & proportion of owner-occupied units built prior to 1940 \\
+		7 & DIS & weighted distances to five Boston employment centres \\
+		8 & TAX & full-value property-tax rate per \$10,000 \\
+		9 & PTRATIO & pupil-teacher ratio by town \\
+		10 & B & 1000(Bk - 0.63)\^2 where Bk is the proportion of blacks by town \\
+		11 & LSTAT & lower status of the population \\			
+		12 & MEDV & Median value of owner-occupied homes in \$1000's \\
+	\end{tabular}
+\end{table}
+
+\end{appendix}
+
+\bibliographystyle{ieeetr}
+\bibliography{bio}
 
 \end{document}

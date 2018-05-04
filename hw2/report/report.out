@@ -1,5 +1,9 @@
 \BOOKMARK [1][-]{section.1}{PCA\040algorithm}{}% 1
 \BOOKMARK [1][-]{section.2}{Factor\040Analysis\040\(FA\)}{}% 2
 \BOOKMARK [1][-]{section.3}{Independent\040Component\040Analysis\040\(ICA\)}{}% 3
-\BOOKMARK [1][-]{section.4}{Causal\040discovery\040algorithms}{}% 4
-\BOOKMARK [1][-]{section.5}{Causal\040tree\040reconstruction}{}% 5
+\BOOKMARK [1][-]{section.4}{Causal\040Discovery\040Algorithms}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Problem\040Description}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Approach}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.3}{Experiments}{section.4}% 7
+\BOOKMARK [1][-]{section.5}{Causal\040Tree\040Reconstruction}{}% 8
+\BOOKMARK [1][-]{appendix.A}{Details\040of\040the\040Boston\040Housing\040Dataset}{}% 9
