@@ -13,25 +13,32 @@
 
 
 data = load('d:\Documents\ml2\hw2\KCI-test\data\boston_wout_discrete.dat');
-x = data(:,11);
-y = data(:,5);
-z = data(:,12);
+% x = data(:,11);
+% y = data(:,5);
+% z = data(:,12);
 % p_val = UInd_KCItest(x,y);
 % disp(p_val);
 
 % [p_val, stat]=indtest_new(x,z,[],[])
-[p_val, stat]=indtest_new(x,z,y,[])
+% [p_val, stat]=indtest_new(x,z,y,[])
 % disp(p_val);
 
-% for i=1:12
-%     x = data(:,i);
-%     for j=1:12
-%         y = data(:,j);
-%         [p_val, stat] = indtest_new(x,y,[],[]);
-%         if p_val > 0
-%             disp(i);
-%             disp(j);
-%             disp(p_val);
-%         end
-%     end
-% end
+for k=1:12
+    z = data(:,k);
+    num = 0;
+    for i=1:12
+        x = data(:,i);
+        for j=1:12
+            y = data(:,j);
+            [p_val, stat] = indtest_new(x,y,z,[]);
+            if p_val <= 0.001
+%                 disp(i);
+%                 disp(j);
+%                 disp(k);
+%                 disp(p_val);
+                  num = num + 1;
+            end
+        end
+    end
+    disp(num);
+end

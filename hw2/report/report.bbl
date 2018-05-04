@@ -3,4 +3,14 @@
 \bibitem{boston}
 A.~Asuncion and D.~Newman, ``Uci machine learning repository,'' 2007.
 
+\bibitem{alg}
+K.~Zhang, J.~Peters, D.~Janzing, and B.~Sch{\"o}lkopf, ``Kernel-based
+  conditional independence test and application in causal discovery,'' {\em
+  arXiv preprint arXiv:1202.3775}, 2012.
+
+\bibitem{pc-alg}
+P.~Spirtes and C.~Glymour, ``An algorithm for fast recovery of sparse causal
+  graphs,'' {\em Social science computer review}, vol.~9, no.~1, pp.~62--72,
+  1991.
+
 \end{thebibliography}

@@ -232,7 +232,113 @@ I utilize the factors and corresponding values in the Boston Housing dataset, wh
 
 \subsection{Approach}
 
+Taking the data type of features and the scale of samples into account, I apply \textit{Kernel-based Conditional Independence Test} (KCI-test) \cite{alg} to casual discovery, which performs well when the conditioning set is large and the sample size is not very large.
+
+Basically, conditional independence test for continuous variables is rather challenging due to the curse of dimensionality. KCI-test constructs an appropriate test statistic and deriving its asymptotic distribution under the null hypothesis of conditional independence.
+
+pass
+
+The main purpose of this application is to figure out the causalities among the features in Boston Housing dataset. Therefore, I use KCI-test to test the dependence and conditional independence among features. Then I construct the dag casualities based on PC algorithm \cite{pc-alg}.
+
 \subsection{Experiments}
+
+The results of unconditional independence testing on the features in Boston Housing dataset are shown in Tab. \ref{tab:uncon-in}.
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{The p-values of unconditional independence testing}
+	\label{tab:uncon-in}
+	\centering
+	
+	\begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|c}
+		\centering
+		\diagbox{id}{$p$}{id} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
+		\hline
+		1 & 0.000 & 0.000 & 0.000 & 0.000 & \textbf{0.003} & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+		\hline
+		2 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+		\hline
+		3 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+		\hline
+		4 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+		\hline
+		5 & \textbf{0.003} & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & \textbf{0.005} & 0.000 & 0.000 \\
+		\hline
+		6 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+		\hline
+		7 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+		\hline
+		8 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+		\hline
+		9 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+		\hline
+		10 & 0.000 & 0.000 & 0.000 & 0.000 & \textbf{0.002} & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+		\hline
+		11 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+		\hline
+		12 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+	\end{tabular}
+\end{table}
+
+The results of conditional independence testing on features can refer to Tab. \ref{tab:con-in}.
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{The results of conditional independence testing (Since the number of results is excessive, I only count the numbers here and not specify the results).}
+	\label{tab:con-in}
+	\centering
+	
+	\begin{tabular}{c|c}
+		\centering
+		Condition $z$ & The Number of Independent Features under $z$ \\
+		\hline
+		1 & \\
+		\hline
+		2 & \\
+		\hline
+		3 & \\
+		\hline
+		4 & \\
+		\hline
+		5 & \\
+		\hline
+		6 & \\
+		\hline
+		7 & \\
+		\hline
+		8 & \\
+		\hline
+		9 & \\
+		\hline
+		10 & \\
+		\hline
+		11 & \\
+		\hline
+		12 & \\
+	\end{tabular}
+\end{table}
+
+The final result of PC algorithm can refer to Fig. \ref{fig:pc-res}.
+
+\begin{figure}[H]
+	\centering
+%	\subfigure[A $\not\perp$ B and A $\perp$ B | C]{
+%		\label{fig:dag1}
+%	    \includegraphics[width=0.3\linewidth]{img/dag1.png}
+%	}
+%	\subfigure[A $\not\perp$ B and A $\perp$ B | C]{
+%		\label{fig:dag2}
+%	    \includegraphics[width=0.3\linewidth]{img/dag2.png}
+%	}
+%	\subfigure[A $\perp$ B and A $\not\perp$ B | C]{
+%		\label{fig:dag3}
+%	    \includegraphics[width=0.3\linewidth]{img/dag3.png}
+%	}
+	\includegraphics[width=0.7\linewidth]{img/dag1.png}
+	\caption{The final result of PC algorithm.}
+	\label{fig:pc-res}
+\end{figure}
+
 
 \section{Causal Tree Reconstruction}
 
@@ -240,14 +346,16 @@ pass
 
 \newpage
 \begin{appendix}
-\section{Details of the Boston Housing Dataset}
+\section{Appendix}
+
+\subsection{Details of the Boston Housing Dataset}
 \label{apd:boston}
 
-The Boston Housing Dataset consists of 506 samples, each has 12 features, namely the factors that affect housing price. Table \ref{tab:boston} shows a detailed description of these features.
+The Boston Housing Dataset consists of 506 samples, each has 12 features, namely the factors that affect housing price. The values of all features are positive real numbers. Table \ref{tab:boston} shows a detailed description of these features.
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
-	\caption{Details of the Features in Boston Housing Dataset}
+	\caption{Details of the features in Boston Housing dataset}
 	\label{tab:boston}
 	\centering
 	
@@ -256,15 +364,15 @@ The Boston Housing Dataset consists of 506 samples, each has 12 features, namely
 		Identifier & Feature Names & Description \\
 		\hline
 		1 & CRIM & per capita crime rate by town \\
-		2 & ZN & proportion of residential land zoned for lots over 25,000 sq.ft. \\
+		2 & ZN & proportion of residential land zoned for lots over 25,000.000 sq.ft. \\
 		3 & INDUS & proportion of non-retail business acres per town \\
-		4 & NOX & nitric oxides concentration (parts per 10 million) \\
+		4 & NOX & nitric oxides concentration (parts per 10.0 million) \\
 		5 & RM & average number of rooms per dwelling \\
-		6 & AGE & proportion of owner-occupied units built prior to 1940 \\
+		6 & AGE & proportion of owner-occupied units built prior to 1940.000 \\
 		7 & DIS & weighted distances to five Boston employment centres \\
-		8 & TAX & full-value property-tax rate per \$10,000 \\
+		8 & TAX & full-value property-tax rate per \$10,000.0 \\
 		9 & PTRATIO & pupil-teacher ratio by town \\
-		10 & B & 1000(Bk - 0.63)\^2 where Bk is the proportion of blacks by town \\
+		10.000 & B & 1000(Bk - 0.63)\^2 where Bk is the proportion of blacks by town \\
 		11 & LSTAT & lower status of the population \\			
 		12 & MEDV & Median value of owner-occupied homes in \$1000's \\
 	\end{tabular}
