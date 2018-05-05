@@ -22,23 +22,34 @@ data = load('d:\Documents\ml2\hw2\KCI-test\data\boston_wout_discrete.dat');
 % [p_val, stat]=indtest_new(x,z,[],[])
 % [p_val, stat]=indtest_new(x,z,y,[])
 % disp(p_val);
+f = fopen('d:\Documents\ml2\hw2\KCI-test\res.txt', 'w');
+z = data(:,8);
+num = 0;
+err = 0;
 
-for k=1:12
-    z = data(:,k);
-    num = 0;
+tic;
+try
     for i=1:12
         x = data(:,i);
         for j=1:12
             y = data(:,j);
             [p_val, stat] = indtest_new(x,y,z,[]);
             if p_val <= 0.001
-%                 disp(i);
-%                 disp(j);
-%                 disp(k);
-%                 disp(p_val);
+    %                 disp(i);
+    %                 disp(j);
+    %                 disp(k);
+    %                 disp(p_val);
                   num = num + 1;
             end
         end
     end
-    disp(num);
+catch
+    err = err + 1;
 end
+toc;
+
+fprintf(f, '%d', num);
+fprintf(f, '\r\n');
+disp(num);
+disp(err);
+fclose(f);
