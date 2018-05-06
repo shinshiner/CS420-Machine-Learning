@@ -238,11 +238,11 @@ Basically, conditional independence test for continuous variables is rather chal
 
 pass
 
-The main purpose of this application is to figure out the causalities among the features in Boston Housing dataset. Therefore, I use KCI-test to test the dependence and conditional independence among features. Then I construct the dag casualities based on PC algorithm \cite{pc-alg}.
+The main purpose of this application is to figure out the causalities among the features in Boston Housing dataset. Therefore, I use KCI-test to test the dependence and conditional independence among features. Then I construct the dag casualities based on PC algorithm \cite{pc-alg}. The whole process could be summed up as $PC_{KCI-test}$ algorithm.
 
 \subsection{Experiments}
 
-The results of unconditional independence testing on the features in Boston Housing dataset are shown in Tab. \ref{tab:uncon-in}.
+Initially, I conduct unconditional independence testing on every two features. With the significance level as 0.001, the results of unconditional independence testing are shown in Tab. \ref{tab:uncon-in}.
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -280,7 +280,9 @@ The results of unconditional independence testing on the features in Boston Hous
 	\end{tabular}
 \end{table}
 
-The results of conditional independence testing on features can refer to Tab. \ref{tab:con-in}.
+According to the table above, only a small part of the features have unconditional independence (rough part in the table). However, it is impossible to determine causalities based on current results.
+
+Therefore, I carry out conditional independence testing. I also choose the significance level as 0.001. The results of conditional independence testing on features can refer to Tab. \ref{tab:con-in}.
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -288,37 +290,39 @@ The results of conditional independence testing on features can refer to Tab. \r
 	\label{tab:con-in}
 	\centering
 	
-	\begin{tabular}{c|c}
+	\begin{tabular}{c|c|c}
 		\centering
-		Condition $z$ & The Number of Independent Features under $z$ \\
+		Condition $z$ & The Number of Independent Features under $z$ & Radio of Independent Features\\
 		\hline
-		1 & \\
+		1 & 96 & 0.67 \\
 		\hline
-		2 & \\
+		2 & 11 & 0.08 \\
 		\hline
-		3 & \\
+		3 & 55 & 0.38 \\
 		\hline
-		4 & \\
+		4 & 15 & 0.10 \\
 		\hline
-		5 & \\
+		5 & 121 & 0.84 \\
 		\hline
-		6 & \\
+		6 & 112 & 0.78 \\
 		\hline
-		7 & \\
+		7 & 59 & 0.41 \\
 		\hline
-		8 & \\
+		8 & 79 & 0.55 \\
 		\hline
-		9 & \\
+		9 & 104 & 0.72 \\
 		\hline
-		10 & \\
+		10 & 8 & 0.06 \\
 		\hline
-		11 & \\
+		11 & 117 & 0.81 \\
 		\hline
-		12 & \\
+		12 & 112 & 0.78 \\
 	\end{tabular}
 \end{table}
 
-The final result of PC algorithm can refer to Fig. \ref{fig:pc-res}.
+It is easy to find out that the cases of conditional independence of these features are quite different.
+
+Ultimately, I exploit the results of the above two tests to execute the PC algorithm. Although each one could argue about the ground truth for the causalities of these features, I approve of the criterion proposed by the author of KCI-test: one algorithm is promising if it finds links between number of rooms (RM) and median value of houses (MED) and between non-retail business (IND) and nitric oxides concentration (NOX). The final result of PC algorithm can refer to Fig. \ref{fig:pc-res}.
 
 \begin{figure}[H]
 	\centering
@@ -334,11 +338,14 @@ The final result of PC algorithm can refer to Fig. \ref{fig:pc-res}.
 %		\label{fig:dag3}
 %	    \includegraphics[width=0.3\linewidth]{img/dag3.png}
 %	}
-	\includegraphics[width=0.7\linewidth]{img/dag1.png}
+	\includegraphics[width=0.85\linewidth]{img/res.png}
 	\caption{The final result of PC algorithm.}
 	\label{fig:pc-res}
 \end{figure}
 
+It is doubtless that this result meets the criterion perfectly. Besides, the $PC_{KCI-test}$ algorithm also finds out some other causalities that make sense (e.g. nitric oxides concentration (NOX) and distances to five Boston centres (DIS). Nevertheless, I think this algorithm still omits some causalities that meet our common sense, such as DIS and TAX, IND and TAX, which could be discovered by $PC_{CI_{PERM}}$ algorithm according to the results in \cite{alg}.
+
+In conclusion, the KCI-test is a concise and efficient algorithm for independence testing, especially for continuous variables.
 
 \section{Causal Tree Reconstruction}
 

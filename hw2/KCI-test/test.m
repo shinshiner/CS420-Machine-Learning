@@ -28,28 +28,32 @@ num = 0;
 err = 0;
 
 tic;
-try
-    for i=1:12
-        x = data(:,i);
-        for j=1:12
-            y = data(:,j);
-            [p_val, stat] = indtest_new(x,y,z,[]);
-            if p_val <= 0.001
-    %                 disp(i);
-    %                 disp(j);
-    %                 disp(k);
-    %                 disp(p_val);
-                  num = num + 1;
+for k=11:12
+    z = data(:,k);
+    try
+        for i=1:12
+            x = data(:,i);
+            for j=1:12
+                y = data(:,j);
+                [p_val, stat] = indtest_new(x,y,z,[]);
+                if p_val <= 0.001
+        %                 disp(i);
+        %                 disp(j);
+        %                 disp(k);
+        %                 disp(p_val);
+                      num = num + 1;
+                end
             end
         end
+    catch
+        err = err + 1;
     end
-catch
-    err = err + 1;
+    disp(num);
+    disp(err);
+    fprintf(f, '%d \t', num);
+    fprintf(f, '%d', err);
+    fprintf(f, '\r\n');
 end
 toc;
 
-fprintf(f, '%d', num);
-fprintf(f, '\r\n');
-disp(num);
-disp(err);
 fclose(f);
