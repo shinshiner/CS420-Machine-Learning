@@ -236,7 +236,21 @@ Taking the data type of features and the scale of samples into account, I apply 
 
 Basically, conditional independence test for continuous variables is rather challenging due to the curse of dimensionality. KCI-test constructs an appropriate test statistic and deriving its asymptotic distribution under the null hypothesis of conditional independence.
 
-pass
+Suppose the centralized kernel matrix of sample $X$ and its eigenvalues are $K_X$ and $\lambda_X$ respectively. The unconditional independence testing method is similar to HSIC \cite{HSIC}. Under the null hypothesis that $X$ and $Y$ are statistically independent, the statistic is defined as:
+\begin{align*}
+	T_{UI} & \triangleq \dfrac{1}{n}Tr(K_{X}K_{Y}) \\
+	& = \dfrac{1}{n^2}\sum_{i,j=1}^{n}\lambda_{x,i}\lambda_{y,j}z^2_{ij}
+\end{align*}
+where $z^2_{ij}$ denotes the $\chi^2_1$-distributed variables.
+
+Analogously, under the null hypothesis that $X$ and $Y$ are conditionally independent given $Z$, the statistic for conditional independence testing is defined as:
+\begin{align*}
+	T_{CI} & \triangleq \dfrac{1}{n}Tr(K_{X|Z}K_{Y|Z}) \\
+	& = \dfrac{1}{n}\sum_{k=1}^{n^2}\lambda_{k}z^2_{k}
+\end{align*}
+where $K_{X|Z}=R_ZK_XR_Z$, $K_{Y|Z}=R_ZK_YR_Z$, $R_Z=\epsilon(K_Z+\epsilon I)^{-1}$ and $\epsilon$ is a hyperparameter.
+
+Finally, after the \textit{p-value} is calculated according to the above formulae, KCI-test approximate the null distribution with a Gamma distribution.
 
 The main purpose of this application is to figure out the causalities among the features in Boston Housing dataset. Therefore, I use KCI-test to test the dependence and conditional independence among features. Then I construct the dag casualities based on PC algorithm \cite{pc-alg}. The whole process could be summed up as $PC_{KCI-test}$ algorithm.
 
