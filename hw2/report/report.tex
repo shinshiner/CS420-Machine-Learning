@@ -170,9 +170,9 @@ Theoretically, PCA is a wrapper of SVD, SVD could be a implementation of PCA. In
 \begin{enumerate}
 	\item SVD could handle matrices that are not square matrices, while the eigenvalue decomposition in PCA is only applicable to the square matrices;
 	
-	\item The orthogonality among principal components chosen by PCA can eliminate the interaction between original data components;
+	\item There is no need for SVD to calculate $XX^T$, where some small values in $X$ might be lost in squares;
 	
-	\item PCA belongs to unsupervised learning, and it is not restricted by sample labels.
+	\item SVD can extract the principle components of two directions. For instance, if I multiply $V$ on both sides of $X=U \Sigma V^T$, I will implement the compression on samples, namely merge some similar samples or eliminate those inconsequential ones. Whereas, PCA cannot achieve this.
 \end{enumerate}
 
 \vspace{-0.03\linewidth}
