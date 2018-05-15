@@ -57,6 +57,7 @@ Zelin Ye 515030910468}}
 
 \section{PCA algorithm}
 
+\subsection{Original PCA}
 When it comes to principal component, the most common used approach is principal component analysis (PCA) algorithm. Thus, I can use the original PCA algorithm to extract the first principal component of the dataset. The computational details can refer to Alg. \ref{alg:pca_1}.
 
 \vspace{0.01\linewidth}
@@ -120,6 +121,7 @@ The above algorithm (PCA) is a classical and commonly used method to solve princ
 	\item The actual meanings of principal components extracted by PCA are a little bit ad-hoc and hard to explain.
 \end{enumerate}
 
+\subsection{SVD}
 In fact, I can also extract principle components via SVD (Singular Value Decomposition), which is a way to decompose a matrix as the following equation. 
 
 \begin{equation*}
@@ -163,14 +165,14 @@ In most cases, the sum of singular values of the first 10\% or even 1\% accounts
 \end{algorithm}
 \vspace{0.01\linewidth}
 
-Theoretically, PCA is a wrapper of SVD, SVD could be a implementation of PCA. In addition to most of the characteristics of PCA, SVD has the following ones:
+Actually, PCA is a wrapper of SVD, SVD is usually used as a implementation of PCA (e.g. sklearn). In addition to most of the characteristics of PCA, SVD has the following ones:
 
 \vspace{-0.012\linewidth}
 \paragraph{Pros:}
 \begin{enumerate}
 	\item SVD could handle matrices that are not square matrices, while the eigenvalue decomposition in PCA is only applicable to the square matrices;
 	
-	\item There is no need for SVD to calculate $XX^T$, where some small values in $X$ might be lost in squares;
+	\item Different from PCA, there is no need for SVD to calculate $XX^T$, where some small values in $X$ might be lost in squares;
 	
 	\item SVD can extract the principle components of two directions. For instance, if I multiply $V$ on both sides of $X=U \Sigma V^T$, I will implement the compression on samples, namely merge some similar samples or eliminate those inconsequential ones. Whereas, PCA cannot achieve this.
 \end{enumerate}
@@ -178,13 +180,12 @@ Theoretically, PCA is a wrapper of SVD, SVD could be a implementation of PCA. In
 \vspace{-0.03\linewidth}
 \paragraph{Cons:}
 \begin{enumerate}
-	\item The complexity of calculating the singular values is $O(N^3)$, which is not suitable for large scale data. Parallel computing can solve this problem a little bit;
+	\item The complexity of calculating the singular values is $O(N^3)$, which is not suitable for large scale samples. Parallel computing can solve this problem a little bit;
 	
-	\item PCA would be time-consuming when encountering large amount of data;
-	
-	\item The actual meanings of principal components extracted by PCA are a little bit ad-hoc and hard to explain.
+	\item The compression results of SVD are lack of interpretability.
 \end{enumerate}
 
+\subsection{KPCA}
 The original PCA and SVD might have good performance when handling linear data, but it would encounter difficulties under non-linear data. In non-linear cases, a variant of PCA called KPCA (kernel principal components analysis) shows its strength.
 
 The innovation of KPCA is that it introduces a non-linear mapping function $\phi(x)$, mapping the data from original space to high-dimensional space. Besides, the deduction of KPCA takes advantage of the theorem that \textit{each vector in the space could be expressed linearly by all the samples in the space}. The details of KPCA can refer to Alg. \ref{alg:pca_2}.
@@ -258,7 +259,7 @@ KPCA is a ingenious extension of PCA, and is also widely used (e.g. dimension re
 	
 	\item Different choices of kernel functions and parameters would affect the result to a certain extent, which makes this algorithm more tricky.
 	
-	\item Same as PCA, the actual meanings of principal components extracted by KPCA are also inexplicable.
+	\item Same as PCA and SVD, the actual meanings of principal components extracted by KPCA are also inexplicable.
 \end{enumerate}
 
 \section{Factor Analysis (FA)}
@@ -279,13 +280,30 @@ KPCA is a ingenious extension of PCA, and is also widely used (e.g. dimension re
 
 ICA aims to decompose the source signal into independent parts. If the source signals are non-Gaussian, the decomposition is unique, or there would be a variety of such decompositions.
 
+\vspace{0.008\linewidth}
 Suppose the source signal $s$ consists of two components, conforming to multi-valued normal distribution, namely $s \sim N(0,I)$. Obviously, the probablity density funciton of $s$ is centered on the mean 0, and the projection plane is an ellipse.
 
-Meanwhile, we have $x=As$, where $x$ denotes the actual signals received while $A$ represents a mixing matrix. Then $x$ is also Gaussian, with a mean of 0 and a covariance of $E[xx^{T}]=E[Ass^{T}A^{T}]=AA^{T}$.
+\vspace{0.008\linewidth}
+Meanwhile, we have $x=As$, where $x$ denotes the actual signals received while $A$ represents a mixing matrix. Then $x$ is also Gaussian, with a mean of 0 and a covariance of 
 
-Let $C$ be a orthogonal matrix, and $A^{'}=AR$. If $A$ is replaced by $A{'}$, then we can get $x^{'}=A^{'}s$. It is easy to find that $x^{'}$ also conforms to normal distribution, with a mean of 0 and a covariance of $E[x^{'}(x^{'})^{T}]=E[A^{'}ss^{T}(A^{'})^{T}]=E[ACss^{T}(AC)^{T}]=ACC^{T}A^{T}=AA^{T}$.
+\begin{equation*}
+	\centering
+	E[xx^{T}]=E[Ass^{T}A^{T}]=AA^{T}
+\end{equation*}
 
-Apparently, $x$ and $x^{'}$ conform to the same distribution with different mixing matrices. Then we cannot determine the mixing matrix or the source signals from the received signals. Nevertheless, if $x$ is non-Gaussian (e.g. Uniform Distribution), such case would be effectively avoided. Therefore, maximizing non-Gaussianity should be used as a principle for ICA estimation.
+\vspace{0.008\linewidth}
+Let $C$ be a orthogonal matrix, and $A^{'}=AR$. If $A$ is replaced by $A{'}$, then we can get $x^{'}=A^{'}s$. It is easy to find that $x^{'}$ also conforms to normal distribution, with a mean of 0 and a covariance of
+
+\begin{equation*}
+	\centering
+	E[x^{'}(x^{'})^{T}]=E[A^{'}ss^{T}(A^{'})^{T}]=E[ACss^{T}(AC)^{T}]=ACC^{T}A^{T}=AA^{T}
+\end{equation*}
+
+\vspace{0.008\linewidth}
+Apparently, $x$ and $x^{'}$ conform to the same distribution with different mixing matrices. Then we cannot determine the mixing matrix or the source signals from the received signals. Nevertheless, if $x$ is non-Gaussian (e.g. Uniform Distribution), such case would be effectively avoided.
+
+\vspace{0.008\linewidth}
+Therefore, maximizing non-Gaussianity should be used as a principle for ICA estimation.
 
 \section{Causal Discovery Algorithms}
 
@@ -293,14 +311,17 @@ Apparently, $x$ and $x^{'}$ conform to the same distribution with different mixi
 
 Generally speaking, the housing price are affected by many factors, such as the number of rooms, crime rate, pupil-teacher ratio and etc. There also exist some causalities among those factors. It is beneficial for further mastering the housing market if one can figure out these causalities. However, such causalities are often difficult to determine intuitively, it is thus necessary to conduct causal discovery on these factors.
 
+\vspace{0.008\linewidth}
 I consider the features in the Boston Housing dataset as factors, then utilize these features and corresponding values for causal discovery. The dataset is available at the UCI Repository \cite{boston}, whose details can refer to Appendix \ref{apd:boston}.
 
 \subsection{Approach}
 
 Taking the data type of features and the scale of samples into account, I apply \textit{Kernel-based Conditional Independence Test} (KCI-test) \cite{alg} to casual discovery, which performs well when the conditioning set is large and the sample size is not very large.
 
+\vspace{0.008\linewidth}
 Basically, conditional independence test for continuous variables is rather challenging due to the curse of dimensionality. KCI-test constructs an appropriate test statistic and deriving its asymptotic distribution under the null hypothesis of conditional independence.
 
+\vspace{0.008\linewidth}
 Suppose the centralized kernel matrix of sample $X$ and its eigenvalues are $K_X$ and $\lambda_X$ respectively. The unconditional independence testing method is similar to HSIC \cite{HSIC}. Under the null hypothesis that $X$ and $Y$ are statistically independent, the statistic is defined as:
 \begin{align*}
 	T_{UI} & \triangleq \dfrac{1}{n}Tr(K_{X}K_{Y}) \\
@@ -308,6 +329,7 @@ Suppose the centralized kernel matrix of sample $X$ and its eigenvalues are $K_X
 \end{align*}
 where $z^2_{ij}$ denotes the $\chi^2_1$-distributed variables.
 
+\vspace{0.008\linewidth}
 Analogously, under the null hypothesis that $X$ and $Y$ are conditionally independent given $Z$, the statistic for conditional independence testing is defined as:
 \begin{align*}
 	T_{CI} & \triangleq \dfrac{1}{n}Tr(K_{X|Z}K_{Y|Z}) \\
@@ -315,8 +337,10 @@ Analogously, under the null hypothesis that $X$ and $Y$ are conditionally indepe
 \end{align*}
 where $K_{X|Z}=R_ZK_XR_Z$, $K_{Y|Z}=R_ZK_YR_Z$, $R_Z=\epsilon(K_Z+\epsilon I)^{-1}$ and $\epsilon$ is a hyperparameter.
 
+\vspace{0.008\linewidth}
 Finally, after the \textit{p-value} is calculated according to the above formulae, KCI-test approximates the null distribution with a Gamma distribution or just generates it by Monte Carlo simulation.
 
+\vspace{0.008\linewidth}
 The main purpose of this application is to figure out the causalities among the features in Boston Housing dataset. Therefore, I use KCI-test to test the dependence and conditional independence among features. Then I construct the DAG of casualities based on PC algorithm \cite{pc-alg}. The whole process could be summed up as $PC_{KCI-test}$ algorithm.
 
 \subsection{Experiments}
@@ -361,6 +385,7 @@ Initially, I conduct unconditional independence testing on every two features. W
 
 According to the above table, only a small parts of the features have unconditional independence (rough parts in the table). That is, most features may have causalities with others. However, it is impossible to specify causalities based on current results.
 
+\vspace{0.008\linewidth}
 Therefore, I carry out conditional independence testing. I also choose the significance level as 0.001, and the corresponding results can refer to Tab. \ref{tab:con-in}.
 
 \begin{table}[H]
@@ -401,6 +426,7 @@ Therefore, I carry out conditional independence testing. I also choose the signi
 
 It is easy to find out that the cases of conditional independence among these features are quite different. Most of the features are independent under 2th, 4th, 10th conditions (features), whereas the results are opposite under 5th, 11th, 12th conditions.
 
+\vspace{0.008\linewidth}
 Ultimately, I exploit the above results to execute PC algorithm. Although each one could argue about the ground truth for the causalities of these features, I approve of the criterion proposed by the author of KCI-test: one algorithm is promising if it finds links between number of rooms (RM) and median value of houses (MED) and between non-retail business (IND) and nitric oxides concentration (NOX). The final result of PC algorithm can refer to Fig. \ref{fig:pc-res}, which is quite similar to that in \cite{alg}.
 
 \begin{figure}[H]
@@ -412,6 +438,7 @@ Ultimately, I exploit the above results to execute PC algorithm. Although each o
 
 It is doubtless that this result meets the criterion perfectly. Besides, the $PC_{KCI-test}$ algorithm also finds out some other causalities that make sense (e.g. nitric oxides concentration (NOX) and distances to five Boston centres (DIS). Nevertheless, I think this algorithm still omits some causalities that meet our common sense, such as DIS and TAX, IND and TAX, which could be discovered by $PC_{CI_{PERM}}$ algorithm according to the results in \cite{alg}. In the meantime, $PC_{KCI-test}$ also ignores the causalities of two features (ZN and PTRATIO).
 
+\vspace{0.008\linewidth}
 In conclusion, the KCI-test is a concise and efficient algorithm for independence testing, especially for continuous variables. The experiments on Boston Housing dataset indicates that KCI-test could achieve satisfactory results in practical applications.
 
 \section{Causal Tree Reconstruction}
