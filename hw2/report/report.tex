@@ -120,7 +120,72 @@ The above algorithm (PCA) is a classical and commonly used method to solve princ
 	\item The actual meanings of principal components extracted by PCA are a little bit ad-hoc and hard to explain.
 \end{enumerate}
 
-The original PCA might have good performance when handling linear data, but it would encounter difficulties under non-linear data. In non-linear cases, a variant of PCA called KPCA (kernel principal components analysis) shows its strength.
+In fact, I can also extract principle components via SVD (Singular Value Decomposition), which is a way to decompose a matrix as the following equation. 
+
+\begin{equation*}
+	\centering
+	X_{m \times n} = U_{m \times m} \Sigma_{m \times n} V^T_{n \times n},
+\end{equation*}
+where $\Sigma$ is a diagonal matrix, and the values on the diagonal are called the singular values. The vectors in $U$ and $V$ are orthogonal.
+
+In most cases, the sum of singular values of the first 10\% or even 1\% accounts for more than 99\% of the sum of all singular values. Therefore, I can obtain first principle components through the biggest singular value. Corresponding details can refer to Alg. \ref{alg:svd}.
+
+\vspace{0.01\linewidth}
+\begin{algorithm}[H]
+	\SetKwInOut{Input}{Input}
+	\SetKwInOut{Output}{Output}
+	\caption{SVD}
+	\label{alg:svd}
+	\vspace{0.25\baselineskip}
+	
+	\Input{The dataset $X$, a $n \times N$ matrix}
+	\Output{The first principal component $w$}
+	
+	Conduct normalization for $X$, and make sure the mean of $X$ is 0;
+	
+	Carry out SVD for $X$:
+	\begin{equation*}
+		\centering
+		X = U \Sigma V^T;
+	\end{equation*}
+	
+	Multiply the transposition of matrix $U$ on both sides of the above formula:
+	\begin{equation*}
+		\centering
+		U^TX = \Sigma V^T;
+	\end{equation*}
+	
+	Then the compression of original data is $\Sigma V^T$, denoted by $X^{'}$;
+	
+	Assign the first row of $X^{'}$ to $w$;
+	
+	\Return $w$;
+\end{algorithm}
+\vspace{0.01\linewidth}
+
+Theoretically, PCA is a wrapper of SVD, SVD could be a implementation of PCA. In addition to most of the characteristics of PCA, SVD has the following ones:
+
+\vspace{-0.012\linewidth}
+\paragraph{Pros:}
+\begin{enumerate}
+	\item SVD could handle matrices that are not square matrices, while the eigenvalue decomposition in PCA is only applicable to the square matrices;
+	
+	\item The orthogonality among principal components chosen by PCA can eliminate the interaction between original data components;
+	
+	\item PCA belongs to unsupervised learning, and it is not restricted by sample labels.
+\end{enumerate}
+
+\vspace{-0.03\linewidth}
+\paragraph{Cons:}
+\begin{enumerate}
+	\item The complexity of calculating the singular values is $O(N^3)$, which is not suitable for large scale data. Parallel computing can solve this problem a little bit;
+	
+	\item PCA would be time-consuming when encountering large amount of data;
+	
+	\item The actual meanings of principal components extracted by PCA are a little bit ad-hoc and hard to explain.
+\end{enumerate}
+
+The original PCA and SVD might have good performance when handling linear data, but it would encounter difficulties under non-linear data. In non-linear cases, a variant of PCA called KPCA (kernel principal components analysis) shows its strength.
 
 The innovation of KPCA is that it introduces a non-linear mapping function $\phi(x)$, mapping the data from original space to high-dimensional space. Besides, the deduction of KPCA takes advantage of the theorem that \textit{each vector in the space could be expressed linearly by all the samples in the space}. The details of KPCA can refer to Alg. \ref{alg:pca_2}.
 
@@ -204,11 +269,11 @@ KPCA is a ingenious extension of PCA, and is also widely used (e.g. dimension re
 	\centering	
 	p(y|x) &= \dfrac{p(x|y)p(y)}{p(x)} \\
 	&= \dfrac{G(x|Ay+\mu,\Sigma_{e})G(y|0,\Sigma_{y})}{p(x)} \\
-	&= \dfrac{G(x|Ay+\mu,\Sigma_{e})G(y|0,\Sigma_{y})}{G(x|\mu+\mu_{e},AA^{T}\Sigma_{y}+\Sigma_{e})}
+	&= \dfrac{G(x|Ay+\mu,\Sigma_{e})G(y|0,\Sigma_{y})}{G(x|\mu+\mu_{e},A\Sigma_{y}A^{T}+\Sigma_{e})}
 \end{align*}
 \end{large}
 
-where $\mu_{e}$ denotes the mean value of $e$, generally considered to be 0.
+\textbf{where $\mu_{e}$ denotes the mean value of $e$, generally considered as 0.}
 
 \section{Independent Component Analysis (ICA)}
 
