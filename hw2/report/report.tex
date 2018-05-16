@@ -82,7 +82,7 @@ When it comes to principal component, the most common used approach is principal
 	Find the covariance matrix of $X$, denoted by $C$:
 	\begin{equation*}
 		\centering
-		C = XX^{T};
+		C \leftarrow XX^{T};
 	\end{equation*}
 	
 	Calculate the eigenvalues $\lambda$ and eigenvectors $V$ of $X$;
@@ -92,7 +92,7 @@ When it comes to principal component, the most common used approach is principal
 	Calculate the first principal component:
 	\begin{equation*}
 		\centering
-		w = v_{m}^{T}X;
+		w \leftarrow v_{m}^{T}X;
 	\end{equation*}
 	
 	\Return $w$;
@@ -148,13 +148,13 @@ In most cases, the sum of singular values of the first 10\% or even 1\% accounts
 	Carry out SVD for $X$:
 	\begin{equation*}
 		\centering
-		X = U \Sigma V^T;
+		X \leftarrow U \Sigma V^T;
 	\end{equation*}
 	
 	Multiply the transposition of matrix $U$ on both sides of the above formula:
 	\begin{equation*}
 		\centering
-		U^TX = \Sigma V^T;
+		U^TX \leftarrow \Sigma V^T;
 	\end{equation*}
 	
 	Then the compression of original data is $\Sigma V^T$, denoted by $X^{'}$;
@@ -205,14 +205,14 @@ The innovation of KPCA is that it introduces a non-linear mapping function $\phi
 	Calculate kernel matrix $K$:
 	\begin{equation*}
 		\centering
-		K = X^{T}X,
+		K \leftarrow X^{T}X,
 	\end{equation*}
-	where X=[$\phi(x_1),...,\phi(x_N)$];
+	where $X=[\phi(x_1),...,\phi(x_N)]$;
 	
 	Find the covariance matrix of $X$, denoted by $C$:
 	\begin{equation*}
 		\centering
-		C = XX^{T};
+		C \leftarrow XX^{T};
 	\end{equation*}
 	
 	Calculate the eigenvalues $\lambda$ and eigenvectors $U$ of $K$;
@@ -222,7 +222,7 @@ The innovation of KPCA is that it introduces a non-linear mapping function $\phi
 	Calculate the corresponding eigenvectors $v_m$ of covariance matrix $C$ by $u_m$:
 	\begin{align*}
 		\centering
-		v_m &= \dfrac{1}{\|X^Tu_m\|}X^Tu_m \\
+		v_m &\leftarrow \dfrac{1}{\|X^Tu_m\|}X^Tu_m \\
 		&= \dfrac{1}{\sqrt{u_m^TXX^Tu_m}}X^Tu_m \\
 		&= \dfrac{1}{\sqrt{u_m^T(\lambda_m u_m)}}X^Tu_m \\
 		&= \dfrac{1}{\sqrt{\lambda_m}}X^Tu_m;
@@ -231,7 +231,7 @@ The innovation of KPCA is that it introduces a non-linear mapping function $\phi
 	Calculate the first principal component:
 	\begin{equation*}
 		\centering
-		w = v_{m}^{T}X;
+		w \leftarrow v_{m}^{T}X;
 	\end{equation*}
 	
 	\Return $w$;
@@ -443,7 +443,84 @@ In conclusion, the KCI-test is a concise and efficient algorithm for independenc
 
 \section{Causal Tree Reconstruction}
 
-pass
+Since a star structure is a tree with multiple leaves, the problem could be treated as two parts: 1) reconstructing rooted trees; 2) constructing unrooted tree.
+
+\subsection{Reconstructing Root Trees}
+
+Suppose $T$ is a rooted tree, with $n$ leaves $x_1, x_2, ... , x_n$, each node of $T$, which is not a leaf, has 2 to $k$ sons. $x_i$ is defined as the leader of the triple $(x_i, x_j, x_k)$ if the path from the root to it does not contain the deepest common ancestor of $x_j$ and $x_k$. Note that the deepest common ancestor of all the three leaves is also a common ancestor of any two of them if $(x_i, x_j, x_k)$ does not have a leader.
+
+\vspace{0.008\linewidth}
+The algorihm constructs a sequence of trees $T_2, T_3, ... , T_n$, where $T_2$ is a binary tree with three nodes and $T_n=T$. $T_{i+1}$ is constructed by appending $x_{i+1}$ as a new leaf to $T_i$. $T_i$ contains only the leaves $x_1, ... , x_i$ and corresponding edges, which would be the subtree of $T$. The location where $x_{i+1}$ should be appended to is determined by Alg. \ref{alg:append}. The lemmas used in the process can refer to Appendix \ref{apd:lemma}.
+
+\vspace{0.01\linewidth}
+\begin{algorithm}[H]
+	\SetKwInOut{Input}{Input}
+	\SetKwInOut{Output}{Output}
+	\caption{Appending}
+	\label{alg:append}
+	\vspace{0.25\baselineskip}
+	
+	\Input{$T_i, x_{i+1}, i$}
+	\Output{$T_{i+1}$}
+	
+	$T_c \leftarrow T_i$ ;
+	
+	$n \leftarrow $ the number of leaves in $T_c$ ;
+	
+	\If{$s = 2$}{
+		$\overline{v} \leftarrow $ the root of $T_c$ ;
+		$x_j, x_k \leftarrow$ the two leaves of $T_c$ ;
+	}
+	\ElseIf{$s > 2$}{
+		$\overline{v} \leftarrow $ any node of $T_c$, for which
+		\begin{equation*}
+			\centering
+			\dfrac{s}{k+1} < des(\overline{v} \leqslant \dfrac{sk}{k+1}) \quad (Lemma \; \ref{lemma:1}) ;
+		\end{equation*}
+		$x_j, x_k \leftarrow$ the two leaves whose common ancestor is $\overline{v}$ ;
+	}
+	
+	Calculate the leader of $(x_{i+1}, x_j, x_k)$ (with respect to $T$) ;
+	
+	\If{$s = 2$}{
+		\If{$x_j$ (or $x_k$) is the leader}{
+			Append a new node on the edge of $x_k$ or $x_j$ respectively, making it the father of $x_{i+1}$ ;
+		}
+		\ElseIf{$x_{i+1}$ is the leader}{
+			Append a new root, making $x_{i+1}$ and the old root $\overline{v}$ as its sons ;
+		}
+		\ElseIf{there is no leader}{
+			Make $x_{i+1}$ as a son of $\overline{v}$ ;
+		}
+	}
+	\ElseIf{$s > 2$}{
+		Define a partition of $T_c$ into two subtrees: $T_{c1}$ rooted at $\overline{v}$ with all the descendants of $\overline{v}$ and $T_{c2} = T_c - T_{c1}$ in which $\overline{v}$ is considered as a leaf ;
+		\If{$x_j$ (or $x_k$) is the leader}{
+			$T_c \leftarrow $ the subtree of $T_{c1}$ rooted at that son of $\overline{v}$ which is the ancestor of $x_k$ (or $x_j$ respectively) ;
+		}
+		\ElseIf{$x_{i+1}$ is the leader of $x_{i+1}, x_j, x_k$}{
+			$T_c \leftarrow T_{c2}$ ;
+		}
+		\ElseIf{there is no leader}{
+			$T_c \leftarrow T_{c1}$, from which the two sons of $\overline{v}$ whose descendants are $x_j$ and $x_k$ are removed with all their descendants ;
+		}
+		
+		Go to 2 ;
+	}
+	
+	\Return $T_{i+1}$;
+\end{algorithm}
+\vspace{0.01\linewidth}
+
+\subsection{Constructing Unrooted Trees}
+
+Suppose $T$ is an unrooted tree in which the degree of each node is at least three, and suppose $u, v, w, x$ is any quadruple of leaves. Note that $x$ pairs with $u$ relative to $(v, w)$ if the path from $x$ to $u$ is edge-disjoint relative to the path from $v$ to $w$.
+
+\vspace{0.008\linewidth}
+Remove a leaf $x$ of $T$ and examine the remaining tree $T_1$ as rooted at the node $x_1$ with which $x$ is adjacent in $T$.
+
+\vspace{0.008\linewidth}
+Choosing arbitrarily a fixed leaf $x$, I can use Lemma \ref{lemma:2} and Alg. \ref{alg:append} to reconstruct $T_1$ rooted at $x_1$. Then appending $x$ as a son of $x_1$ to get the required tree $T$.
 
 \newpage
 \begin{appendix}
@@ -478,6 +555,25 @@ The Boston Housing Dataset consists of 506 samples, each has 12 features, namely
 		12 & MEDV & Median value of owner-occupied homes in \$1000's \\
 	\end{tabular}
 \end{table}
+
+\subsection{Lemmas}
+\label{apd:lemma}
+
+\begin{lemma}
+	\label{lemma:1}
+	Suppose k is the maximum number of sons of a node in a rooted tree T with n leaves. There exists a node v of T such that
+	\begin{equation*}
+		\centering
+		\dfrac{n}{k+1} < des(v) \leqslant \dfrac{nk}{k+1},
+	\end{equation*}
+	where des(v) is defined to be the number of leaves which are descendants of v, and des(v) = 1 if v is a leaf.
+\end{lemma}
+
+\begin{lemma}
+	\label{lemma:2}
+	x pairs with u relative to (v, w) in the tree T if and only if u is the leader of u, v, w in the tree $T_1$ rooted at $x_1$.
+\end{lemma}
+
 
 \end{appendix}
 

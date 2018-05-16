@@ -9,5 +9,8 @@
 \BOOKMARK [2][-]{subsection.4.2}{Approach}{section.4}% 9
 \BOOKMARK [2][-]{subsection.4.3}{Experiments}{section.4}% 10
 \BOOKMARK [1][-]{section.5}{Causal\040Tree\040Reconstruction}{}% 11
-\BOOKMARK [1][-]{appendix.A}{Appendix}{}% 12
-\BOOKMARK [2][-]{subsection.A.1}{Details\040of\040the\040Boston\040Housing\040Dataset}{appendix.A}% 13
+\BOOKMARK [2][-]{subsection.5.1}{Reconstructing\040Root\040Trees}{section.5}% 12
+\BOOKMARK [2][-]{subsection.5.2}{Constructing\040Unrooted\040Trees}{section.5}% 13
+\BOOKMARK [1][-]{appendix.A}{Appendix}{}% 14
+\BOOKMARK [2][-]{subsection.A.1}{Details\040of\040the\040Boston\040Housing\040Dataset}{appendix.A}% 15
+\BOOKMARK [2][-]{subsection.A.2}{Lemmas}{appendix.A}% 16
