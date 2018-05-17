@@ -58,7 +58,7 @@ Zelin Ye 515030910468}}
 \section{PCA algorithm}
 
 \subsection{Original PCA}
-When it comes to principal component, the most common used approach is principal component analysis (PCA) algorithm. Thus, I can use the original PCA algorithm to extract the first principal component of the dataset. The computational details can refer to Alg. \ref{alg:pca_1}.
+When it comes to principal component, the most common used approach is principal component analysis (PCA) algorithm. Thus, I can use the original PCA algorithm to extract the first principal component of the dataset, which is based on eigenvalue decomposition. The computational details can refer to Alg. \ref{alg:pca_1}.
 
 \vspace{0.01\linewidth}
 \begin{algorithm}[H]
@@ -105,9 +105,9 @@ The above algorithm (PCA) is a classical and commonly used method to solve princ
 \paragraph{Pros:}
 \begin{enumerate}
 	\item PCA has simple logic and is easy to implement;
-	
+
 	\item The orthogonality among principal components chosen by PCA can eliminate the interaction between original data components;
-	
+
 	\item PCA belongs to unsupervised learning, and it is not restricted by sample labels.
 \end{enumerate}
 
@@ -170,7 +170,7 @@ Actually, PCA is a wrapper of SVD, SVD is usually used as a implementation of PC
 \vspace{-0.012\linewidth}
 \paragraph{Pros:}
 \begin{enumerate}
-	\item SVD could handle matrices that are not square matrices, while the eigenvalue decomposition in PCA is only applicable to the square matrices;
+	\item SVD could handle matrices that are not square matrices, while the eigenvalue decomposition in original PCA is only applicable to the square matrices;
 	
 	\item Different from PCA, there is no need for SVD to calculate $XX^T$, where some small values in $X$ might be lost in squares;
 	
@@ -264,17 +264,38 @@ KPCA is a ingenious extension of PCA, and is also widely used (e.g. dimension re
 
 \section{Factor Analysis (FA)}
 
+According to Bayes formula, I can get:
+
 \vspace{-0.03\linewidth}
 \begin{large}
 \begin{align*}
 	\centering	
 	p(y|x) &= \dfrac{p(x|y)p(y)}{p(x)} \\
 	&= \dfrac{G(x|Ay+\mu,\Sigma_{e})G(y|0,\Sigma_{y})}{p(x)} \\
-	&= \dfrac{G(x|Ay+\mu,\Sigma_{e})G(y|0,\Sigma_{y})}{G(x|\mu+\mu_{e},A\Sigma_{y}A^{T}+\Sigma_{e})}
+	&= \dfrac{G(x|Ay+\mu,\Sigma_{e})G(y|0,\Sigma_{y})}{p(Ay+\mu+e)}
 \end{align*}
 \end{large}
 
+Considering the operation rules of Gauss distribution:
+
+\begin{large}
+\begin{equation*}
+	X + Y \; \textasciitilde \; N(E[X] + E[Y], var(X)+var(Y)+2cov(X, Y))
+\end{equation*}
+\end{large}
+
+The result can be transformed into:
+
+\begin{large}
+\begin{equation*}
+	p(y|x) = \dfrac{G(x|Ay+\mu,\Sigma_{e})G(y|0,\Sigma_{y})}{G(x|\mu+\mu_{e},A\Sigma_{y}A^{T}+\Sigma_{e})}
+\end{equation*}
+\end{large}
+
 \textbf{where $\mu_{e}$ denotes the mean value of $e$, generally considered as 0.}
+
+\vspace{0.008\linewidth}
+For general applications, it is enough to simplify $p(y|x)$ to this step. To be more rigorous, I conduct further simplification, which can be found in Appendix \ref{apd:fa}.
 
 \section{Independent Component Analysis (ICA)}
 
@@ -286,18 +307,22 @@ Suppose the source signal $s$ consists of two components, conforming to multi-va
 \vspace{0.008\linewidth}
 Meanwhile, we have $x=As$, where $x$ denotes the actual signals received while $A$ represents a mixing matrix. Then $x$ is also Gaussian, with a mean of 0 and a covariance of 
 
-\begin{equation*}
+\begin{large}
+\begin{align*}
 	\centering
-	E[xx^{T}]=E[Ass^{T}A^{T}]=AA^{T}
-\end{equation*}
+	E[xx^{T}] = E[Ass^{T}A^{T}] = AA^{T}
+\end{align*}
+\end{large}
 
 \vspace{0.008\linewidth}
 Let $C$ be a orthogonal matrix, and $A^{'}=AR$. If $A$ is replaced by $A{'}$, then we can get $x^{'}=A^{'}s$. It is easy to find that $x^{'}$ also conforms to normal distribution, with a mean of 0 and a covariance of
 
+\begin{large}
 \begin{equation*}
 	\centering
 	E[x^{'}(x^{'})^{T}]=E[A^{'}ss^{T}(A^{'})^{T}]=E[ACss^{T}(AC)^{T}]=ACC^{T}A^{T}=AA^{T}
 \end{equation*}
+\end{large}
 
 \vspace{0.008\linewidth}
 Apparently, $x$ and $x^{'}$ conform to the same distribution with different mixing matrices. Then we cannot determine the mixing matrix or the source signals from the received signals. Nevertheless, if $x$ is non-Gaussian (e.g. Uniform Distribution), such case would be effectively avoided.
@@ -324,25 +349,31 @@ Basically, conditional independence test for continuous variables is rather chal
 
 \vspace{0.008\linewidth}
 Suppose the centralized kernel matrix of sample $X$ and its eigenvalues are $K_X$ and $\lambda_X$ respectively. The unconditional independence testing method is similar to HSIC \cite{HSIC}. Under the null hypothesis that \textbf{$X$ and $Y$ are statistically independent}, the statistic is defined as:
+
+\begin{large}
 \begin{align*}
 	T_{UI} & \triangleq \dfrac{1}{n}Tr(K_{X}K_{Y}) \\
 	& = \dfrac{1}{n^2}\sum_{i,j=1}^{n}\lambda_{x,i}\lambda_{y,j}z^2_{ij}
 \end{align*}
+\end{large}
 where $z^2_{ij}$ denotes the $\chi^2_1$-distributed variables.
 
 \vspace{0.008\linewidth}
 Analogously, under the null hypothesis that \textbf{$X$ and $Y$ are conditionally independent given $Z$}, the statistic for conditional independence testing is defined as:
+
+\begin{large}
 \begin{align*}
 	T_{CI} & \triangleq \dfrac{1}{n}Tr(K_{X|Z}K_{Y|Z}) \\
 	& = \dfrac{1}{n}\sum_{k=1}^{n^2}\lambda_{k}z^2_{k}
 \end{align*}
+\end{large}
 where $K_{X|Z}=R_ZK_XR_Z$, $K_{Y|Z}=R_ZK_YR_Z$, $R_Z=\epsilon(K_Z+\epsilon I)^{-1}$ and $\epsilon$ is a hyperparameter.
 
 \vspace{0.008\linewidth}
 Finally, after the \textit{p-value} is calculated according to the above formulae, KCI-test approximates the null distribution with a Gamma distribution or just generates it by Monte Carlo simulation.
 
 \vspace{0.008\linewidth}
-The main purpose of this application is to figure out the causalities among the features in Boston Housing dataset. Therefore, I use KCI-test to test the dependence and conditional independence among features. Then I construct the DAG of casualities based on PC algorithm \cite{pc-alg}. The whole process could be summed up as $PC_{KCI-test}$ algorithm.
+The main purpose of this application is to figure out the causalities among the features in Boston Housing dataset. Therefore, I use KCI-test to test the dependence and conditional independence among features. Then I construct the DAG of casualities based on PC algorithm \cite{pc-alg} (The procedure of PC algorithm can refer to Appendix \ref{apd:pc}). The whole process could be summed up as $PC_{KCI-test}$ algorithm.
 
 \subsection{Experiments}
 
@@ -465,6 +496,16 @@ Suppose $T$ is a rooted tree, with $n$ leaves $x_1, x_2, ... , x_n$, each node o
 \vspace{0.008\linewidth}
 The algorihm constructs a sequence of trees $T_2, T_3, ... , T_n$, where $T_2$ is a binary tree with three nodes and $T_n=T$. $T_{i+1}$ is constructed by appending $x_{i+1}$ as a new leaf to $T_i$. $T_i$ contains only the leaves $x_1, ... , x_i$ and corresponding edges, which would be the subtree of $T$. The location where $x_{i+1}$ should be appended to is determined by Alg. \ref{alg:append}. The lemmas used in the process can refer to Appendix \ref{apd:lemma}.
 
+\subsection{Constructing Unrooted Trees}
+
+Suppose $T$ is an unrooted tree in which the degree of each node is at least three, and suppose $u, v, w, x$ is any quadruple of leaves. Note that $x$ pairs with $u$ relative to $(v, w)$ if the path from $x$ to $u$ is edge-disjoint relative to the path from $v$ to $w$.
+
+\vspace{0.008\linewidth}
+Remove a leaf $x$ of $T$ and examine the remaining tree $T_1$ as rooted at the node $x_1$ with which $x$ is adjacent in $T$.
+
+\vspace{0.008\linewidth}
+Choosing arbitrarily a fixed leaf $x$, I can use Lemma \ref{lemma:2} and Alg. \ref{alg:append} to reconstruct $T_1$ rooted at $x_1$. Then appending $x$ as a son of $x_1$ to get the required tree $T$.
+
 \vspace{0.01\linewidth}
 \begin{algorithm}[H]
 	\SetKwInOut{Input}{Input}
@@ -525,16 +566,6 @@ The algorihm constructs a sequence of trees $T_2, T_3, ... , T_n$, where $T_2$ i
 \end{algorithm}
 \vspace{0.01\linewidth}
 
-\subsection{Constructing Unrooted Trees}
-
-Suppose $T$ is an unrooted tree in which the degree of each node is at least three, and suppose $u, v, w, x$ is any quadruple of leaves. Note that $x$ pairs with $u$ relative to $(v, w)$ if the path from $x$ to $u$ is edge-disjoint relative to the path from $v$ to $w$.
-
-\vspace{0.008\linewidth}
-Remove a leaf $x$ of $T$ and examine the remaining tree $T_1$ as rooted at the node $x_1$ with which $x$ is adjacent in $T$.
-
-\vspace{0.008\linewidth}
-Choosing arbitrarily a fixed leaf $x$, I can use Lemma \ref{lemma:2} and Alg. \ref{alg:append} to reconstruct $T_1$ rooted at $x_1$. Then appending $x$ as a son of $x_1$ to get the required tree $T$.
-
 \newpage
 \begin{appendix}
 \section{Appendix}
@@ -568,6 +599,115 @@ The Boston Housing Dataset consists of 506 samples, each has 12 features, namely
 		12 & MEDV & Median value of owner-occupied homes in \$1000's \\
 	\end{tabular}
 \end{table}
+
+\subsection{FA Simplification}
+\label{apd:fa}
+
+Suppose the mean value of $e$ is 0. The mean value and convariance of $p(y, x)$ can be calculated as followed.
+
+\begin{large}
+\begin{align*}
+	\centering
+	E[p(y, x)] &= \mu_{yx} \\
+	&= \left( \begin{matrix}
+		E[p(y)] \\
+		E[p(x)]
+	\end{matrix}
+	\right) \\
+	&= \left( \begin{matrix}
+		0 \\
+		E[p(Ay+\mu+e)]
+	\end{matrix}
+	\right) \\
+	&= \left( \begin{matrix}
+		0 \\
+		E[p(Ay)]+E[p(\mu)]+E[p(e)]
+	\end{matrix}
+	\right) \\
+	&= \left( \begin{matrix}
+		0 \\
+		\mu
+	\end{matrix}
+	\right)
+\end{align*}
+\end{large}
+
+\begin{large}
+\begin{align*}
+	\centering
+	cov[p(y, x)] &= \mu_{yx} \\
+	&= \left( \begin{matrix}
+		\Sigma_{yy} & \Sigma_{yx} \\
+		\Sigma_{xy} & \Sigma_{xx}
+	\end{matrix}
+	\right) \\
+	&= \left( \begin{matrix}
+		(y-0)(y-0)^T & (y-0)(x-\mu)^T \\
+		(x-\mu)(y-0)^T & (x-\mu)(x-\mu)^T
+	\end{matrix}
+	\right) \\
+	&= \left( \begin{matrix}
+		\Sigma_y & \Sigma_yA^T \\
+		\Sigma_yA & A\Sigma_yA^T+\Sigma_e
+	\end{matrix}
+	\right)
+\end{align*}
+\end{large}
+
+Then the Bayesian posterior p(y|x) could be represented as:
+
+\begin{equation*}
+	\centering
+	p(y|x) \; \textasciitilde \; N(\mu_{y|x}, \Sigma_{y|x})
+\end{equation*}
+where
+\begin{equation*}
+	\centering
+	\mu_{y|x} = \Sigma A^T(A\Sigma_yA^T+\Sigma_e)^{-1}(x-\mu)
+\end{equation*}
+
+\begin{equation*}
+	\Sigma_{y|x} = \Sigma_y-\Sigma_yA^T(A\Sigma_yA^T+\Sigma_e)^{-1}A\Sigma_y^T
+\end{equation*}
+
+\subsection{PC Algorithm}
+\label{apd:pc}
+
+Let $A_{Cab}$ denote the set of vertices adjacent to $a$ or to $b$ in graph $C$, except for $a$ and $b$ themselves. Let $U_{Cab}$ denote the set of vertices in graph $C$ on (acyclic) undirected paths between $a$ and $b$, except for $a$ and $b$ themselves (Since the algorithm is continually updating $C$, $A_{Cab}$ and $U_{Cab}$ are constantly changing as the algorithm progresses). The detailed procedure is as followed.
+
+\vspace{0.01\linewidth}
+\begin{algorithm}[H]
+	\SetKwInOut{Input}{Input}
+	\SetKwInOut{Output}{Output}
+	\caption{PC Algorithm \cite{pc-alg}}
+	\label{alg:pc}
+	\vspace{0.25\baselineskip}
+	
+	%\Input{The dataset $X$, a $n \times N$ matrix}
+	%\Output{The first principal component $w$}
+	
+	Form the complete undirected graph $C$ on the vertex set $V$ ;
+	
+	$n \leftarrow 0$ ;
+
+	\While{For each pair of adjacent vertices $a$, $b$, $A_{Cab} \bigcap U_{Cab}$ is of cardinality greater than or equal to $n$}{
+		\For{each pair of variables $(a, b)$ adjacent in $C$}{
+			\If{$A_{Cab} \bigcap U_{Cab}$ has cardinality greater than or equal to $n$ and $a$, $b$ are independent conditional on any subsets of $A_{Cab} \bigcap U_{Cab}$ of cardinality $n$}{
+				delete $a-b$ from $C$ ;
+			}
+		}
+	}
+	
+	Call the resulting undirected graph $F$ ;
+	
+	\For{each pair of variables $(a, b, c)$ such that the pair $(a, b)$ and the pair $(b, c)$ are each adjacent in $F$ but the pair $(a, c)$ are not adjacent in $F$}{
+		orient $a-b-c$ as $a \rightarrow b \leftarrow c$ if and only if $a$ and $c$ are dependent on every subset of $A_{Fac} \bigcap U_{Fac}$ containing $b$ ;
+	}
+	
+	Output all graphs consistent with these orientations ;
+	
+\end{algorithm}
+\vspace{0.01\linewidth}
 
 \subsection{Lemmas}
 \label{apd:lemma}
