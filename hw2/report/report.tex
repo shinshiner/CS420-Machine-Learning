@@ -312,7 +312,7 @@ Therefore, maximizing non-Gaussianity should be used as a principle for ICA esti
 Generally speaking, the housing price are affected by many factors, such as the number of rooms, crime rate, pupil-teacher ratio and etc. There also exist some causalities among those factors. It is beneficial for further mastering the housing market if one can figure out these causalities. However, such causalities are often difficult to determine intuitively, it is thus necessary to conduct causal discovery on these factors.
 
 \vspace{0.008\linewidth}
-I consider the features in the Boston Housing dataset as factors, then utilize these features and corresponding values for causal discovery. The dataset is available at the UCI Repository \cite{boston}, whose details can refer to Appendix \ref{apd:boston}.
+I consider the features in the Boston Housing dataset as the above factors, then utilize these features and corresponding values for causal discovery. This dataset is available at the UCI Repository \cite{boston}, whose details can refer to Appendix \ref{apd:boston}.
 
 \subsection{Approach}
 \label{sec:appro}
@@ -437,14 +437,19 @@ Ultimately, I exploit the above results to execute PC algorithm. Although each o
 	\label{fig:pc-res}
 \end{figure}
 
-It is doubtless that this result meets the criterion perfectly. Besides, the $PC_{KCI-test}$ algorithm also finds out some other causalities that make sense (e.g. nitric oxides concentration (NOX) and distances to five Boston centres (DIS)). Nevertheless, I think this algorithm still omits some causalities that meet our common sense, such as DIS \footnote{The meaning of abbreviations can refer to \ref{apd:boston}} and TAX, IND and TAX, which could be discovered by $PC_{CI_{PERM}}$ algorithm according to the results in \cite{alg}. In the meantime, $PC_{KCI-test}$ also ignores the causalities of two features (ZN and PTRATIO). 
+\vspace{-0.01\linewidth}
+It is doubtless that this result meets the criterion perfectly. Besides, the $PC_{KCI-test}$ algorithm also finds out some other causalities that make sense (e.g. nitric oxides concentration (NOX) and distances to five Boston centres (DIS)).
 
 \vspace{0.008\linewidth}
-In conclusion, the KCI-test is a concise and efficient algorithm for independence testing, especially for continuous variables. The experiments on Boston Housing dataset indicates that KCI-test could achieve satisfactory results in practical applications.
+Nevertheless, I think $PC_{KCI-test}$ still omits some causalities that meet our common sense, such as DIS \footnote{The meaning of abbreviations can refer to \ref{apd:boston}} and TAX, IND and TAX, which could be discovered by $PC_{CI_{PERM}}$ algorithm according to the results in \cite{alg}. In the meantime, $PC_{KCI-test}$ also encounters difficulties in determining the causality between TAX and B, and ignores the causalities of two features (ZN and PTRATIO). 
 
+\vspace{0.008\linewidth}
+In conclusion, despite few blemishes described above, the KCI-test is a novel and efficient algorithm for independence testing, especially for \textbf{continuous variables} and \textbf{middle sample size}. The experiments on Boston Housing dataset indicates that $PC_{KCI-test}$ could achieve satisfactory results in both accuracy and speed under practical applications.
+
+\vspace{-0.01\linewidth}
 \section{Causal Tree Reconstruction}
 
-Firstly, consider three variables $x_1, x_2, x_3$, form their star decomposition, then choose a fourth variable $x_4$ and determine the leg where $x_4$ should be appended. Such leg could be found by testing which pairs of triplets share centers, deciding on appropriate topology, connecting $x_4$ accordingly.
+Firstly, I consider three variables $x_1, x_2, x_3$, form their star decomposition, then choose a fourth variable $x_4$ and determine the leg where $x_4$ should be appended. Such leg could be found by testing which pairs of triplets share centers, deciding on appropriate topology, connecting $x_4$ accordingly.
 
 \vspace{0.008\linewidth}
 If there is a tree $T_i$, with $i$ leaves, ready to append the next, namely $(i + 1)th$, leaf. The solution is similar: choose any triplet of leaves from $T_i$ with central variable $w$, test which leg of $w$ the $x_{i+1}$ should append. This identifies a subtree $T_i^{'}$ of $T_i$ that should receive $x_{i+1}$ and permits me to remove from further consideration the subtrees emanating from the unselected legs of $w$.
@@ -452,6 +457,7 @@ If there is a tree $T_i$, with $i$ leaves, ready to append the next, namely $(i 
 \vspace{0.008\linewidth}
 Repeating the above operations on the selected subtree $T_i^{'}$ would eventually reduce it to a single branch, to which $x_{i+1}$ is appended. The detailed construction procedure could be treated as two parts: 1) reconstructing rooted trees; 2) constructing unrooted tree.
 
+\vspace{-0.02\linewidth}
 \subsection{Reconstructing Root Trees}
 
 Suppose $T$ is a rooted tree, with $n$ leaves $x_1, x_2, ... , x_n$, each node of $T$, which is not a leaf, has 2 to $k$ sons. $x_i$ is defined as the leader of the triple $(x_i, x_j, x_k)$ if the path from the root to it does not contain the deepest common ancestor of $x_j$ and $x_k$. Note that the deepest common ancestor of all the three leaves is also a common ancestor of any two of them if $(x_i, x_j, x_k)$ does not have a leader.
@@ -557,7 +563,7 @@ The Boston Housing Dataset consists of 506 samples, each has 12 features, namely
 		7 & DIS & weighted distances to five Boston employment centres \\
 		8 & TAX & full-value property-tax rate per \$10,000.0 \\
 		9 & PTRATIO & pupil-teacher ratio by town \\
-		10.000 & B & 1000(Bk - 0.63)\^2 where Bk is the proportion of blacks by town \\
+		10 & B & 1000(Bk - 0.63)\^2 where Bk is the proportion of blacks by town \\
 		11 & LSTAT & lower status of the population \\			
 		12 & MEDV & Median value of owner-occupied homes in \$1000's \\
 	\end{tabular}
