@@ -315,6 +315,7 @@ Generally speaking, the housing price are affected by many factors, such as the 
 I consider the features in the Boston Housing dataset as factors, then utilize these features and corresponding values for causal discovery. The dataset is available at the UCI Repository \cite{boston}, whose details can refer to Appendix \ref{apd:boston}.
 
 \subsection{Approach}
+\label{sec:appro}
 
 Taking the data type of features and the scale of samples into account, I apply \textit{Kernel-based Conditional Independence Test} (KCI-test) \cite{alg} to casual discovery, which performs well when the conditioning set is large and the sample size is not very large.
 
@@ -322,7 +323,7 @@ Taking the data type of features and the scale of samples into account, I apply 
 Basically, conditional independence test for continuous variables is rather challenging due to the curse of dimensionality. KCI-test constructs an appropriate test statistic and deriving its asymptotic distribution under the null hypothesis of conditional independence.
 
 \vspace{0.008\linewidth}
-Suppose the centralized kernel matrix of sample $X$ and its eigenvalues are $K_X$ and $\lambda_X$ respectively. The unconditional independence testing method is similar to HSIC \cite{HSIC}. Under the null hypothesis that $X$ and $Y$ are statistically independent, the statistic is defined as:
+Suppose the centralized kernel matrix of sample $X$ and its eigenvalues are $K_X$ and $\lambda_X$ respectively. The unconditional independence testing method is similar to HSIC \cite{HSIC}. Under the null hypothesis that \textbf{$X$ and $Y$ are statistically independent}, the statistic is defined as:
 \begin{align*}
 	T_{UI} & \triangleq \dfrac{1}{n}Tr(K_{X}K_{Y}) \\
 	& = \dfrac{1}{n^2}\sum_{i,j=1}^{n}\lambda_{x,i}\lambda_{y,j}z^2_{ij}
@@ -330,7 +331,7 @@ Suppose the centralized kernel matrix of sample $X$ and its eigenvalues are $K_X
 where $z^2_{ij}$ denotes the $\chi^2_1$-distributed variables.
 
 \vspace{0.008\linewidth}
-Analogously, under the null hypothesis that $X$ and $Y$ are conditionally independent given $Z$, the statistic for conditional independence testing is defined as:
+Analogously, under the null hypothesis that \textbf{$X$ and $Y$ are conditionally independent given $Z$}, the statistic for conditional independence testing is defined as:
 \begin{align*}
 	T_{CI} & \triangleq \dfrac{1}{n}Tr(K_{X|Z}K_{Y|Z}) \\
 	& = \dfrac{1}{n}\sum_{k=1}^{n^2}\lambda_{k}z^2_{k}
@@ -345,7 +346,7 @@ The main purpose of this application is to figure out the causalities among the 
 
 \subsection{Experiments}
 
-Initially, I conduct unconditional independence testing on every two features. With the significance level as 0.001, the results of unconditional independence testing are shown in Tab. \ref{tab:uncon-in}.
+Initially, I conduct unconditional independence testing on every two features. With the significance level as 0.001 and null hypothesis specified in Sec. \ref{sec:appro}, the results of unconditional independence testing are shown in Tab. \ref{tab:uncon-in}.
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -383,7 +384,7 @@ Initially, I conduct unconditional independence testing on every two features. W
 	\end{tabular}
 \end{table}
 
-According to the above table, only a small parts of the features have unconditional independence (rough parts in the table). That is, most features may have causalities with others. However, it is impossible to specify causalities based on current results.
+According to the above table, only a small parts of the features have unconditional independence (rough parts in the table). That is, most features may have causalities with others. However, it is impossible to specify those causalities based on current results.
 
 \vspace{0.008\linewidth}
 Therefore, I carry out conditional independence testing. I also choose the significance level as 0.001, and the corresponding results can refer to Tab. \ref{tab:con-in}.
@@ -431,19 +432,25 @@ Ultimately, I exploit the above results to execute PC algorithm. Although each o
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\linewidth]{img/res.png}
-	\caption{The final result of PC algorithm.}
+	\includegraphics[width=0.55\linewidth]{img/res.png}
+	\caption{The final result of PC algorithm, namely the causalities of the features in Boston Housing dataset.}
 	\label{fig:pc-res}
 \end{figure}
 
-It is doubtless that this result meets the criterion perfectly. Besides, the $PC_{KCI-test}$ algorithm also finds out some other causalities that make sense (e.g. nitric oxides concentration (NOX) and distances to five Boston centres (DIS). Nevertheless, I think this algorithm still omits some causalities that meet our common sense, such as DIS and TAX, IND and TAX, which could be discovered by $PC_{CI_{PERM}}$ algorithm according to the results in \cite{alg}. In the meantime, $PC_{KCI-test}$ also ignores the causalities of two features (ZN and PTRATIO).
+It is doubtless that this result meets the criterion perfectly. Besides, the $PC_{KCI-test}$ algorithm also finds out some other causalities that make sense (e.g. nitric oxides concentration (NOX) and distances to five Boston centres (DIS)). Nevertheless, I think this algorithm still omits some causalities that meet our common sense, such as DIS \footnote{The meaning of abbreviations can refer to \ref{apd:boston}} and TAX, IND and TAX, which could be discovered by $PC_{CI_{PERM}}$ algorithm according to the results in \cite{alg}. In the meantime, $PC_{KCI-test}$ also ignores the causalities of two features (ZN and PTRATIO). 
 
 \vspace{0.008\linewidth}
 In conclusion, the KCI-test is a concise and efficient algorithm for independence testing, especially for continuous variables. The experiments on Boston Housing dataset indicates that KCI-test could achieve satisfactory results in practical applications.
 
 \section{Causal Tree Reconstruction}
 
-Since a star structure is a tree with multiple leaves, the problem could be treated as two parts: 1) reconstructing rooted trees; 2) constructing unrooted tree.
+Firstly, consider three variables $x_1, x_2, x_3$, form their star decomposition, then choose a fourth variable $x_4$ and determine the leg where $x_4$ should be appended. Such leg could be found by testing which pairs of triplets share centers, deciding on appropriate topology, connecting $x_4$ accordingly.
+
+\vspace{0.008\linewidth}
+If there is a tree $T_i$, with $i$ leaves, ready to append the next, namely $(i + 1)th$, leaf. The solution is similar: choose any triplet of leaves from $T_i$ with central variable $w$, test which leg of $w$ the $x_{i+1}$ should append. This identifies a subtree $T_i^{'}$ of $T_i$ that should receive $x_{i+1}$ and permits me to remove from further consideration the subtrees emanating from the unselected legs of $w$.
+
+\vspace{0.008\linewidth}
+Repeating the above operations on the selected subtree $T_i^{'}$ would eventually reduce it to a single branch, to which $x_{i+1}$ is appended. The detailed construction procedure could be treated as two parts: 1) reconstructing rooted trees; 2) constructing unrooted tree.
 
 \subsection{Reconstructing Root Trees}
 
