@@ -1,0 +1,21 @@
+\begin{thebibliography}{1}
+
+\bibitem{boston}
+A.~Asuncion and D.~Newman, ``Uci machine learning repository,'' 2007.
+
+\bibitem{alg}
+K.~Zhang, J.~Peters, D.~Janzing, and B.~Sch{\"o}lkopf, ``Kernel-based
+  conditional independence test and application in causal discovery,'' {\em
+  arXiv preprint arXiv:1202.3775}, 2012.
+
+\bibitem{HSIC}
+A.~Gretton, K.~Fukumizu, C.~H. Teo, L.~Song, B.~Sch{\"o}lkopf, and A.~J. Smola,
+  ``A kernel statistical test of independence,'' in {\em Advances in neural
+  information processing systems}, pp.~585--592, 2008.
+
+\bibitem{pc-alg}
+P.~Spirtes and C.~Glymour, ``An algorithm for fast recovery of sparse causal
+  graphs,'' {\em Social science computer review}, vol.~9, no.~1, pp.~62--72,
+  1991.
+
+\end{thebibliography}

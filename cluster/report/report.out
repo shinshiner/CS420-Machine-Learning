@@ -1,8 +1,0 @@
-\BOOKMARK [1][-]{section.1}{k-means\040vs\040GMM}{}% 1
-\BOOKMARK [1][-]{section.2}{k-means\040vs\040CL}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Comparison\040between\040k-means\040and\040CL}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Application\040of\040RPCL\040in\040k-means}{section.2}% 4
-\BOOKMARK [1][-]{section.3}{Model\040Selection\040of\040GMM}{}% 5
-\BOOKMARK [2][-]{subsection.3.1}{Different\040Sample\040Sizes}{section.3}% 6
-\BOOKMARK [2][-]{subsection.3.2}{Different\040Distance\040Among\040Cluster\040Centers}{section.3}% 7
-\BOOKMARK [2][-]{subsection.3.3}{Discussion\040&\040Conclusion}{section.3}% 8
