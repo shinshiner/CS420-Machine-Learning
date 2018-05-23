@@ -59,7 +59,7 @@ Zelin Ye 515030910468}}
 
 \subsection{Introduction}
 
-In machine learning, SVM (Support Vector Machine) is a commonly used classfication method due to its high efficiency and accuracy. Recent years, the neural network has been attracting more and more attention, and also used to solve classification problems. In this homework, I would compare the performances of SVM and neural network (e.g. MLP) on some classification datasets under different experimental settings (e.g. pass).
+In machine learning, SVM (Support Vector Machine) is a commonly used classfication method due to its high efficiency and accuracy. Recent years, the neural network has been attracting more and more attention, and also used to solve classification problems. In this homework, I would investigate the performances of SVM and neural network (e.g. MLP) on some classification datasets under different experimental settings (e.g. pass).
 
 \subsection{Methodology}
 
@@ -67,11 +67,14 @@ In this section, I would introduce the datasets and models in my experiments.
 
 \subsubsection{Datasets}
 
-In my experiments, I use two datasets that are from \textbf{LIBSVM Data} \cite{dataA}. One is \textbf{madelon}, a binary classification dataset with 500 features, 2000 training samples and 600 testing samples. Another is called \textbf{satimage}, which is for multi-class classification and has 36 features, 6 classes, 3104 training samples and 2000 testing samples.
+In my experiments, I use two datasets that are from \textbf{LIBSVM Data} \cite{dataA}. One is \textbf{madelon}, a binary classification dataset with 500 features, 2000 training samples and 600 testing samples. Another is called \textbf{satimage}, which is for multi-class classification and has 36 features, 6 classes, 3104 training samples and 2000 testing samples. More details about the two datasets can refer to Appendix \ref{apd:dataset}.
 
 \subsubsection{Models}
 
-For neural network
+For neural network, considering the complexity of features and scale of samples, I choose MLP (Multi-layer Perceptron) instead of popular DNN or CNN.
+
+\vspace{0.01\linewidth}
+In experiments, I would investigate the performances of MLP under different architectures or parameter settings (e.g. number of hidden layers or hidden neurons).
 
 \subsection{Experiments and Results}
 
@@ -83,6 +86,22 @@ Most datasets are likely to have missing data, and those in LIBSVM Data are no e
 \begin{appendix}
 \section{Appendix}
 
+\subsection{Details of Datasets in Experiments}
+\label{apd:dataset}
+
+\subsubsection{Madelon \cite{madelon}}
+
+Madelon is an artificial dataset, which was one of five datasets used in the NIPS 2003 feature selection challenge. This is a two-class classification problem with continuous input variables.
+
+\vspace{0.01\linewidth}
+The difficulty is that the problem is multivariate and highly non-linear.
+
+\subsubsection{Satimage \cite{satimage}}
+
+Satimage dataset is also called \textbf{satalog} dataset. It contains multi-spectral values of pixels in 3 $\times$ 3 neighbourhoods in satellite images, and the classification associated with the central pixel in each neighbourhood.
+
+\vspace{0.01\linewidth}
+As a classification dataset, the aim of satimage is to predict the classification, given the multi-spectral values. In the sample database, the class of a pixel is coded as a number. 
 
 
 \end{appendix}

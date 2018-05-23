@@ -4,4 +4,11 @@
 ``Libsvm data: Classification, regression, and multi-label.''
   \url{https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/}.
 
+\bibitem{madelon}
+``Madelon data set.'' \url{http://archive.ics.uci.edu/ml/datasets/Madelon}.
+
+\bibitem{satimage}
+``Statlog (landsat satellite) data set.''
+  \url{https://archive.ics.uci.edu/ml/datasets/Statlog+(Landsat+Satellite)}.
+
 \end{thebibliography}
