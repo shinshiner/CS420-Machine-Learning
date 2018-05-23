@@ -1,2 +1,8 @@
 \BOOKMARK [1][-]{section.1}{SVM\040vs.\040Neural\040Networks}{}% 1
-\BOOKMARK [1][-]{appendix.A}{Appendix}{}% 2
+\BOOKMARK [2][-]{subsection.1.1}{Introduction}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Methodology}{section.1}% 3
+\BOOKMARK [3][-]{subsubsection.1.2.1}{Datasets}{subsection.1.2}% 4
+\BOOKMARK [3][-]{subsubsection.1.2.2}{Models}{subsection.1.2}% 5
+\BOOKMARK [2][-]{subsection.1.3}{Experiments\040and\040Results}{section.1}% 6
+\BOOKMARK [3][-]{subsubsection.1.3.1}{Preprocess}{subsection.1.3}% 7
+\BOOKMARK [1][-]{appendix.A}{Appendix}{}% 8

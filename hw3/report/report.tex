@@ -57,7 +57,27 @@ Zelin Ye 515030910468}}
 
 \section{SVM vs. Neural Networks}
 
+\subsection{Introduction}
 
+In machine learning, SVM (Support Vector Machine) is a commonly used classfication method due to its high efficiency and accuracy. Recent years, the neural network has been attracting more and more attention, and also used to solve classification problems. In this homework, I would compare the performances of SVM and neural network (e.g. MLP) on some classification datasets under different experimental settings (e.g. pass).
+
+\subsection{Methodology}
+
+In this section, I would introduce the datasets and models in my experiments.
+
+\subsubsection{Datasets}
+
+In my experiments, I use two datasets that are from \textbf{LIBSVM Data} \cite{dataA}. One is \textbf{madelon}, a binary classification dataset with 500 features, 2000 training samples and 600 testing samples. Another is called \textbf{satimage}, which is for multi-class classification and has 36 features, 6 classes, 3104 training samples and 2000 testing samples.
+
+\subsubsection{Models}
+
+For neural network
+
+\subsection{Experiments and Results}
+
+\subsubsection{Preprocess}
+
+Most datasets are likely to have missing data, and those in LIBSVM Data are no exception. Therefore, I first make up for the omission in the datasets, replacing empty data with corresponding mean values. Afterwards, I convert the labels from numbers to one-hot vectors for the calculation of loss.
 
 \newpage
 \begin{appendix}
