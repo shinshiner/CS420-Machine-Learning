@@ -6,11 +6,12 @@ __pycache__/
 # pycharm files
 .idea/
 
-# mnist data
+# data
 mnist_project/mnist/mnist_train/mnist_train_data
 mnist_project/mnist/mnist_train/mnist_train_label
 mnist_project/mnist/mnist_test/mnist_test_data
 mnist_project/mnist/mnist_test/mnist_test_label
+hw3/data/convex/*
 
 # C extensions
 *.so

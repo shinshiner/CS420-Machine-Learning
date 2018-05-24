@@ -38,6 +38,28 @@ def process(fname, feature_size):
     np.save(fname + '_feature.npy', np.array(features))
     np.save(fname + '_target.npy', np.array(targets))
 
+def process_bonus(fname, feature_size):
+    targets = []
+    features = []
+
+    with open(fname, 'r') as f:
+        lines = f.readlines()
+        for i, line in enumerate(lines):
+            items = line.split()
+            tmp = int(float(items.pop(-1)))
+            targets.append(tmp)
+
+            feature = []
+            for j, item in enumerate(items):
+                feature.append(float(item))
+            while len(feature) < feature_size:
+                feature.append(0.)
+            features.append(feature)
+
+    # save as .npy
+    np.save(fname + '_feature.npy', np.array(features))
+    np.save(fname + '_target.npy', np.array(targets))
+
 def check(fname):
     arr = np.load(fname)
     print(arr.shape)
@@ -46,5 +68,8 @@ def check(fname):
     #     print(arr[i])
 
 if __name__ == '__main__':
-    process('data/splice.t', 60)
-    check('data/splice.t_feature.npy')
+    # process('data/splice.t', 60)
+    # check('data/splice.t_feature.npy')
+
+    #process_bonus('data/convex/convex_test.amat', 784)
+    check('data/convex/convex_test.amat_target.npy')
