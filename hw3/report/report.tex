@@ -67,7 +67,11 @@ In this section, I would introduce the datasets and models in my experiments.
 
 \subsubsection{Datasets}
 
-In my experiments, I use two datasets that are from \textbf{LIBSVM Data} \cite{dataA}. One is \textbf{madelon}, a binary classification dataset with 500 features, 2000 training samples and 600 testing samples. Another is called \textbf{satimage}, which is for multi-class classification and has 36 features, 6 classes, 3104 training samples and 2000 testing samples. More details about the two datasets can refer to Appendix \ref{apd:dataset}.
+In my experiments, I use two datasets that are from \textbf{LIBSVM Data} \cite{dataA} to investigate the performances of SVM and neural network. One is \textbf{splice}, a binary classification dataset with 60 features, 1000 training samples and 2175 testing samples. Another is called \textbf{satimage}, which is for multi-class classification and has 36 features, 6 classes, 3104 training samples and 2000 testing samples.
+
+Additionally, I choose a dataset called \textbf{ConvexNonConvex} from LISA \cite{dataB} to conduct comparison between SVM and deep learning algorithm benchmarks. It is a binary classification dataset that contains 784 features, 8000 training samples and 50000 testing samples.
+
+More details about these datasets can refer to Appendix \ref{apd:dataset}.
 
 \subsubsection{Models}
 
@@ -82,6 +86,20 @@ In experiments, I would investigate the performances of MLP under different arch
 
 Most datasets are likely to have missing data, and those in LIBSVM Data are no exception. Therefore, I first make up for the omission in the datasets, replacing empty data with corresponding mean values. Afterwards, I convert the labels from numbers to one-hot vectors for the calculation of loss.
 
+\subsection{SVM}
+
+\subsubsection{Binary Classification}
+
+\subsubsection{Multi-class Classification}
+
+\subsection{Neural Network}
+
+\subsubsection{Binary Classification}
+
+\subsubsection{Multi-class Classification}
+
+\subsection{Comparison Between SVM and Deep Learning Algorithm Benchmark}
+
 \newpage
 \begin{appendix}
 \section{Appendix}
@@ -89,19 +107,26 @@ Most datasets are likely to have missing data, and those in LIBSVM Data are no e
 \subsection{Details of Datasets in Experiments}
 \label{apd:dataset}
 
-\subsubsection{Madelon \cite{madelon}}
+\subsubsection{Splice \cite{splice}}
 
-Madelon is an artificial dataset, which was one of five datasets used in the NIPS 2003 feature selection challenge. This is a two-class classification problem with continuous input variables.
+Basically, according to the biological knowledge, splice junctions are points on a DNA sequence at which `superfluous' DNA is removed during the process of protein creation in higher organisms.
 
 \vspace{0.01\linewidth}
-The difficulty is that the problem is multivariate and highly non-linear.
+Splice dataset aims to recognize two classes of splice junctions, given a DNA sequence, the boundaries between exons (the parts of the DNA sequence retained after splicing) and introns (the parts of the DNA sequence that are spliced out).
 
 \subsubsection{Satimage \cite{satimage}}
 
 Satimage dataset is also called \textbf{satalog} dataset. It contains multi-spectral values of pixels in 3 $\times$ 3 neighbourhoods in satellite images, and the classification associated with the central pixel in each neighbourhood.
 
 \vspace{0.01\linewidth}
-As a classification dataset, the aim of satimage is to predict the classification, given the multi-spectral values. In the sample database, the class of a pixel is coded as a number. 
+As a classification dataset, the aim of satimage is to predict the classification, given the multi-spectral values. In the sample database, the class of a pixel is coded as a number.
+
+\subsubsection{ConvexNonConvex \cite{convex}}
+
+The ConvexNonConvex dataset consists of convex regions with pixels of value 255. Such regions are constructed via the intersection of a number of half-planes whose location and orientation were chosen uniformly at random. In the meanwhile, the number of half-planes is also sampled randomly according to a geometric distribution with parameter 0.195.
+
+\vspace{0.01\linewidth}
+To ensure the validity of the data, a candidate convex image is rejected once there are less than 19 pixels in it.
 
 
 \end{appendix}

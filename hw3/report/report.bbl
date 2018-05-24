@@ -4,11 +4,20 @@
 ``Libsvm data: Classification, regression, and multi-label.''
   \url{https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/}.
 
-\bibitem{madelon}
-``Madelon data set.'' \url{http://archive.ics.uci.edu/ml/datasets/Madelon}.
+\bibitem{dataB}
+``Lisa.''
+  \url{http://www.iro.umontreal.ca/~lisa/twiki/bin/view.cgi/Public/WebHome)}.
+
+\bibitem{splice}
+``Molecular biology (splice-junction gene sequences) data set.''
+  \url{http://archive.ics.uci.edu/ml/datasets/Molecular+Biology+%28Splice-junction+Gene+Sequences%29}.
 
 \bibitem{satimage}
 ``Statlog (landsat satellite) data set.''
   \url{https://archive.ics.uci.edu/ml/datasets/Statlog+(Landsat+Satellite)}.
+
+\bibitem{convex}
+``Convexnonconvex.''
+  \url{http://www.iro.umontreal.ca/~lisa/twiki/bin/view.cgi/Public/ConvexNonConvex}.
 
 \end{thebibliography}
