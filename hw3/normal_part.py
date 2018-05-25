@@ -10,6 +10,22 @@ import matplotlib.pyplot as plt
 interval = 15
 max_iter = 150
 
+def pca(x):
+    model = PCA(n_components=27)
+    data = model.fit_transform(x)
+    print(model.explained_variance_ratio_.sum())
+    #return data
+    return x
+
+def select(x, y):
+    selector = SelectKBest(score_func=f_classif, k=10)
+    real_features = selector.fit_transform(x, y)
+    #print(selector.scores_)
+
+    return real_features
+
+################################### SVM Part #####################################
+
 def svm(data_name):
     x_tr = np.load('data/' + data_name + '_feature.npy')
     y_tr = np.load('data/' + data_name + '_target.npy')
@@ -39,24 +55,17 @@ def svm(data_name):
     print('train: ', res_tr)
     print('test: ', res_t)
 
-def pca(x):
-    model = PCA(n_components=27)
-    data = model.fit_transform(x)
-    print(model.explained_variance_ratio_.sum())
-    #return data
-    return x
+################################### SVM Part #####################################
 
-def select(x, y):
-    selector = SelectKBest(score_func=f_classif, k=10)
-    real_features = selector.fit_transform(x, y)
-    #print(selector.scores_)
 
-    return real_features
+
+
+################################### MLP Part #####################################
 
 def mlp(data_name):
-    x_tr = pca(np.load('data/' + data_name + '_feature.npy'))
+    x_tr = np.load('data/' + data_name + '_feature.npy')
     y_tr = np.load('data/' + data_name + '_target.npy')
-    x_t = pca(np.load('data/' + data_name + '.t_feature.npy'))
+    x_t = np.load('data/' + data_name + '.t_feature.npy')
     y_t = np.load('data/' + data_name + '.t_target.npy')
     # if data_name == 'madelon':
     #     x_tr = select(x_tr, y_tr)
@@ -413,8 +422,123 @@ def plot_dim_sat():
     plt.savefig('report/img/mlp_dim_sat_t')
     plt.show()
 
+def plot_archi_sat():
+    # model = MLPClassifier(solver='adam', alpha=1e-3,
+    #                       learning_rate_init=0.001, max_iter=i,
+    #                       activation='relu',
+    #                       hidden_layer_sizes=(10, 10, 2), random_state=666)
+
+    # 1: (10, 10)
+    # 2: (10, 10, 10, 10)
+    # 3: (50, 50)
+    # 4: (50, 50, 50, 50)
+
+    x = list(range(interval, max_iter + 1, interval))
+    y_1_tr = [0.15, 0.455, 0.816, 0.834, 0.845, 0.847, 0.854, 0.86, 0.862, 0.866]
+    y_2_tr = [0.257, 0.257, 0.257, 0.257, 0.257, 0.257, 0.257, 0.257, 0.257, 0.257]
+    y_3_tr = [0.679, 0.729, 0.743, 0.756, 0.762, 0.769, 0.847, 0.858, 0.871, 0.901]
+    y_4_tr = [0.337, 0.558, 0.558, 0.611, 0.652, 0.652, 0.652, 0.652, 0.652, 0.652]
+    y_1_t = [0.17, 0.445, 0.777, 0.788, 0.796, 0.795, 0.806, 0.812, 0.814, 0.814]
+    y_2_t = [0.198, 0.198, 0.198, 0.198, 0.198, 0.198, 0.198, 0.198, 0.198, 0.198]
+    y_3_t = [0.652, 0.714, 0.719, 0.723, 0.726, 0.727, 0.779, 0.79, 0.814, 0.83]
+    y_4_t = [0.279, 0.484, 0.476, 0.552, 0.606, 0.606, 0.606, 0.606, 0.606, 0.606]
+
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y_1_tr, color='#90EE90', linewidth=1.7, label='(10, 10)')
+    ax.plot(x, y_2_tr, color='#ffa07a', linewidth=1.7, label='(10, 10, 10, 10)')
+    ax.plot(x, y_3_tr, color='#9999ff', linewidth=1.7, label='(50, 50)')
+    ax.plot(x, y_4_tr, color='#F0E68C', linewidth=1.7, label='(50, 50, 50, 50)')
+    ax.scatter(x, y_1_tr, s=13, c='#90EE90')
+    ax.scatter(x, y_2_tr, s=13, c='#ffa07a')
+    ax.scatter(x, y_3_tr, s=13, c='#9999ff')
+    ax.scatter(x, y_4_tr, s=13, c='#F0E68C')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlabel('Iterations')
+    plt.ylabel('Accuracy')
+    plt.ylim(0, 0.97)
+    plt.legend()
+    plt.savefig('report/img/mlp_archi_sat_tr')
+    plt.show()
+
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y_1_t, color='#90EE90', linewidth=1.7, label='(10, 10)')
+    ax.plot(x, y_2_t, color='#ffa07a', linewidth=1.7, label='(10, 10, 10, 10)')
+    ax.plot(x, y_3_t, color='#9999ff', linewidth=1.7, label='(50, 50)')
+    ax.plot(x, y_4_t, color='#F0E68C', linewidth=1.7, label='(50, 50, 50, 50)')
+    ax.scatter(x, y_1_t, s=13, c='#90EE90')
+    ax.scatter(x, y_2_t, s=13, c='#ffa07a')
+    ax.scatter(x, y_3_t, s=13, c='#9999ff')
+    ax.scatter(x, y_4_t, s=13, c='#F0E68C')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlabel('Iterations')
+    plt.ylabel('Accuracy')
+    plt.ylim(0, 0.92)
+    plt.legend()
+    plt.savefig('report/img/mlp_archi_sat_t')
+    plt.show()
+
+def plot_archi_splice():
+    # model = MLPClassifier(solver='adam', alpha=1e-3,
+    #                       learning_rate_init=0.001, max_iter=i,
+    #                       activation='relu',
+    #                       hidden_layer_sizes=(10, 10, 2), random_state=666)
+
+    # 1: (10, 10)
+    # 2: (10, 10, 10, 10)
+    # 3: (50, 50)
+    # 4: (50, 50, 50, 50)
+
+    x = list(range(interval, max_iter + 1, interval))
+    y_1_tr = [0.698, 0.764, 0.813, 0.845, 0.865, 0.884, 0.906, 0.921, 0.921, 0.921]
+    y_2_tr = [0.616, 0.691, 0.779, 0.827, 0.838, 0.858, 0.86, 0.86, 0.86, 0.86]
+    y_3_tr = [0.483, 0.483, 0.483, 0.483, 0.483, 0.483, 0.483, 0.483, 0.483, 0.483]
+    y_4_tr = [0.785, 0.867, 0.914, 0.969, 0.992, 1.0, 1.0, 1.0, 1.0, 1.0]
+    y_1_t = [0.68, 0.759, 0.822, 0.85, 0.857, 0.867, 0.874, 0.883, 0.883, 0.883]
+    y_2_t = [0.608, 0.687, 0.775, 0.816, 0.835, 0.843, 0.842, 0.842, 0.842, 0.842]
+    y_3_t = [0.48, 0.48, 0.48, 0.48, 0.48, 0.48, 0.48, 0.48, 0.48, 0.48]
+    y_4_t = [0.76, 0.83, 0.844, 0.844, 0.849, 0.842, 0.841, 0.844, 0.844, 0.844]
+
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y_1_tr, color='#90EE90', linewidth=1.7, label='(10, 10)')
+    ax.plot(x, y_2_tr, color='#ffa07a', linewidth=1.7, label='(10, 10, 10, 10)')
+    ax.plot(x, y_3_tr, color='#9999ff', linewidth=1.7, label='(50, 50)')
+    ax.plot(x, y_4_tr, color='#F0E68C', linewidth=1.7, label='(50, 50, 50, 50)')
+    ax.scatter(x, y_1_tr, s=13, c='#90EE90')
+    ax.scatter(x, y_2_tr, s=13, c='#ffa07a')
+    ax.scatter(x, y_3_tr, s=13, c='#9999ff')
+    ax.scatter(x, y_4_tr, s=13, c='#F0E68C')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlabel('Iterations')
+    plt.ylabel('Accuracy')
+    plt.legend()
+    plt.savefig('report/img/mlp_archi_splice_tr')
+    plt.show()
+
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y_1_t, color='#90EE90', linewidth=1.7, label='(10, 10)')
+    ax.plot(x, y_2_t, color='#ffa07a', linewidth=1.7, label='(10, 10, 10, 10)')
+    ax.plot(x, y_3_t, color='#9999ff', linewidth=1.7, label='(50, 50)')
+    ax.plot(x, y_4_t, color='#F0E68C', linewidth=1.7, label='(50, 50, 50, 50)')
+    ax.scatter(x, y_1_t, s=13, c='#90EE90')
+    ax.scatter(x, y_2_t, s=13, c='#ffa07a')
+    ax.scatter(x, y_3_t, s=13, c='#9999ff')
+    ax.scatter(x, y_4_t, s=13, c='#F0E68C')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlabel('Iterations')
+    plt.ylabel('Accuracy')
+    plt.ylim(0, 0.92)
+    plt.legend()
+    plt.savefig('report/img/mlp_archi_splice_t')
+    plt.show()
+
+################################### MLP Part #####################################
+
 if __name__ == '__main__':
     # splice satimage.scale
     #mlp('satimage.scale')
     #mlp('splice')
-    plot_dim_sat()
+    plot_archi_splice()

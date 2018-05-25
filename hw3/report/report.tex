@@ -89,7 +89,7 @@ Most datasets are likely to have missing data, and those in LIBSVM Data are no e
 
 In this section, I would show the performances of SVM in both \textit{splice} and \textit{satimage} datasets under different configurations (e.g. pass). Note that the two datasets have different problem settings, sample sizes and etc. I would thus conduct some pertinent discussion based on each experiment result.
 
-\subsection{Binary Classification}
+\subsection{Kernel}
 
 \subsection{Multi-class Classification}
 
@@ -152,6 +152,24 @@ In this section, I would also show the performances of MLP in the two datasets u
 \end{figure}
 
 \subsection{Network Architecture}
+
+\begin{figure}[H]
+	\centering
+	\subfigure[Splice-Training Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_archi_splice_tr.png}
+	}
+	\subfigure[Splice-Tetsing Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_archi_splice_t.png}
+	}
+	\subfigure[Satimage-Training Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_archi_sat_tr.png}
+	}
+	\subfigure[Satimage-Testing Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_archi_sat_t.png}
+	}
+	\caption{The performances of MLP under different network architectures.}
+	\label{fig:mlp-archi}
+\end{figure}
 
 \subsection{Dimension of Features}
 
