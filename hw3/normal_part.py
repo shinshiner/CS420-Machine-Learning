@@ -40,10 +40,11 @@ def svm(data_name):
     print('test: ', res_t)
 
 def pca(x):
-    model = PCA(n_components=5)
+    model = PCA(n_components=27)
     data = model.fit_transform(x)
     print(model.explained_variance_ratio_.sum())
-    return data
+    #return data
+    return x
 
 def select(x, y):
     selector = SelectKBest(score_func=f_classif, k=10)
@@ -53,9 +54,9 @@ def select(x, y):
     return real_features
 
 def mlp(data_name):
-    x_tr = np.load('data/' + data_name + '_feature.npy')
+    x_tr = pca(np.load('data/' + data_name + '_feature.npy'))
     y_tr = np.load('data/' + data_name + '_target.npy')
-    x_t = np.load('data/' + data_name + '.t_feature.npy')
+    x_t = pca(np.load('data/' + data_name + '.t_feature.npy'))
     y_t = np.load('data/' + data_name + '.t_target.npy')
     # if data_name == 'madelon':
     #     x_tr = select(x_tr, y_tr)
@@ -314,8 +315,106 @@ def plot_lr_sat():
     plt.savefig('report/img/mlp_lr_sat')
     plt.show()
 
+def plot_dim_splice():
+    # model = MLPClassifier(solver='adam', alpha=1e-3,
+    #                       learning_rate_init=0.001, max_iter=i,
+    #                       activation='relu',
+    #                       hidden_layer_sizes=(10, 10, 2), random_state=666)
+    x = list(range(interval, max_iter + 1, interval))
+    y_25_tr = [0.665, 0.727, 0.769, 0.792, 0.815, 0.832, 0.841, 0.853, 0.865, 0.876]
+    y_5_tr = [0.541, 0.727, 0.814, 0.833, 0.854, 0.864, 0.876, 0.887, 0.899, 0.909]
+    y_75_tr = [0.524, 0.712, 0.811, 0.858, 0.891, 0.914, 0.932, 0.956, 0.964, 0.974]
+    y_tr = [0.698, 0.764, 0.813, 0.845, 0.865, 0.884, 0.906, 0.921, 0.921, 0.921]
+    y_25_t = [0.392, 0.443, 0.486, 0.525, 0.55, 0.562, 0.573, 0.574, 0.575, 0.58]
+    y_5_t = [0.541, 0.727, 0.814, 0.833, 0.854, 0.864, 0.876, 0.887, 0.899, 0.909]
+    y_75_t = [0.522, 0.564, 0.56, 0.569, 0.571, 0.571, 0.576, 0.586, 0.586, 0.582]
+    y_t = [0.68, 0.759, 0.822, 0.85, 0.857, 0.867, 0.874, 0.883, 0.883, 0.883]
+
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y_25_tr, color='#90EE90', linewidth=1.7, label='25% features')
+    ax.plot(x, y_5_tr, color='#ffa07a', linewidth=1.7, label='50% features')
+    ax.plot(x, y_75_tr, color='#9999ff', linewidth=1.7, label='75% features')
+    ax.plot(x, y_tr, color='#F0E68C', linewidth=1.7, label='100% features')
+    ax.scatter(x, y_25_tr, s=13, c='#90EE90')
+    ax.scatter(x, y_5_tr, s=13, c='#ffa07a')
+    ax.scatter(x, y_75_tr, s=13, c='#9999ff')
+    ax.scatter(x, y_tr, s=13, c='#F0E68C')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlabel('Iterations')
+    plt.ylabel('Accuracy')
+    plt.legend()
+    plt.savefig('report/img/mlp_dim_splice_tr')
+    plt.show()
+
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y_25_t, color='#90EE90', linewidth=1.7, label='25% features')
+    ax.plot(x, y_5_t, color='#ffa07a', linewidth=1.7, label='50% features')
+    ax.plot(x, y_75_t, color='#9999ff', linewidth=1.7, label='75% features')
+    ax.plot(x, y_t, color='#F0E68C', linewidth=1.7, label='100% features')
+    ax.scatter(x, y_25_t, s=13, c='#90EE90')
+    ax.scatter(x, y_5_t, s=13, c='#ffa07a')
+    ax.scatter(x, y_75_t, s=13, c='#9999ff')
+    ax.scatter(x, y_t, s=13, c='#F0E68C')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlabel('Iterations')
+    plt.ylabel('Accuracy')
+    plt.legend()
+    plt.savefig('report/img/mlp_dim_splice_t')
+    plt.show()
+
+def plot_dim_sat():
+    # model = MLPClassifier(solver='adam', alpha=1e-3,
+    #                       learning_rate_init=0.001, max_iter=i,
+    #                       activation='relu',
+    #                       hidden_layer_sizes=(10, 10, 2), random_state=666)
+    x = list(range(interval, max_iter + 1, interval))
+    y_25_tr = [0.413, 0.44, 0.489, 0.681, 0.79, 0.8, 0.809, 0.815, 0.823, 0.826]
+    y_5_tr = [0.174, 0.396, 0.477, 0.649, 0.769, 0.776, 0.792, 0.806, 0.823, 0.832]
+    y_75_tr = [0.342, 0.406, 0.412, 0.416, 0.453, 0.504, 0.742, 0.754, 0.763, 0.798]
+    y_tr = [0.15, 0.455, 0.816, 0.834, 0.845, 0.847, 0.854, 0.86, 0.862, 0.866]
+    y_25_t = [0.384, 0.424, 0.482, 0.604, 0.683, 0.68, 0.669, 0.664, 0.664, 0.662]
+    y_5_t = [0.235, 0.3, 0.354, 0.536, 0.604, 0.574, 0.57, 0.568, 0.575, 0.583]
+    y_75_t = [0.322, 0.372, 0.382, 0.432, 0.452, 0.464, 0.462, 0.469, 0.487, 0.522]
+    y_t = [0.17, 0.445, 0.777, 0.788, 0.796, 0.795, 0.806, 0.812, 0.814, 0.814]
+
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y_25_tr, color='#90EE90', linewidth=1.7, label='25% features')
+    ax.plot(x, y_5_tr, color='#ffa07a', linewidth=1.7, label='50% features')
+    ax.plot(x, y_75_tr, color='#9999ff', linewidth=1.7, label='75% features')
+    ax.plot(x, y_tr, color='#F0E68C', linewidth=1.7, label='100% features')
+    ax.scatter(x, y_25_tr, s=13, c='#90EE90')
+    ax.scatter(x, y_5_tr, s=13, c='#ffa07a')
+    ax.scatter(x, y_75_tr, s=13, c='#9999ff')
+    ax.scatter(x, y_tr, s=13, c='#F0E68C')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlabel('Iterations')
+    plt.ylabel('Accuracy')
+    plt.legend()
+    plt.savefig('report/img/mlp_dim_sat_tr')
+    plt.show()
+
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y_25_t, color='#90EE90', linewidth=1.7, label='25% features')
+    ax.plot(x, y_5_t, color='#ffa07a', linewidth=1.7, label='50% features')
+    ax.plot(x, y_75_t, color='#9999ff', linewidth=1.7, label='75% features')
+    ax.plot(x, y_t, color='#F0E68C', linewidth=1.7, label='100% features')
+    ax.scatter(x, y_25_t, s=13, c='#90EE90')
+    ax.scatter(x, y_5_t, s=13, c='#ffa07a')
+    ax.scatter(x, y_75_t, s=13, c='#9999ff')
+    ax.scatter(x, y_t, s=13, c='#F0E68C')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlabel('Iterations')
+    plt.ylabel('Accuracy')
+    plt.legend()
+    plt.savefig('report/img/mlp_dim_sat_t')
+    plt.show()
+
 if __name__ == '__main__':
     # splice satimage.scale
     #mlp('satimage.scale')
     #mlp('splice')
-    plot_lr_sat()
+    plot_dim_sat()

@@ -51,21 +51,19 @@
 \noindent
 %==========================================================
 \noindent\framebox[\linewidth]{\shortstack[c]{
-\Large{\textbf{Report on Homework 3}}\vspace{1mm}\\ 
+\Large{\textbf{Report on Homework 3 -- SVM vs. Neural Networks}}\vspace{1mm}\\ 
 CS420, Machine Learning, Shikui Tu, Summer 2018 \vspace{1mm} \\
 Zelin Ye 515030910468}}
 
-\section{SVM vs. Neural Networks}
-
-\subsection{Introduction}
+\section{Introduction}
 
 In machine learning, SVM (Support Vector Machine) is a commonly used classfication method due to its high efficiency and accuracy. Recent years, the neural network has been attracting more and more attention, and also used to solve classification problems. In this homework, I would investigate the performances of SVM and neural network (e.g. MLP) on some classification datasets under different experimental settings (e.g. pass).
 
-\subsection{Methodology}
+\section{Methodology}
 
 In this section, I would introduce the datasets and models in my experiments.
 
-\subsubsection{Datasets}
+\subsection{Datasets}
 
 In my experiments, I use two datasets that are from \textbf{LIBSVM Data} \cite{dataA} to investigate the performances of SVM and neural network. One is \textbf{splice}, a binary classification dataset with 60 features, 1000 training samples and 2175 testing samples. Another is called \textbf{satimage}, which is for multi-class classification and has 36 features, 6 classes, 3104 training samples and 2000 testing samples.
 
@@ -73,32 +71,109 @@ Additionally, I choose a dataset called \textbf{ConvexNonConvex} from LISA \cite
 
 More details about these datasets can refer to Appendix \ref{apd:dataset}.
 
-\subsubsection{Models}
+\subsection{Models}
 
 For neural network, considering the complexity of features and scale of samples, I choose MLP (Multi-layer Perceptron) instead of popular DNN or CNN.
 
 \vspace{0.01\linewidth}
 In experiments, I would investigate the performances of MLP under different architectures or parameter settings (e.g. number of hidden layers or hidden neurons).
 
-\subsection{Experiments and Results}
+\section{Experiments and Results}
 
-\subsubsection{Preprocess}
+\subsection{Preprocess}
 
 Most datasets are likely to have missing data, and those in LIBSVM Data are no exception. Therefore, I first make up for the omission in the datasets, replacing empty data with corresponding mean values. Afterwards, I convert the labels from numbers to one-hot vectors for the calculation of loss.
 
-\subsection{SVM}
+\section{SVM}
+\label{sec:svm}
 
-\subsubsection{Binary Classification}
+In this section, I would show the performances of SVM in both \textit{splice} and \textit{satimage} datasets under different configurations (e.g. pass). Note that the two datasets have different problem settings, sample sizes and etc. I would thus conduct some pertinent discussion based on each experiment result.
 
-\subsubsection{Multi-class Classification}
+\subsection{Binary Classification}
 
-\subsection{Neural Network}
+\subsection{Multi-class Classification}
 
-\subsubsection{Binary Classification}
+\section{Neural Network}
 
-\subsubsection{Multi-class Classification}
+In this section, I would also show the performances of MLP in the two datasets under different configurations (e.g. optimization algorithms, network architectures). Similarly, I would analyze each result like Sec. \ref{sec:svm}.
 
-\subsection{Comparison Between SVM and Deep Learning Algorithm Benchmark}
+\subsection{Optimization Algorithm}
+
+\begin{figure}[H]
+	\centering
+	\subfigure[Splice-Training Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_optimizer_splice_tr.png}
+	}
+	\subfigure[Splice-Tetsing Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_optimizer_splice_t.png}
+	}
+	\subfigure[Satimage-Training Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_optimizer_sat_tr.png}
+	}
+	\subfigure[Satimage-Testing Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_optimizer_sat_t.png}
+	}
+	\caption{The performances of MLP under different optimization algorithms.}
+	\label{fig:mlp-optimizer}
+\end{figure}
+
+\subsection{Activation Function}
+
+\begin{figure}[H]
+	\centering
+	\subfigure[Splice-Training Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_activation_splice_tr.png}
+	}
+	\subfigure[Splice-Tetsing Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_activation_splice_t.png}
+	}
+	\subfigure[Satimage-Training Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_activation_sat_tr.png}
+	}
+	\subfigure[Satimage-Testing Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_activation_sat_t.png}
+	}
+	\caption{The performances of MLP under different activation functions.}
+	\label{fig:mlp-activation}
+\end{figure}
+
+\subsection{Learning Rate}
+
+\begin{figure}[H]
+	\centering
+	\subfigure[Splice]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_lr_splice.png}
+	}
+	\subfigure[Satimage]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_lr_sat.png}
+	}
+	\caption{The performances of MLP under different learning rate.}
+	\label{fig:mlp-lr}
+\end{figure}
+
+\subsection{Network Architecture}
+
+\subsection{Dimension of Features}
+
+\begin{figure}[H]
+	\centering
+	\subfigure[Splice-Training Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_dim_splice_tr.png}
+	}
+	\subfigure[Splice-Tetsing Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_dim_splice_t.png}
+	}
+	\subfigure[Satimage-Training Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_dim_sat_tr.png}
+	}
+	\subfigure[Satimage-Testing Set]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_dim_sat_t.png}
+	}
+	\caption{The performances of MLP under different dimensions of features.}
+	\label{fig:mlp-dim}
+\end{figure}
+
+\section{Comparison Between SVM and Deep Learning Algorithm Benchmark}
 
 \newpage
 \begin{appendix}
