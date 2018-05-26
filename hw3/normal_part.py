@@ -7,8 +7,8 @@ from sklearn.feature_selection import SelectKBest, f_classif, chi2, f_regression
 import numpy as np
 import matplotlib.pyplot as plt
 
-interval = 300
-max_iter = 300
+interval = 15
+max_iter = 150
 
 def pca(x):
     model = PCA(n_components=9)
@@ -43,7 +43,7 @@ def svm(data_name):
 
     for i in range(interval, max_iter + 1, interval):
         model = SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
-                decision_function_shape='ovr', degree=3, gamma='auto', kernel='linear',
+                decision_function_shape='ovr', degree=3, gamma='auto', kernel='rbf',
                 max_iter=i, probability=False, shrinking=True,
                 tol=0.001, verbose=False, random_state=666)
         model.fit(x_tr, y_tr)
@@ -318,6 +318,38 @@ def plot_s_penalty_sat():
     plt.savefig('report/img/svm_penalty_sat')
     plt.show()
 
+def plot_s_baseline():
+    x = list(range(interval, max_iter + 1, interval))
+    y_tr_splice = [0.659, 0.719, 0.821, 0.865, 0.894, 0.937, 0.952, 0.981, 0.989, 0.998]
+    y_tr_sat = [0.688, 0.685, 0.676, 0.715, 0.582, 0.624, 0.783, 0.823, 0.826, 0.828]
+    y_t_splice = [0.64, 0.7, 0.774, 0.783, 0.813, 0.844, 0.834, 0.869, 0.874, 0.887]
+    y_t_sat = [0.664, 0.682, 0.656, 0.707, 0.608, 0.63, 0.764, 0.795, 0.798, 0.804]
+
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y_tr_splice, color='#9999ff', linewidth=1.7, label='Training set')
+    ax.plot(x, y_t_splice, color='#ffa07a', linewidth=1.7, label='Testing set')
+    ax.scatter(x, y_tr_splice, s=13, c='#9999ff')
+    ax.scatter(x, y_t_splice, s=13, c='#ffa07a')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlabel('Iterations')
+    plt.ylabel('Accuracy')
+    plt.legend()
+    plt.savefig('report/img/svm_baseline_splice')
+    plt.show()
+
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y_tr_sat, color='#9999ff', linewidth=1.7, label='Training set')
+    ax.plot(x, y_t_sat, color='#ffa07a', linewidth=1.7, label='Testing set')
+    ax.scatter(x, y_tr_sat, s=13, c='#9999ff')
+    ax.scatter(x, y_t_sat, s=13, c='#ffa07a')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlabel('Iterations')
+    plt.ylabel('Accuracy')
+    plt.legend()
+    plt.savefig('report/img/svm_baseline_sat')
+    plt.show()
 ################################### SVM Part #####################################
 
 
@@ -346,7 +378,7 @@ def mlp(data_name):
         model = MLPClassifier(solver='adam', alpha=1e-3,
                     learning_rate_init=0.001, max_iter=i,
                     activation='relu',
-                    hidden_layer_sizes=(10, 10, 2), random_state=666)
+                    hidden_layer_sizes=(100,), random_state=666)
         model.fit(x_tr, y_tr)
 
         res_tr.append(round(model.score(x_tr, y_tr), 3))
@@ -798,6 +830,39 @@ def plot_archi_splice():
     plt.savefig('report/img/mlp_archi_splice_t')
     plt.show()
 
+def plot_baseline():
+    x = list(range(interval, max_iter + 1, interval))
+    y_tr_splice = [0.837, 0.861, 0.888, 0.9, 0.935, 0.947, 0.965, 0.981, 0.988, 0.995]
+    y_tr_sat = [0.834, 0.862, 0.879, 0.892, 0.899, 0.905, 0.913, 0.919, 0.924, 0.93]
+    y_t_splice = [0.828, 0.849, 0.857, 0.851, 0.867, 0.874, 0.883, 0.886, 0.887, 0.891]
+    y_t_sat = [0.816, 0.831, 0.838, 0.854, 0.862, 0.865, 0.868, 0.872, 0.872, 0.875]
+
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y_tr_splice, color='#9999ff', linewidth=1.7, label='Training set')
+    ax.plot(x, y_t_splice, color='#ffa07a', linewidth=1.7, label='Testing set')
+    ax.scatter(x, y_tr_splice, s=13, c='#9999ff')
+    ax.scatter(x, y_t_splice, s=13, c='#ffa07a')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlabel('Iterations')
+    plt.ylabel('Accuracy')
+    plt.legend()
+    plt.savefig('report/img/mlp_baseline_splice')
+    plt.show()
+
+    plt.figure(figsize=(6, 4))
+    ax = plt.gca()
+    ax.plot(x, y_tr_sat, color='#9999ff', linewidth=1.7, label='Training set')
+    ax.plot(x, y_t_sat, color='#ffa07a', linewidth=1.7, label='Testing set')
+    ax.scatter(x, y_tr_sat, s=13, c='#9999ff')
+    ax.scatter(x, y_t_sat, s=13, c='#ffa07a')
+    ax.grid(color='b', alpha=0.5, linestyle='dashed', linewidth=0.5)
+    plt.xlabel('Iterations')
+    plt.ylabel('Accuracy')
+    plt.legend()
+    plt.savefig('report/img/mlp_baseline_sat')
+    plt.show()
+
 ################################### MLP Part #####################################
 
 if __name__ == '__main__':
@@ -806,9 +871,9 @@ if __name__ == '__main__':
     ## MLP ##
     #mlp('satimage.scale')
     #mlp('splice')
-    #plot_archi_splice()
+    plot_baseline()
 
     ## SVM ##
     #svm('satimage.scale')
     #svm('splice')
-    plot_s_penalty_sat()
+    #plot_s_baseline()

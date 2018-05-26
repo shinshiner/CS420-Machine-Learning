@@ -84,11 +84,12 @@ In experiments, I would investigate the performances of MLP under different arch
 
 Most datasets are likely to have missing data, and those in LIBSVM Data are no exception. Therefore, I first make up for the omission in the datasets, replacing empty data with corresponding mean values. Afterwards, I convert the labels from numbers to one-hot vectors for the calculation of loss.
 
-\section{SVM}
+\subsection{SVM}
 \label{sec:svm}
 
 In this section, I would show the performances of SVM in both \textit{splice} and \textit{satimage} datasets under different configurations (e.g. pass). Note that the two datasets have different problem settings, sample sizes and etc. I would thus conduct some pertinent discussion based on each experiment result.
 
+\vspace{0.01\linewidth}
 Without special explanation, except for the target parameter, the experiments are based on default parameters of \textit{sklearn} \cite{sklearn} (a Python package for machine learning), which can refer to Tab. \ref{tab:default-para}.
 
 \begin{table}[H]
@@ -113,6 +114,7 @@ Without special explanation, except for the target parameter, the experiments ar
 		
 		\hline
 		
+		hidden\_layer\_sizes & the size of hidden layers & (100,) \\
 		activation & activation function for the hidden layer & relu \\
 		solver & the solver for weight optimization & adam \\
 		alpha & L2 penalty (regularization term) parameter & 0.0001 \\
@@ -124,8 +126,23 @@ Without special explanation, except for the target parameter, the experiments ar
 	\end{tabular}
 \end{table}
 
+With these default parameters, I train a baseline model as a reference (Fig. \ref{fig:svm-baseline}). According to the normal principle, I should measure the performance with f1-score, but I tend to make the results more intuitive and I use the \textbf{accuracy} of classification as the criterion.
 
-\subsection{Kernel}
+\begin{figure}[H]
+	\centering
+	\subfigure[Splice]{
+		\includegraphics[width=0.45\linewidth]{img/svm_baseline_splice.png}
+	}
+	\subfigure[Satimage]{
+		\includegraphics[width=0.45\linewidth]{img/svm_baseline_sat.png}
+	}
+	\caption{The baseline of SVM.}
+	\label{fig:svm-baseline}
+\end{figure}
+
+\subsubsection{Kernel}
+
+The ability of SVM might be constrainted when dealing with non-linear features, where kernel trick could resolve this issue. Nevertheless, a successful choice of kernel is still based on experience or luck. I apply several kernels to SVM and get the following results (Fig. \ref{fig:svm-kernel}).
 
 \begin{figure}[H]
 	\centering
@@ -144,6 +161,11 @@ Without special explanation, except for the target parameter, the experiments ar
 	\caption{The performances of SVM under different kernels.}
 	\label{fig:svm-kernel}
 \end{figure}
+
+It is apparent that the effect of these kernels differ greatly. Rbf (Radial Basis Function) kernel is best for \textit{splice} while no kernel function is the best choice for \textit{satimage}.
+
+\vspace{0.01\linewidth}
+Additionally, the selection of specific parameters of a kernel would also affect the results. I test polynomial kernel with different numbers of power, the test error can refer to Tab. \ref{tab:kernel-poly}.
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -168,9 +190,21 @@ Without special explanation, except for the target parameter, the experiments ar
 	\end{tabular}
 \end{table}
 
-\subsection{Penalty Parameter}
+\subsubsection{Penalty Parameter}
 
-\subsection{Dimension of Features}
+\begin{figure}[H]
+	\centering
+	\subfigure[Splice]{
+		\includegraphics[width=0.45\linewidth]{img/svm_penalty_splice.png}
+	}
+	\subfigure[Satimage]{
+		\includegraphics[width=0.45\linewidth]{img/svm_penalty_sat.png}
+	}
+	\caption{The performances of SVM under different penalty parameter $C$.}
+	\label{fig:svm-penalty}
+\end{figure}
+
+\subsubsection{Dimension of Features}
 
 \begin{figure}[H]
 	\centering
@@ -190,11 +224,23 @@ Without special explanation, except for the target parameter, the experiments ar
 	\label{fig:svm-dim}
 \end{figure}
 
-\section{Neural Network}
+\subsection{Neural Network}
 
 In this section, I would also show the performances of MLP in the two datasets under different configurations (e.g. optimization algorithms, network architectures). Similarly, I would analyze each result like Sec. \ref{sec:svm}.
 
-\subsection{Optimization Algorithm}
+\begin{figure}[H]
+	\centering
+	\subfigure[Splice]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_baseline_splice.png}
+	}
+	\subfigure[Satimage]{
+		\includegraphics[width=0.45\linewidth]{img/mlp_baseline_sat.png}
+	}
+	\caption{The baseline of MLP.}
+	\label{fig:mlp-baseline}
+\end{figure}
+
+\subsubsection{Optimization Algorithm}
 
 \begin{figure}[H]
 	\centering
@@ -214,7 +260,7 @@ In this section, I would also show the performances of MLP in the two datasets u
 	\label{fig:mlp-optimizer}
 \end{figure}
 
-\subsection{Activation Function}
+\subsubsection{Activation Function}
 
 \begin{figure}[H]
 	\centering
@@ -234,7 +280,7 @@ In this section, I would also show the performances of MLP in the two datasets u
 	\label{fig:mlp-activation}
 \end{figure}
 
-\subsection{Learning Rate}
+\subsubsection{Learning Rate}
 
 \begin{figure}[H]
 	\centering
@@ -248,7 +294,7 @@ In this section, I would also show the performances of MLP in the two datasets u
 	\label{fig:mlp-lr}
 \end{figure}
 
-\subsection{Network Architecture}
+\subsubsection{Network Architecture}
 
 \begin{figure}[H]
 	\centering
@@ -268,7 +314,7 @@ In this section, I would also show the performances of MLP in the two datasets u
 	\label{fig:mlp-archi}
 \end{figure}
 
-\subsection{Dimension of Features}
+\subsubsection{Dimension of Features}
 
 \begin{figure}[H]
 	\centering
