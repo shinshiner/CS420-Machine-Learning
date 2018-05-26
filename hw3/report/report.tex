@@ -91,7 +91,47 @@ In this section, I would show the performances of SVM in both \textit{splice} an
 
 \subsection{Kernel}
 
-\subsection{Multi-class Classification}
+\begin{figure}[H]
+	\centering
+	\subfigure[Splice-Training Set]{
+		\includegraphics[width=0.45\linewidth]{img/svm_kernel_splice_tr.png}
+	}
+	\subfigure[Splice-Tetsing Set]{
+		\includegraphics[width=0.45\linewidth]{img/svm_kernel_splice_t.png}
+	}
+	\subfigure[Satimage-Training Set]{
+		\includegraphics[width=0.45\linewidth]{img/svm_kernel_sat_tr.png}
+	}
+	\subfigure[Satimage-Testing Set]{
+		\includegraphics[width=0.45\linewidth]{img/svm_kernel_sat_t.png}
+	}
+	\caption{The performances of SVM under different kernels.}
+	\label{fig:svm-kernel}
+\end{figure}
+
+
+
+\subsection{Penalty Parameter}
+
+\subsection{Dimension of Features}
+
+\begin{figure}[H]
+	\centering
+	\subfigure[Splice-Training Set]{
+		\includegraphics[width=0.45\linewidth]{img/svm_dim_splice_tr.png}
+	}
+	\subfigure[Splice-Tetsing Set]{
+		\includegraphics[width=0.45\linewidth]{img/svm_dim_splice_t.png}
+	}
+	\subfigure[Satimage-Training Set]{
+		\includegraphics[width=0.45\linewidth]{img/svm_dim_sat_tr.png}
+	}
+	\subfigure[Satimage-Testing Set]{
+		\includegraphics[width=0.45\linewidth]{img/svm_dim_sat_t.png}
+	}
+	\caption{The performances of SVM under different dimensions of features.}
+	\label{fig:svm-dim}
+\end{figure}
 
 \section{Neural Network}
 
