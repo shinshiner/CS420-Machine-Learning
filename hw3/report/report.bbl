@@ -8,6 +8,9 @@
 ``Lisa.''
   \url{http://www.iro.umontreal.ca/~lisa/twiki/bin/view.cgi/Public/WebHome)}.
 
+\bibitem{sklearn}
+``scikit-learn.'' \url{http://scikit-learn.org/stable/}.
+
 \bibitem{splice}
 ``Molecular biology (splice-junction gene sequences) data set.''
   \url{http://archive.ics.uci.edu/ml/datasets/Molecular+Biology+%28Splice-junction+Gene+Sequences%29}.

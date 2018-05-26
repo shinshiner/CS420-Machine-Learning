@@ -7,8 +7,8 @@ from sklearn.feature_selection import SelectKBest, f_classif, chi2, f_regression
 import numpy as np
 import matplotlib.pyplot as plt
 
-interval = 15
-max_iter = 150
+interval = 300
+max_iter = 300
 
 def pca(x):
     model = PCA(n_components=9)
@@ -27,9 +27,9 @@ def select(x, y):
 ################################### SVM Part #####################################
 
 def svm(data_name):
-    x_tr = pca(np.load('data/' + data_name + '_feature.npy'))
+    x_tr = np.load('data/' + data_name + '_feature.npy')
     y_tr = np.load('data/' + data_name + '_target.npy')
-    x_t = pca(np.load('data/' + data_name + '.t_feature.npy'))
+    x_t = np.load('data/' + data_name + '.t_feature.npy')
     y_t = np.load('data/' + data_name + '.t_target.npy')
     if data_name == 'madelon':
         scaler = StandardScaler()
@@ -256,6 +256,66 @@ def plot_s_dim_sat():
     plt.ylabel('Accuracy')
     plt.legend()
     plt.savefig('report/img/svm_dim_sat_t')
+    plt.show()
+
+def plot_s_penalty_splice():
+    # model = SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
+    #             decision_function_shape='ovr', degree=3, gamma='auto', kernel='rbf',
+    #             max_iter=i, probability=False, shrinking=True,
+    #             tol=0.001, verbose=False, random_state=666)
+    x = [0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0]
+    y_tr = [0.853, 0.903, 0.961, 0.962, 0.962, 0.969, 0.99, 1.0, 1.0]
+    y_t = [0.736, 0.805, 0.874, 0.888, 0.893, 0.889, 0.897, 0.895, 0.897]
+
+    x_ax = np.arange(9) * 0.9
+    total_width, n = 0.75, 2
+    width = total_width / n
+    x_ax = x_ax - (total_width - width) / 2
+
+    plt.bar(x_ax, y_tr, width=width, facecolor='#9999ff', edgecolor='white', label='Training set')
+    plt.bar(x_ax + width, y_t, width=width, facecolor='#ffa07a', edgecolor='white', label='Testing set')
+    for x, y1, y2 in zip(x_ax, y_tr, y_t):
+        plt.text(x - 0.02, y1, '%.2f' % y1, ha='center', va='bottom')
+        plt.text(x + width + 0.075, y2, '%.2f' % y2, ha='center', va='bottom')
+
+    ax = plt.gca()
+    ax.set_xticks(x_ax + width / 2)
+    ax.set_xticklabels((0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0))
+    plt.xlabel('Penalty parameter')
+    plt.ylabel('Accuracy')
+    plt.ylim(0, 1.245)
+    plt.legend()
+    plt.savefig('report/img/svm_penalty_splice')
+    plt.show()
+
+def plot_s_penalty_sat():
+    # model = SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
+    #             decision_function_shape='ovr', degree=3, gamma='auto', kernel='rbf',
+    #             max_iter=i, probability=False, shrinking=True,
+    #             tol=0.001, verbose=False, random_state=666)
+    x = [0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0]
+    y_tr = [0.807, 0.829, 0.845, 0.854, 0.867, 0.87, 0.875, 0.88, 0.77]
+    y_t = [0.786, 0.808, 0.822, 0.826, 0.832, 0.832, 0.835, 0.829, 0.728]
+
+    x_ax = np.arange(9) * 0.9
+    total_width, n = 0.75, 2
+    width = total_width / n
+    x_ax = x_ax - (total_width - width) / 2
+
+    plt.bar(x_ax, y_tr, width=width, facecolor='#9999ff', edgecolor='white', label='Training set')
+    plt.bar(x_ax + width, y_t, width=width, facecolor='#ffa07a', edgecolor='white', label='Testing set')
+    for x, y1, y2 in zip(x_ax, y_tr, y_t):
+        plt.text(x - 0.04, y1, '%.2f' % y1, ha='center', va='bottom')
+        plt.text(x + width + 0.075, y2, '%.2f' % y2, ha='center', va='bottom')
+
+    ax = plt.gca()
+    ax.set_xticks(x_ax + width / 2)
+    ax.set_xticklabels((0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0))
+    plt.xlabel('Penalty parameter')
+    plt.ylabel('Accuracy')
+    plt.ylim(0, 1.1)
+    plt.legend()
+    plt.savefig('report/img/svm_penalty_sat')
     plt.show()
 
 ################################### SVM Part #####################################
@@ -751,4 +811,4 @@ if __name__ == '__main__':
     ## SVM ##
     #svm('satimage.scale')
     #svm('splice')
-    #plot_s_dim_sat()
+    plot_s_penalty_sat()

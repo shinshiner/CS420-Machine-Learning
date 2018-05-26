@@ -89,6 +89,42 @@ Most datasets are likely to have missing data, and those in LIBSVM Data are no e
 
 In this section, I would show the performances of SVM in both \textit{splice} and \textit{satimage} datasets under different configurations (e.g. pass). Note that the two datasets have different problem settings, sample sizes and etc. I would thus conduct some pertinent discussion based on each experiment result.
 
+Without special explanation, except for the target parameter, the experiments are based on default parameters of \textit{sklearn} \cite{sklearn} (a Python package for machine learning), which can refer to Tab. \ref{tab:default-para}.
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{Some important default parameters of the experiments}
+	\label{tab:default-para}
+	\centering
+	
+	\begin{tabular}{c|c|c}
+		\centering
+		Name & Meaning & Value \\
+		\hline
+		\hline
+		
+		C & penalty parameter of the error term & 1.0 \\
+		degree & degree of the polynomial kernel function & 3 \\
+		gamma & kernel coefficient for 'rbf', 'poly' and 'sigmoid' & 1/n\_features \\
+		coef0 & independent term in kernel function & 0.0 \\
+		shrinking & whether to use the shrinking heuristic & True \\
+		tol & tolerance for stopping criterion & 1e-3 \\
+		decision\_function\_shape & one-vs-rest or one-vs-one & ovr \\
+		
+		\hline
+		
+		activation & activation function for the hidden layer & relu \\
+		solver & the solver for weight optimization & adam \\
+		alpha & L2 penalty (regularization term) parameter & 0.0001 \\
+		batch\_size & size of minibatches for stochastic optimizers & min(200, n\_samples) \\
+		learning\_rate\_init & the initial learning rate used & 0.001 \\
+		power\_t & the exponent for inverse scaling learning rate & 0.5 \\
+		tol & tolerance for the optimization & 1e-4 \\
+		
+	\end{tabular}
+\end{table}
+
+
 \subsection{Kernel}
 
 \begin{figure}[H]
@@ -109,7 +145,28 @@ In this section, I would show the performances of SVM in both \textit{splice} an
 	\label{fig:svm-kernel}
 \end{figure}
 
-
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{The performances of polynomial kernel under different powers}
+	\label{tab:kernel-poly}
+	\centering
+	
+	\begin{tabular}{c|c|c}
+		\centering
+		Number of Power & Testing Error(Splice) & Testing Error(Satimage.scale) \\
+		\hline
+		
+		2 & 0.786 & 0.635 \\
+		3 & 0.857 & 0.666 \\
+		4 & 0.865 & 0.505 \\
+		5 & 0.871 & 0.554 \\
+		6 & 0.880 & 0.488 \\
+		7 & 0.874 & 0.512 \\
+		8 & 0.864 & 0.477 \\
+		9 & 0.867 & 0.528 \\
+		10 & 0.851 & 0.403 \\
+	\end{tabular}
+\end{table}
 
 \subsection{Penalty Parameter}
 
