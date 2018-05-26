@@ -162,7 +162,7 @@ The ability of SVM might be constrainted when dealing with non-linear features, 
 	\label{fig:svm-kernel}
 \end{figure}
 
-It is apparent that the effect of these kernels differ greatly. Rbf (Radial Basis Function) kernel is best for \textit{splice} while no kernel function is the best choice for \textit{satimage}.
+It is apparent that the effect of these kernels differ greatly. Rbf (Radial Basis Function) kernel is best for \textit{splice} while no kernel function is the best choice for \textit{satimage}. 
 
 \vspace{0.01\linewidth}
 Additionally, the selection of specific parameters of a kernel would also affect the results. I test polynomial kernel with different numbers of power, the test error can refer to Tab. \ref{tab:kernel-poly}.
@@ -175,7 +175,7 @@ Additionally, the selection of specific parameters of a kernel would also affect
 	
 	\begin{tabular}{c|c|c}
 		\centering
-		Number of Power & Testing Error(Splice) & Testing Error(Satimage.scale) \\
+		Number of Power & Testing Error(Splice) & Testing Error(Satimage) \\
 		\hline
 		
 		2 & 0.786 & 0.635 \\
@@ -189,6 +189,8 @@ Additionally, the selection of specific parameters of a kernel would also affect
 		10 & 0.851 & 0.403 \\
 	\end{tabular}
 \end{table}
+
+The 
 
 \subsubsection{Penalty Parameter}
 
