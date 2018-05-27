@@ -94,7 +94,7 @@ Without special explanation, except for the target parameter, the experiments ar
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
-	\caption{Some important default parameters of the experiments}
+	\caption{Some important default parameters of SVM experiments}
 	\label{tab:default-para}
 	\centering
 	
@@ -111,17 +111,6 @@ Without special explanation, except for the target parameter, the experiments ar
 		shrinking & whether to use the shrinking heuristic & True \\
 		tol & tolerance for stopping criterion & 1e-3 \\
 		decision\_function\_shape & one-vs-rest or one-vs-one & ovr \\
-		
-		\hline
-		
-		hidden\_layer\_sizes & the size of hidden layers & (100,) \\
-		activation & activation function for the hidden layer & relu \\
-		solver & the solver for weight optimization & adam \\
-		alpha & L2 penalty (regularization term) parameter & 0.0001 \\
-		batch\_size & size of minibatches for stochastic optimizers & min(200, n\_samples) \\
-		learning\_rate\_init & the initial learning rate used & 0.001 \\
-		power\_t & the exponent for inverse scaling learning rate & 0.5 \\
-		tol & tolerance for the optimization & 1e-4 \\
 		
 	\end{tabular}
 \end{table}
@@ -190,9 +179,11 @@ Additionally, the selection of specific parameters of a kernel would also affect
 	\end{tabular}
 \end{table}
 
-The 
+The trend reflected in the table is that higher power can reduce training error, but lead to more test error in the meantime. Still, the performance would also drop a lot in both training set and testing set when the power is too large. This result also proves the significance fo choosing the complexity of model properly.
 
 \subsubsection{Penalty Parameter}
+
+Although SVM would encounter difficulties on non-linear data, it can still handle slightly non-separable data via soft-margin technique (transforming the optimization object into $\dfrac{1}{2}w^Tw+C\sum\limits_{n=1}^{N}\xi_n$), where the penalty parameter $C$ is critical for classification performance. I have tried the $C$ of different orders of magnitudes, and the results can be found in Fig. \ref{fig:svm-penalty}.
 
 \begin{figure}[H]
 	\centering
@@ -206,7 +197,11 @@ The
 	\label{fig:svm-penalty}
 \end{figure}
 
+According to the results, the introduction of $C$ is sometimes beneficial to the classification. More specifically, proper $C$ could improve the performance of SVM while excessive $C$ might produce additional errors. In general, the circumstances might vary a little bit according to the data, where $C$ should be determined by large scale of experiments.
+
 \subsubsection{Dimension of Features}
+
+
 
 \begin{figure}[H]
 	\centering
@@ -228,7 +223,34 @@ The
 
 \subsection{Neural Network}
 
-In this section, I would also show the performances of MLP in the two datasets under different configurations (e.g. optimization algorithms, network architectures). Similarly, I would analyze each result like Sec. \ref{sec:svm}.
+In this section, I would also show the performances of MLP in the two datasets under different configurations (e.g. optimization algorithms, network architectures). In the meantime, I would also analyze each result concisely.
+
+\vspace{0.01\linewidth}
+Same as Sec. \ref{sec:svm}, I conduct the following experiments based on default parameters in \textit{sklearn}. Some important parameters are shown in Tab. \ref{tab:default-para-mlp} and the baseline model can refer to Fig. \ref{fig:mlp-baseline}.
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{Some important default parameters of MLP experiments}
+	\label{tab:default-para-mlp}
+	\centering
+	
+	\begin{tabular}{c|c|c}
+		\centering
+		Name & Meaning & Value \\
+		\hline
+		\hline
+		
+		hidden\_layer\_sizes & the size of hidden layers & (100,) \\
+		activation & activation function for the hidden layer & relu \\
+		solver & the solver for weight optimization & adam \\
+		alpha & L2 penalty (regularization term) parameter & 0.0001 \\
+		batch\_size & size of minibatches for stochastic optimizers & min(200, n\_samples) \\
+		learning\_rate\_init & the initial learning rate used & 0.001 \\
+		power\_t & the exponent for inverse scaling learning rate & 0.5 \\
+		tol & tolerance for the optimization & 1e-4 \\
+		
+	\end{tabular}
+\end{table}
 
 \begin{figure}[H]
 	\centering
