@@ -269,8 +269,9 @@ Same as Sec. \ref{sec:svm}, I conduct the following experiments based on default
 \end{figure}
 
 \subsubsection{Optimization Algorithm}
+\label{sec:optim}
 
-Optimization algorithms refer to a series algorithms used to update parameters of neural network (e.g. sgd, adam). The optimal direction and effect of these algorithms are quite different, Fig. \ref{fig:example} is a visual illustration.
+Optimization algorithms refer to a series algorithms used to update parameters of neural network (e.g. sgd, adam \cite{adam}). The optimal direction and effect of these algorithms are quite different, Fig. \ref{fig:example} is a visual illustration.
 
 \begin{figure}[H]
 	\centering
@@ -306,7 +307,7 @@ In brief, \textit{adam} algorithm could achieve satisfactory results in most cas
 
 \subsubsection{Activation Function}
 
-Activation function is an indispensable component of MLP. It introduces non-linear factors into MLP so that extends the scope MLP can represent. I compare the effects of 3 commonly used activation functions (relu, sigmoid and tanh) on two datasets (Fig. \ref{fig:mlp-activation}).
+Activation function is an indispensable component of MLP. It extends the scope MLP can represent with introducing non-linear factors into MLP. I compare the effects of 3 commonly used activation functions (\textbf{relu} \cite{relu}, \textbf{sigmoid} and \textbf{tanh}) on two datasets (Fig. \ref{fig:mlp-activation}).
 
 \begin{figure}[H]
 	\centering
@@ -325,6 +326,8 @@ Activation function is an indispensable component of MLP. It introduces non-line
 	\caption{The performances of MLP under different activation functions.}
 	\label{fig:mlp-activation}
 \end{figure}
+
+Similar to Sec. \ref{sec:optim}, the effects of different activation function are widely divergent, especially on \textit{satimage}. In most cases, \textit{relu} is undoubtedly the best choice. \textit{sigmoid} and \textit{tanh} could be applied to simple problems, their effects will be greatly reduced when confronted with complex problems.
 
 \subsubsection{Learning Rate}
 

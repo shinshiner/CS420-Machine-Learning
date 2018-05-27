@@ -11,9 +11,18 @@
 \bibitem{sklearn}
 ``scikit-learn.'' \url{http://scikit-learn.org/stable/}.
 
+\bibitem{adam}
+D.~Kingma and J.~Ba, ``Adam: A method for stochastic optimization,'' {\em arXiv
+  preprint arXiv:1412.6980}, 2014.
+
 \bibitem{optim_example}
 ``Cs231n: Convolutional neural networks for visual recognition.''
   \url{http://cs231n.github.io/neural-networks-3/}.
+
+\bibitem{relu}
+V.~Nair and G.~E. Hinton, ``Rectified linear units improve restricted boltzmann
+  machines,'' in {\em Proceedings of the 27th international conference on
+  machine learning (ICML-10)}, pp.~807--814, 2010.
 
 \bibitem{splice}
 ``Molecular biology (splice-junction gene sequences) data set.''
