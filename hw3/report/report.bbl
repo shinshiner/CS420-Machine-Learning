@@ -11,6 +11,10 @@
 \bibitem{sklearn}
 ``scikit-learn.'' \url{http://scikit-learn.org/stable/}.
 
+\bibitem{optim_example}
+``Cs231n: Convolutional neural networks for visual recognition.''
+  \url{http://cs231n.github.io/neural-networks-3/}.
+
 \bibitem{splice}
 ``Molecular biology (splice-junction gene sequences) data set.''
   \url{http://archive.ics.uci.edu/ml/datasets/Molecular+Biology+%28Splice-junction+Gene+Sequences%29}.

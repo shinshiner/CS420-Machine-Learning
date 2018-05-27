@@ -151,7 +151,7 @@ The ability of SVM might be constrainted when dealing with non-linear features, 
 	\label{fig:svm-kernel}
 \end{figure}
 
-It is apparent that the effect of these kernels differ greatly. Rbf (Radial Basis Function) kernel is best for \textit{splice} while no kernel function is the best choice for \textit{satimage}. 
+It is apparent that the effect of these kernels differ greatly. Rbf (Radial Basis Function) kernel is most suitable for \textit{splice} while no kernel function is the best choice for \textit{satimage}. 
 
 \vspace{0.01\linewidth}
 Additionally, the selection of specific parameters of a kernel would also affect the results. I test polynomial kernel with different numbers of power, the test error can refer to Tab. \ref{tab:kernel-poly}.
@@ -164,7 +164,7 @@ Additionally, the selection of specific parameters of a kernel would also affect
 	
 	\begin{tabular}{c|c|c}
 		\centering
-		Number of Power & Testing Error(Splice) & Testing Error(Satimage) \\
+		Number of Power & Testing Error (Splice) & Testing Error (Satimage) \\
 		\hline
 		
 		2 & 0.786 & 0.635 \\
@@ -221,6 +221,10 @@ According to the results, the introduction of $C$ is sometimes beneficial to the
 	\label{fig:svm-dim}
 \end{figure}
 
+\subsubsection{Summarization}
+
+SVM is a powerful tool for classification, which can achieve satisfactory results in both binary and multi-class classification problems. Meanwhile, SVM could take advantage of many tricks (e.g. soft-margin, kernel) to extend its application scope and improve its performance. If SVM is applied to small scale problems with appropriate configurations, it would perform quite well.
+
 \subsection{Neural Network}
 
 In this section, I would also show the performances of MLP in the two datasets under different configurations (e.g. optimization algorithms, network architectures). In the meantime, I would also analyze each result concisely.
@@ -266,6 +270,17 @@ Same as Sec. \ref{sec:svm}, I conduct the following experiments based on default
 
 \subsubsection{Optimization Algorithm}
 
+Optimization algorithms refer to a series algorithms used to update parameters of neural network (e.g. sgd, adam). The optimal direction and effect of these algorithms are quite different, Fig. \ref{fig:example} is a visual illustration.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.45\linewidth]{img/optim_example.png}
+	\caption{The visual illustration of optimization algorithms \cite{optim_example}.}
+	\label{fig:example}
+\end{figure}
+
+Since the performance of MLP is greatly influenced by the optimization algorithms, I tend to investigate it in detail. I test the effect of three typical algorithms: \textbf{lbfgs}, \textbf{sgd} and \textbf{adam}. The corresponding training processes are shown in Fig. \ref{fig:mlp-optimizer}.
+
 \begin{figure}[H]
 	\centering
 	\subfigure[Splice-Training Set]{
@@ -284,7 +299,14 @@ Same as Sec. \ref{sec:svm}, I conduct the following experiments based on default
 	\label{fig:mlp-optimizer}
 \end{figure}
 
+The results in two datasets are consistent with the theoretical analysis: the effect of optimization algorithms differ awfully. It seems that \textit{adam} achieves the best effect in both datasets (though \textit{lbfgs} has lower training error, it might encounter overfitting in \textit{splice}). In \textit{satimage}, the rest two algorithms have poor performance, \textit{lbfgs} even falls into the local minimum at the beginning of training.
+
+\vspace{0.01\linewidth}
+In brief, \textit{adam} algorithm could achieve satisfactory results in most cases, the optimization effect of \textit{sgd} is weaker and \textit{lbfgs} might be instable.
+
 \subsubsection{Activation Function}
+
+Activation function is an indispensable component of MLP. It introduces non-linear factors into MLP so that extends the scope MLP can represent. I compare the effects of 3 commonly used activation functions (relu, sigmoid and tanh) on two datasets (Fig. \ref{fig:mlp-activation}).
 
 \begin{figure}[H]
 	\centering
