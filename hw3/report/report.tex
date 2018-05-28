@@ -183,7 +183,7 @@ The trend reflected in the table is that higher power can reduce training error,
 
 \subsubsection{Penalty Parameter}
 
-Although SVM would encounter difficulties on non-linear data, it can still handle slightly non-separable data via soft-margin technique (transforming the optimization object into $\dfrac{1}{2}w^Tw+C\sum\limits_{n=1}^{N}\xi_n$), where the penalty parameter $C$ is critical for classification performance. I have tried the $C$ of different orders of magnitudes, and the results can be found in Fig. \ref{fig:svm-penalty}.
+Although SVM would encounter difficulties on non-linear data, it can still handle slightly non-separable data via soft-margin technique (transforming the optimization object into $\dfrac{1}{2}w^Tw+C\sum\limits_{n=1}^{N}\xi_n$), where the penalty parameter $C$ is critical for classification performance. I have tried the $C$ of different orders of magnitude, and the results can be found in Fig. \ref{fig:svm-penalty}.
 
 \begin{figure}[H]
 	\centering
@@ -331,6 +331,8 @@ Similar to Sec. \ref{sec:optim}, the effects of different activation function ar
 
 \subsubsection{Learning Rate}
 
+In training process, learning rate controls the speed of updating parameters. Researchers often pours quantities of time into adjusting learning rate due to its large effect to training results. I investigate the classification results on several orders of magnitude of learning rate (Fig. \ref{fig:mlp-lr}).
+
 \begin{figure}[H]
 	\centering
 	\subfigure[Splice]{
@@ -343,7 +345,11 @@ Similar to Sec. \ref{sec:optim}, the effects of different activation function ar
 	\label{fig:mlp-lr}
 \end{figure}
 
+According to above results, learning rates of 0.003 and 0.001 could provide best performance for MLP on \textit{splice} and \textit{satimage} respectively. Unfortunately, even the best results in Fig. \ref{fig:mlp-lr} have no improvement compared with baseline (Fig. \ref{fig:mlp-baseline}), this also illustrates the difficulty of learning rate adjustment.
+
 \subsubsection{Network Architecture}
+
+In addition to the above configuration factors, the network architecture of MLP also contributes a lot to final results. There are two simple changes to the network architecture: deepening the network and increasing the number of nuerons of each layer. I have tried several architectures based on these two changes (Fig. \ref{fig:mlp-archi}).
 
 \begin{figure}[H]
 	\centering
@@ -359,9 +365,11 @@ Similar to Sec. \ref{sec:optim}, the effects of different activation function ar
 	\subfigure[Satimage-Testing Set]{
 		\includegraphics[width=0.45\linewidth]{img/mlp_archi_sat_t.png}
 	}
-	\caption{The performances of MLP under different network architectures.}
+	\caption{The performances of MLP under different network architectures (the numbers in brackets indicate the number of neurons in each layer).}
 	\label{fig:mlp-archi}
 \end{figure}
+
+For a certain dataset, 
 
 \subsubsection{Dimension of Features}
 
