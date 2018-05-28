@@ -354,22 +354,26 @@ In addition to the above configuration factors, the network architecture of MLP 
 \begin{figure}[H]
 	\centering
 	\subfigure[Splice-Training Set]{
+		\label{fig:mlp-archi-a}
 		\includegraphics[width=0.45\linewidth]{img/mlp_archi_splice_tr.png}
 	}
 	\subfigure[Splice-Tetsing Set]{
+		\label{fig:mlp-archi-b}
 		\includegraphics[width=0.45\linewidth]{img/mlp_archi_splice_t.png}
 	}
 	\subfigure[Satimage-Training Set]{
+		\label{fig:mlp-archi-c}
 		\includegraphics[width=0.45\linewidth]{img/mlp_archi_sat_tr.png}
 	}
 	\subfigure[Satimage-Testing Set]{
+		\label{fig:mlp-archi-d}
 		\includegraphics[width=0.45\linewidth]{img/mlp_archi_sat_t.png}
 	}
 	\caption{The performances of MLP under different network architectures (the numbers in brackets indicate the number of neurons in each layer).}
 	\label{fig:mlp-archi}
 \end{figure}
 
-For a certain dataset, 
+For a certain dataset, appropriate architectures would be propitious to good performance, like red and yellow lines in Fig. \ref{fig:mlp-archi-b} and yellow line in Fig. \ref{fig:mlp-archi-d}. Otherwise, unsuitable architectures might crash the whole training process (blue line in Fig. \ref{fig:mlp-archi-b} and red line in Fig. \ref{fig:mlp-archi-d}).
 
 \subsubsection{Dimension of Features}
 
@@ -390,6 +394,10 @@ For a certain dataset,
 	\caption{The performances of MLP under different dimensions of features.}
 	\label{fig:mlp-dim}
 \end{figure}
+
+\subsubsection{Summarization}
+
+MLP is a common way for a variety of problems. It owns a broader representation ability compared with SVM and the baselines (Fig. \ref{fig:svm-baseline} and Fig. \ref{fig:mlp-baseline}) also 
 
 \section{Comparison Between SVM and Deep Learning Algorithm Benchmark}
 
