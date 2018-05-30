@@ -12,6 +12,8 @@ mnist_project/mnist/mnist_train/mnist_train_label
 mnist_project/mnist/mnist_test/mnist_test_data
 mnist_project/mnist/mnist_test/mnist_test_label
 hw3/data/convex/*
+hw3/data/cifar-10-batches-py/*
+hw3/data/cifar-10-python.tar.gz
 
 # C extensions
 *.so
