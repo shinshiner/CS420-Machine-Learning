@@ -15,9 +15,11 @@
 \BOOKMARK [3][-]{subsubsection.3.3.3}{Learning\040Rate}{subsection.3.3}% 15
 \BOOKMARK [3][-]{subsubsection.3.3.4}{Network\040Architecture}{subsection.3.3}% 16
 \BOOKMARK [3][-]{subsubsection.3.3.5}{Dimension\040of\040Features}{subsection.3.3}% 17
-\BOOKMARK [1][-]{section.4}{Comparison\040Between\040SVM\040and\040Deep\040Learning\040Algorithm\040Benchmark}{}% 18
-\BOOKMARK [1][-]{appendix.A}{Appendix}{}% 19
-\BOOKMARK [2][-]{subsection.A.1}{Details\040of\040Datasets\040in\040Experiments}{appendix.A}% 20
-\BOOKMARK [3][-]{subsubsection.A.1.1}{Splice\040splice}{subsection.A.1}% 21
-\BOOKMARK [3][-]{subsubsection.A.1.2}{Satimage\040satimage}{subsection.A.1}% 22
-\BOOKMARK [3][-]{subsubsection.A.1.3}{ConvexNonConvex\040convex}{subsection.A.1}% 23
+\BOOKMARK [3][-]{subsubsection.3.3.6}{Summarization}{subsection.3.3}% 18
+\BOOKMARK [1][-]{section.4}{Comparison\040Between\040SVM\040and\040Deep\040Learning\040Algorithm\040Benchmark}{}% 19
+\BOOKMARK [2][-]{subsection.4.1}{Kernel}{section.4}% 20
+\BOOKMARK [1][-]{appendix.A}{Appendix}{}% 21
+\BOOKMARK [2][-]{subsection.A.1}{Details\040of\040Datasets\040in\040Experiments}{appendix.A}% 22
+\BOOKMARK [3][-]{subsubsection.A.1.1}{Splice\040splice}{subsection.A.1}% 23
+\BOOKMARK [3][-]{subsubsection.A.1.2}{Satimage\040satimage}{subsection.A.1}% 24
+\BOOKMARK [3][-]{subsubsection.A.1.3}{CIFAR-10\040cifar-10}{subsection.A.1}% 25

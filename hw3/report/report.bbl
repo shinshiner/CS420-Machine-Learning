@@ -4,6 +4,17 @@
 ``Libsvm data: Classification, regression, and multi-label.''
   \url{https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/}.
 
+\bibitem{splice}
+``Molecular biology (splice-junction gene sequences) data set.''
+  \url{http://archive.ics.uci.edu/ml/datasets/Molecular+Biology+%28Splice-junction+Gene+Sequences%29}.
+
+\bibitem{satimage}
+``Statlog (landsat satellite) data set.''
+  \url{https://archive.ics.uci.edu/ml/datasets/Statlog+(Landsat+Satellite)}.
+
+\bibitem{cifar-10}
+``The cifar-10 dataset.'' \url{http://www.cs.utoronto.ca/~kriz/cifar.html}.
+
 \bibitem{dataB}
 ``Lisa.''
   \url{http://www.iro.umontreal.ca/~lisa/twiki/bin/view.cgi/Public/WebHome)}.
@@ -23,17 +34,5 @@ D.~Kingma and J.~Ba, ``Adam: A method for stochastic optimization,'' {\em arXiv
 V.~Nair and G.~E. Hinton, ``Rectified linear units improve restricted boltzmann
   machines,'' in {\em Proceedings of the 27th international conference on
   machine learning (ICML-10)}, pp.~807--814, 2010.
-
-\bibitem{splice}
-``Molecular biology (splice-junction gene sequences) data set.''
-  \url{http://archive.ics.uci.edu/ml/datasets/Molecular+Biology+%28Splice-junction+Gene+Sequences%29}.
-
-\bibitem{satimage}
-``Statlog (landsat satellite) data set.''
-  \url{https://archive.ics.uci.edu/ml/datasets/Statlog+(Landsat+Satellite)}.
-
-\bibitem{convex}
-``Convexnonconvex.''
-  \url{http://www.iro.umontreal.ca/~lisa/twiki/bin/view.cgi/Public/ConvexNonConvex}.
 
 \end{thebibliography}

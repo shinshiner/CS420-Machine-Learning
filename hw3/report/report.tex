@@ -65,9 +65,9 @@ In this section, I would introduce the datasets and models in my experiments.
 
 \subsection{Datasets}
 
-In my experiments, I use two datasets that are from \textbf{LIBSVM Data} \cite{dataA} to investigate the performances of SVM and neural network. One is \textbf{splice}, a binary classification dataset with 60 features, 1000 training samples and 2175 testing samples. Another is called \textbf{satimage}, which is for multi-class classification and has 36 features, 6 classes, 3104 training samples and 2000 testing samples.
+In my experiments, I use two datasets that are from \textbf{LIBSVM Data} \cite{dataA} to investigate the performances of SVM and neural network. One is \textbf{splice} \cite{splice}, a binary classification dataset with 60 features, 1000 training samples and 2175 testing samples. Another is called \textbf{satimage} \cite{satimage}, which is for multi-class classification and has 36 features, 6 classes, 3104 training samples and 2000 testing samples.
 
-Additionally, I choose a dataset called \textbf{ConvexNonConvex} from LISA \cite{dataB} to conduct comparison between SVM and deep learning algorithm benchmarks. It is a binary classification dataset that contains 784 features, 8000 training samples and 50000 testing samples.
+Additionally, I choose a dataset called \textbf{CIFAR-10} \cite{cifar-10} from LISA \cite{dataB} to conduct comparison between SVM and deep learning algorithm benchmarks. It is a multi-class classification dataset that contains 10 classes, $32 \times 32 \times 3 = 3072$ features, 50000 training samples (divided equally into 5 batches) and 10000 testing samples.
 
 More details about these datasets can refer to Appendix \ref{apd:dataset}.
 
@@ -154,17 +154,17 @@ The ability of SVM might be constrainted when dealing with non-linear features, 
 It is apparent that the effect of these kernels differ greatly. Rbf (Radial Basis Function) kernel is most suitable for \textit{splice} while no kernel function is the best choice for \textit{satimage}. 
 
 \vspace{0.01\linewidth}
-Additionally, the selection of specific parameters of a kernel would also affect the results. I test polynomial kernel with different numbers of power, the test error can refer to Tab. \ref{tab:kernel-poly}.
+Additionally, the selection of specific parameters of a kernel would also affect the results. I test polynomial kernel with different degrees, the test error can refer to Tab. \ref{tab:kernel-poly}.
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
-	\caption{The performances of polynomial kernel under different powers}
+	\caption{The performances of polynomial kernel under different degrees}
 	\label{tab:kernel-poly}
 	\centering
 	
 	\begin{tabular}{c|c|c}
 		\centering
-		Number of Power & Testing Error (Splice) & Testing Error (Satimage) \\
+		Degree & Test Error (Splice) & Test Error (Satimage) \\
 		\hline
 		
 		2 & 0.786 & 0.635 \\
@@ -179,7 +179,7 @@ Additionally, the selection of specific parameters of a kernel would also affect
 	\end{tabular}
 \end{table}
 
-The trend reflected in the table is that higher power can reduce training error, but lead to more test error in the meantime. Still, the performance would also drop a lot in both training set and testing set when the power is too large. This result also proves the significance fo choosing the complexity of model properly.
+The trend reflected in the table is that higher degree can reduce training error, but lead to more test error in the meantime. Still, the performance would also drop a lot in both training set and test set when the degree is too large. This result also proves the significance fo choosing the complexity of model properly.
 
 \subsubsection{Penalty Parameter}
 
@@ -397,9 +397,16 @@ For a certain dataset, appropriate architectures would be propitious to good per
 
 \subsubsection{Summarization}
 
-MLP is a common way for a variety of problems. It owns a broader representation ability compared with SVM and the baselines (Fig. \ref{fig:svm-baseline} and Fig. \ref{fig:mlp-baseline}) also 
+MLP is a common way for a variety of problems. It owns a broader representation ability and stability compared with SVM and the baselines (Fig. \ref{fig:svm-baseline} and Fig. \ref{fig:mlp-baseline}) also prove this. Still, an available MLP model often takes much time to finetune, even a small change on any one component might make a difference.
 
 \section{Comparison Between SVM and Deep Learning Algorithm Benchmark}
+
+In this section, I would show the application of SVM on CIFAR-10 dataset \cite{cifar-10} and compare the results to \href{https://code.google.com/archive/p/cuda-convnet/}{corresponding deep learning algorithm benchmark}. These results were obtained with a convolutional neural network. Briefly, they are 18\% test error without data augmentation and 11\% with.
+
+\vspace{0.01\linewidth}
+I first try SVM with default parameters of \textit{sklearn} on batch 1 of CIFAR-10 and get a terrible result (xxx training error and xxx test error). I infer that such result might be out of the high dimension of features and large scale of samples. Then I start to adjust the SVM to improve the baseline performance.
+
+\subsection{Kernel}
 
 \newpage
 \begin{appendix}
@@ -422,12 +429,13 @@ Satimage dataset is also called \textbf{satalog} dataset. It contains multi-spec
 \vspace{0.01\linewidth}
 As a classification dataset, the aim of satimage is to predict the classification, given the multi-spectral values. In the sample database, the class of a pixel is coded as a number.
 
-\subsubsection{ConvexNonConvex \cite{convex}}
+\subsubsection{CIFAR-10 \cite{cifar-10}}
 
-The ConvexNonConvex dataset consists of convex regions with pixels of value 255. Such regions are constructed via the intersection of a number of half-planes whose location and orientation were chosen uniformly at random. In the meanwhile, the number of half-planes is also sampled randomly according to a geometric distribution with parameter 0.195.
+The CIFAR-10 dataset is labeled subsets of the 80 million tiny images dataset, collected by Alex Krizhevsky, Vinod Nair, and Geoffrey Hinton. CIFAR-10 consists of 60000 $32 \times 32$ colour images (50000 for training (divided into 5 batches), 10000 for test) in 10 classes, with 6000 images per class.
+
 
 \vspace{0.01\linewidth}
-To ensure the validity of the data, a candidate convex image is rejected once there are less than 19 pixels in it.
+Note that the classes of CIFAR-10 are completely mutually exclusive and there is no overlap between two classes (e.g. automobiles and trucks).
 
 
 \end{appendix}
