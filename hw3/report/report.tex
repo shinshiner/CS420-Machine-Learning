@@ -396,22 +396,55 @@ For a certain dataset, appropriate architectures would be propitious to good per
 \end{figure}
 
 \subsubsection{Summarization}
+\label{sec:sum-mlp}
 
-MLP is a common way for a variety of problems. It owns a broader representation ability and stability compared with SVM and the baselines (Fig. \ref{fig:svm-baseline} and Fig. \ref{fig:mlp-baseline}) also prove this. Still, an available MLP model often takes much time to finetune, even a small change on any one component might make a difference.
+MLP is a common way for a variety of problems. It owns a broader representation ability and stability compared with SVM and the baselines (Fig. \ref{fig:svm-baseline} and Fig. \ref{fig:mlp-baseline}) also prove this. Still, an available MLP model often takes much time to finetune, even a small change on any one component might make a great difference.
 
 \section{Comparison Between SVM and Deep Learning Algorithm Benchmark}
 
-In this section, I would show the application of SVM on CIFAR-10 dataset \cite{cifar-10} and compare the results to \href{https://code.google.com/archive/p/cuda-convnet/}{corresponding deep learning algorithm benchmark}. These results were obtained with a convolutional neural network. Briefly, they are 18\% test error without data augmentation and 11\% with.
+In this section, I would show the application of SVM on CIFAR-10 dataset \cite{cifar-10} and compare the results to \href{https://code.google.com/archive/p/cuda-convnet/}{corresponding deep learning algorithm benchmark}. These results were obtained with a convolutional neural network. Briefly, the best of them is 18\% test error without data augmentation and 11\% with.
+
+\subsection{Baseline of SVM}
+\vspace{0.01\linewidth}
+I first try SVM with default parameters of \textit{sklearn} on CIFAR-10 and get a terrible result: 0.123 training error and 0.105 test error for about 6 minutes on INTEL I5-5200U. I infer that such result might be out of the high dimension of features and large scale of samples. Then I start to adjust the SVM to improve the baseline performance.
+
+\subsection{Finetune}
+
+\paragraph{1. Kernel}
 
 \vspace{0.01\linewidth}
-I first try SVM with default parameters of \textit{sklearn} on batch 1 of CIFAR-10 and get a terrible result (xxx training error and xxx test error). I infer that such result might be out of the high dimension of features and large scale of samples. Then I start to adjust the SVM to improve the baseline performance.
-
-\subsection{Kernel}
-
 Since the performance of SVM on CIFAR-10 is pretty poor, I think it is difficult to improving this just by adjusting numerical parameters. Therefore, I start with picking out the most appropriate kernel.
 
 \vspace{0.01\linewidth}
-I have tried 3 kinds of kernels on each batch of CIFAR-10 with 100 iterations and default parameters of \textit{sklearn}. The results can refer to Tab. \ref{tab:bonus-kernel}.
+I have tried 3 kinds of kernels on each batch of CIFAR-10 with 100 iterations (more iterations does not make any difference) and default parameters of \textit{sklearn}. The results can refer to Tab. \ref{tab:bonus-kernel}.
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{The performances of different kernels on CIFAR-10}
+	\label{tab:bonus-kernel}
+	\centering
+	
+	\begin{tabular}{c|c|c|c|c|c|c}
+		\centering
+		 & Batch 1 & Batch 2 & Batch 3 & Batch 4 & Batch 5 & All data \\
+		\hline
+		
+		RBF (training error) & 0.193 & 0.192 & 0.196 & 0.192 & 0.198 &  0.123 \\
+		RBF (test error) & 0.105 & 0.103 & 0.105 & 0.105 & 0.105 & 0.105 \\
+		Polynomial (training error) & 0.223 & 0.236 & 0.245 & 0.248 & &  \\
+		Polynomial (test error) & 0.209 & 0.218 & 0.213 & 0.229 & &  \\
+		Sigmoid (training error) & & & & & &  \\
+		Sigmoid (test error) & & & & & &  \\
+	\end{tabular}
+\end{table}
+
+As is shown in the above table, kernel achieve best performance.
+
+\paragraph{2. Parameters of xxx Kernel}
+
+\paragraph{3. Penalty Parameter}
+
+\subsection{Strengths and Weaknesses of SVM on Big Datasets}
 
 \newpage
 \begin{appendix}

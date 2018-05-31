@@ -17,9 +17,11 @@
 \BOOKMARK [3][-]{subsubsection.3.3.5}{Dimension\040of\040Features}{subsection.3.3}% 17
 \BOOKMARK [3][-]{subsubsection.3.3.6}{Summarization}{subsection.3.3}% 18
 \BOOKMARK [1][-]{section.4}{Comparison\040Between\040SVM\040and\040Deep\040Learning\040Algorithm\040Benchmark}{}% 19
-\BOOKMARK [2][-]{subsection.4.1}{Kernel}{section.4}% 20
-\BOOKMARK [1][-]{appendix.A}{Appendix}{}% 21
-\BOOKMARK [2][-]{subsection.A.1}{Details\040of\040Datasets\040in\040Experiments}{appendix.A}% 22
-\BOOKMARK [3][-]{subsubsection.A.1.1}{Splice\040splice}{subsection.A.1}% 23
-\BOOKMARK [3][-]{subsubsection.A.1.2}{Satimage\040satimage}{subsection.A.1}% 24
-\BOOKMARK [3][-]{subsubsection.A.1.3}{CIFAR-10\040cifar-10}{subsection.A.1}% 25
+\BOOKMARK [2][-]{subsection.4.1}{Baseline\040of\040SVM}{section.4}% 20
+\BOOKMARK [2][-]{subsection.4.2}{Finetune}{section.4}% 21
+\BOOKMARK [2][-]{subsection.4.3}{Strengths\040and\040Weaknesses\040of\040SVM\040on\040Big\040Datasets}{section.4}% 22
+\BOOKMARK [1][-]{appendix.A}{Appendix}{}% 23
+\BOOKMARK [2][-]{subsection.A.1}{Details\040of\040Datasets\040in\040Experiments}{appendix.A}% 24
+\BOOKMARK [3][-]{subsubsection.A.1.1}{Splice\040splice}{subsection.A.1}% 25
+\BOOKMARK [3][-]{subsubsection.A.1.2}{Satimage\040satimage}{subsection.A.1}% 26
+\BOOKMARK [3][-]{subsubsection.A.1.3}{CIFAR-10\040cifar-10}{subsection.A.1}% 27
