@@ -409,6 +409,7 @@ In this section, I would show the application of SVM on CIFAR-10 dataset \cite{c
 I first try SVM with default parameters of \textit{sklearn} on CIFAR-10 and get a terrible result: 0.123 training error and 0.105 test error for about 6 minutes on INTEL I5-5200U. I infer that such result might be out of the high dimension of features and large scale of samples. Then I start to adjust the SVM to improve the baseline performance.
 
 \subsection{Finetune}
+\label{sec:finetune}
 
 \paragraph{1. Kernel}
 
@@ -431,10 +432,10 @@ I have tried 3 kinds of kernels on each batch of CIFAR-10 with 100 iterations (m
 		
 		RBF (training error) & 0.193 & 0.192 & 0.196 & 0.192 & 0.198 &  0.123 \\
 		RBF (test error) & 0.105 & 0.103 & 0.105 & 0.105 & 0.105 & 0.105 \\
-		Polynomial (training error) & 0.223 & 0.236 & 0.245 & 0.248 & &  \\
-		Polynomial (test error) & 0.209 & 0.218 & 0.213 & 0.229 & &  \\
-		Sigmoid (training error) & & & & & &  \\
-		Sigmoid (test error) & & & & & &  \\
+		Polynomial (training error) & 0.223 & 0.236 & 0.245 & 0.248 & 0.244 & 0.170 \\
+		Polynomial (test error) & 0.209 & 0.218 & 0.213 & 0.229 & 0.228 & 0.172 \\
+		Sigmoid (training error) & 0.098 & 0.098 & & & &  \\
+		Sigmoid (test error) & 0.100 & 0.100 & & & &  \\
 	\end{tabular}
 \end{table}
 
@@ -444,7 +445,15 @@ As is shown in the above table, kernel achieve best performance.
 
 \paragraph{3. Penalty Parameter}
 
+Ultimately, I focus on finetuning penalty parameter $C$.
+
 \subsection{Strengths and Weaknesses of SVM on Big Datasets}
+
+According to the results in Sec. \ref{sec:finetune}, SVM perform poorly on a big dataset CIFAR-10. Note that the so-called 'big dataset' here refer to those datasets with more than tens of thousands of samples or thousands of features. In combination with the theoretical and experimental results, I think the weaknesses of SVM on big datasets consist of the following aspects:
+
+\begin{enumerate}
+	\item 1
+\end{enumerate}
 
 \newpage
 \begin{appendix}

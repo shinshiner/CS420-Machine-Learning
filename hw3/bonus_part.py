@@ -31,8 +31,8 @@ def merge_batches():
 
 
 def svm_bonus():
-    x_tr = np.load('data/cifar-10-batches-py/cifar10-data.npy')[40000:50000]
-    y_tr = np.load('data/cifar-10-batches-py/cifar10-labels.npy')[40000:50000]
+    x_tr = np.load('data/cifar-10-batches-py/cifar10-data.npy')[20000:30000]
+    y_tr = np.load('data/cifar-10-batches-py/cifar10-labels.npy')[20000:30000]
     x_t = np.load('data/cifar-10-batches-py/cifar10-data.t.npy')
     y_t = np.load('data/cifar-10-batches-py/cifar10-labels.t.npy')
 
@@ -48,7 +48,7 @@ def svm_bonus():
     t = time.time()
     for i in range(interval, max_iter + 1, interval):
         model = SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
-                    decision_function_shape='ovr', degree=3, gamma='auto', kernel='poly',
+                    decision_function_shape='ovr', degree=3, gamma='auto', kernel='sigmoid',
                     max_iter=i, probability=False, random_state=None, shrinking=True,
                     tol=0.001, verbose=False)
         model.fit(x_tr, y_tr)
