@@ -48,7 +48,7 @@ def svm_bonus():
     t = time.time()
     for i in range(interval, max_iter + 1, interval):
         model = SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
-                    decision_function_shape='ovr', degree=3, gamma='auto', kernel='sigmoid',
+                    decision_function_shape='ovr', degree=3, gamma='auto', kernel='linear',
                     max_iter=i, probability=False, random_state=None, shrinking=True,
                     tol=0.001, verbose=False)
         model.fit(x_tr, y_tr)
