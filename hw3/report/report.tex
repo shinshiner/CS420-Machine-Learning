@@ -411,6 +411,8 @@ I first try SVM with default parameters of \textit{sklearn} on CIFAR-10 and get 
 \subsection{Finetune}
 \label{sec:finetune}
 
+In this section, I would show the process of finetuning my SVM model. Due to the limited computer resources, I can hardly conduct comprehensive experiments. I tend to focus on the points I think is important.
+
 \paragraph{1. Kernel}
 
 \vspace{0.01\linewidth}
@@ -427,7 +429,7 @@ I have tried 3 kinds of kernels on each batch of CIFAR-10 with 100 iterations (m
 	
 	\begin{tabular}{c|c|c|c|c|c|c}
 		\centering
-		 & Batch 1 & Batch 2 & Batch 3 & Batch 4 & Batch 5 & All data \\
+		 & Batch 1 & Batch 2 & Batch 3 & Batch 4 & Batch 5 & Whole data \\
 		\hline
 		
 		RBF (training error) & 0.193 & 0.192 & 0.196 & 0.192 & 0.198 &  0.123 \\
@@ -436,18 +438,22 @@ I have tried 3 kinds of kernels on each batch of CIFAR-10 with 100 iterations (m
 		Polynomial (test error) & 0.209 & 0.218 & 0.213 & 0.229 & 0.228 & 0.172 \\
 		Sigmoid (training error) & 0.098 & 0.098 & 0.103 & 0.098 & 0.102 & 0.100 \\
 		Sigmoid (test error) & 0.100 & 0.100 & 0.100 & 0.100 & 0.100 & 0.100 \\
-		No kernel (training error) & 0.098 & 0.098 & 0.254 & 0.249 & 0.209 & 0.191 \\
-		No kernel (test error) & 0.098 & 0.098 & 0.240 & 0.223 & 0.186 & 0.180 \\
+		Linear kernel (training error) & 0.234 & 0.201 & 0.254 & 0.249 & 0.209 & 0.191 \\
+		Linear kernel (test error) & 0.218 & 0.184 & 0.240 & 0.223 & 0.186 & 0.180 \\
 	\end{tabular}
 \end{table}
 
-As is shown in the above table, kernel achieve best performance.
+As is shown in the above table, linear kernel achieves best performance, polynomial kernel is the next one and sigmoid kernel owns the worst performance.
 
-\paragraph{2. Parameters of xxx Kernel}
+\paragraph{2. Parameters of Polynomial Kernel}
+
+Since polynomial kernel has similar performance with linear kernel, and there exist few parameters in linear kernel, I tend to adjust the degree of polynomial kernel to obtain better performance.
 
 \paragraph{3. Penalty Parameter}
 
 Ultimately, I focus on finetuning penalty parameter $C$.
+
+\subsection{Final Result}
 
 \subsection{Strengths and Weaknesses of SVM on Big Datasets}
 
