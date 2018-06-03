@@ -49,7 +49,7 @@ def svm_bonus():
     t = time.time()
     for i in range(interval, max_iter + 1, interval):
         model = SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
-                    decision_function_shape='ovr', degree=5, gamma='auto', kernel='poly',
+                    decision_function_shape='ovr', degree=3, gamma=0.00006, kernel='rbf',
                     max_iter=i, probability=False, random_state=None, shrinking=True,
                     tol=0.001, verbose=False)
         model.fit(x_tr, y_tr)
@@ -64,8 +64,8 @@ def svm_bonus():
 
 def plot_poly_para():
     x = list(range(2, 9))
-    y_tr = [0.223, 0.200, ]
-    y_t = [0.209, 0.186, ]
+    y_tr = [0.259, 0.223, 0.200, 0.198, 0.218, 0.212, 0.176]
+    y_t = [0.232, 0.209, 0.186, 0.187, 0.201, 0.189, 0.16]
 
     plt.figure(figsize=(6, 4))
     ax = plt.gca()
