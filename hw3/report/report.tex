@@ -57,7 +57,7 @@ Zelin Ye 515030910468}}
 
 \section{Introduction}
 
-In machine learning, SVM (Support Vector Machine) is a commonly used classfication method due to its high efficiency and accuracy. Recent years, the neural network has been attracting more and more attention, and also used to solve classification problems. In this homework, I would investigate the performances of SVM and neural network (e.g. MLP) on some classification datasets under different experimental settings (e.g. pass).
+In machine learning, SVM (Support Vector Machine) is a commonly used classfication method due to its high efficiency and accuracy. Recent years, the neural network has been attracting more and more attention, and also used to solve classification problems. In this homework, I would investigate the performances of SVM and neural network (e.g. MLP) on some classification datasets under different experimental settings.
 
 \section{Methodology}
 
@@ -65,14 +65,19 @@ In this section, I would introduce the datasets and models in my experiments.
 
 \subsection{Datasets}
 
-In my experiments, I use two datasets that are from \textbf{LIBSVM Data} \cite{dataA} to investigate the performances of SVM and neural network. One is \textbf{splice} \cite{splice}, a binary classification dataset with 60 features, 1000 training samples and 2175 testing samples. Another is called \textbf{satimage} \cite{satimage}, which is for multi-class classification and has 36 features, 6 classes, 3104 training samples and 2000 testing samples.
+In my experiments, I use two datasets that are from \textbf{LIBSVM Data} \cite{dataA} to explore the performances of SVM and neural network. One is \textbf{splice} \cite{splice}, a binary classification dataset with 60 features, 1000 training samples and 2175 testing samples. Another is called \textbf{satimage} \cite{satimage}, which is for multi-class classification and has 36 features, 6 classes, 3104 training samples and 2000 testing samples.
 
+\vspace{0.01\linewidth}
 Additionally, I choose a dataset called \textbf{CIFAR-10} \cite{cifar-10} from LISA \cite{dataB} to conduct comparison between SVM and deep learning algorithm benchmarks. It is a multi-class classification dataset that contains 10 classes, $32 \times 32 \times 3 = 3072$ features, 50000 training samples (divided equally into 5 batches) and 10000 testing samples.
 
+\vspace{0.01\linewidth}
 More details about these datasets can refer to Appendix \ref{apd:dataset}.
 
 \subsection{Models}
 
+For SVM, I would explore its performance as comprehensive as possible from different parameter settings (e.g. kernels, penalty parameters).
+
+\vspace{0.01\linewidth}
 For neural network, considering the complexity of features and scale of samples, I choose MLP (Multi-layer Perceptron) instead of popular DNN or CNN.
 
 \vspace{0.01\linewidth}
@@ -82,12 +87,12 @@ In experiments, I would investigate the performances of MLP under different arch
 
 \subsection{Preprocess}
 
-Most datasets are likely to have missing data, and those in LIBSVM Data are no exception. Therefore, I first make up for the omission in the datasets, replacing empty data with corresponding mean values. Afterwards, I convert the labels from numbers to one-hot vectors for the calculation of loss.
+Most datasets are likely to have missing data, and those in LIBSVM Data are no exception. Therefore, I first make up for the omission in the datasets, replacing empty data with corresponding mean values. Afterwards, I convert the labels from numbers to one-hot vectors for the calculation of \textit{loss function}.
 
 \subsection{SVM}
 \label{sec:svm}
 
-In this section, I would show the performances of SVM in both \textit{splice} and \textit{satimage} datasets under different configurations (e.g. pass). Note that the two datasets have different problem settings, sample sizes and etc. I would thus conduct some pertinent discussion based on each experiment result.
+In this section, I would show the performances of SVM in both \textit{splice} and \textit{satimage} datasets under different configurations. Note that the two datasets have different problem settings, sample sizes and etc. I would thus conduct some pertinent discussion based on each experimental result.
 
 \vspace{0.01\linewidth}
 Without special explanation, except for the target parameter, the experiments are based on default parameters of \textit{sklearn} \cite{sklearn} (a Python package for machine learning), which can refer to Tab. \ref{tab:default-para}.
@@ -115,7 +120,7 @@ Without special explanation, except for the target parameter, the experiments ar
 	\end{tabular}
 \end{table}
 
-With these default parameters, I train a baseline model as a reference (Fig. \ref{fig:svm-baseline}). According to the normal principle, I should measure the performance with f1-score, but I tend to make the results more intuitive and I use the \textbf{accuracy} of classification as the criterion.
+With these default parameters, I train a baseline model as a reference (Fig. \ref{fig:svm-baseline}). According to the common principle, I should measure the performance with f1-score, but I tend to make the results more intuitive and I consider the \textbf{accuracy} of classification as the criterion.
 
 \begin{figure}[H]
 	\centering
@@ -179,11 +184,11 @@ Additionally, the selection of specific parameters of a kernel would also affect
 	\end{tabular}
 \end{table}
 
-The trend reflected in the table is that higher degree can reduce training error, but lead to more test error in the meantime. Still, the performance would also drop a lot in both training set and test set when the degree is too large. This result also proves the significance fo choosing the complexity of model properly.
+The trend reflected in the table is that higher degree can reduce training error, but lead to more test error in the meantime. Still, the performance would also drop a lot in both training set and test set when the degree is too large. This result also proves the significance of choosing the complexity of model properly.
 
 \subsubsection{Penalty Parameter}
 
-Although SVM would encounter difficulties on non-linear data, it can still handle slightly non-separable data via soft-margin technique (transforming the optimization object into $\dfrac{1}{2}w^Tw+C\sum\limits_{n=1}^{N}\xi_n$), where the penalty parameter $C$ is critical for classification performance. I have tried the $C$ of different orders of magnitude, and the results can be found in Fig. \ref{fig:svm-penalty}.
+Although SVM would encounter difficulties on non-linear data, it can still handle slightly non-separable data via soft-margin technique (transforming the optimization object into $\dfrac{1}{2}w^Tw+C\sum\limits_{n=1}^{N}\xi_n$), where the penalty parameter $C$ is critical for classification performance. I have tried the $C$ on different orders of magnitude, and the results can be found in Fig. \ref{fig:svm-penalty}.
 
 \begin{figure}[H]
 	\centering
@@ -202,7 +207,7 @@ According to the results, the introduction of $C$ is sometimes beneficial to the
 \subsubsection{Dimension of Features}
 \label{sec:pca}
 
-In some cases, the performance of a classification model might be reduced due to the redundant features in dataset. Therefore, I test the performance of SVM under different variance radios of features (Fig. \ref{fig:svm-dim}).
+In some cases, the performance of a classification model might be reduced due to the redundant features of the dataset. Therefore, I test the performances of SVM under different variance radios of features (Fig. \ref{fig:svm-dim}).
 
 \begin{figure}[H]
 	\centering
@@ -222,15 +227,15 @@ In some cases, the performance of a classification model might be reduced due to
 	\label{fig:svm-dim}
 \end{figure}
 
-This result indicates both of \textit{splice} and \textit{satimage} have few redundant features and less features 
+This result indicates both of \textit{splice} and \textit{satimage} have few redundant features, and less features lead to great performance reduction in testing set, namely affect the generalization ability.
 
 \subsubsection{Summarization}
 
-SVM is a powerful tool for classification, which can achieve satisfactory results in both binary and multi-class classification problems. Meanwhile, SVM could take advantage of many tricks (e.g. soft-margin, kernel) to extend its application scope and improve its performance. If SVM is applied to small scale problems with appropriate configurations, it would perform quite well.
+SVM is a powerful tool for classification, which can achieve satisfactory results in both binary and multi-class classification problems. Meanwhile, SVM could take advantages of many tricks (e.g. soft-margin, kernel) to extend its application scope and improve its performances. If SVM is applied to small scale problems with appropriate configurations, it would have a surprisingly performance.
 
 \subsection{Neural Network}
 
-In this section, I would also show the performances of MLP in the two datasets under different configurations (e.g. optimization algorithms, network architectures). In the meantime, I would also analyze each result concisely.
+In this section, I would also show the performances of MLP in \textit{splice} and \textit{satimage} under different configurations (e.g. optimization algorithms, network architectures). In the meantime, I would also analyze each result concisely. Note that MLP and neural network here are the same meaning. CNN might achieve better performances, but my computing resources can hardly afford it.
 
 \vspace{0.01\linewidth}
 Same as Sec. \ref{sec:svm}, I conduct the following experiments based on default parameters in \textit{sklearn}. Some important parameters are shown in Tab. \ref{tab:default-para-mlp} and the baseline model can refer to Fig. \ref{fig:mlp-baseline}.
@@ -274,7 +279,7 @@ Same as Sec. \ref{sec:svm}, I conduct the following experiments based on default
 \subsubsection{Optimization Algorithm}
 \label{sec:optim}
 
-Optimization algorithms refer to a series algorithms used to update parameters of neural network (e.g. sgd, adam \cite{adam}). The optimal direction and effect of these algorithms are quite different, Fig. \ref{fig:example} is a visual illustration.
+Optimization algorithms refer to a series algorithms used to update parameters of neural network (e.g. sgd, adam \cite{adam}). The optimal directions and the effects of these algorithms are quite different, Fig. \ref{fig:example} is a visual illustration.
 
 \begin{figure}[H]
 	\centering
@@ -283,7 +288,7 @@ Optimization algorithms refer to a series algorithms used to update parameters o
 	\label{fig:example}
 \end{figure}
 
-Since the performance of MLP is greatly influenced by the optimization algorithms, I tend to investigate it in detail. I test the effect of three typical algorithms: \textbf{lbfgs}, \textbf{sgd} and \textbf{adam}. The corresponding training processes are shown in Fig. \ref{fig:mlp-optimizer}.
+Since the performance of MLP is greatly influenced by the optimization algorithms, I tend to investigate it in detail. I test the effects of three typical algorithms: \textbf{lbfgs}, \textbf{sgd} and \textbf{adam}. The corresponding training processes are shown in Fig. \ref{fig:mlp-optimizer}.
 
 \begin{figure}[H]
 	\centering
@@ -303,14 +308,14 @@ Since the performance of MLP is greatly influenced by the optimization algorithm
 	\label{fig:mlp-optimizer}
 \end{figure}
 
-The results in two datasets are consistent with the theoretical analysis: the effect of optimization algorithms differ awfully. It seems that \textit{adam} achieves the best effect in both datasets (though \textit{lbfgs} has lower training error, it might encounter overfitting in \textit{splice}). In \textit{satimage}, the rest two algorithms have poor performance, \textit{lbfgs} even falls into the local minimum at the beginning of training.
+The results in two datasets are consistent with the theoretical analysis: the effect of optimization algorithms differ awfully. It seems that \textit{adam} achieves the best performance in both datasets (though \textit{lbfgs} has lower training error, it might encounter overfitting in \textit{splice}). In \textit{satimage}, the rest two algorithms have poor performance, \textit{lbfgs} even falls into a local minimum at the beginning of training.
 
 \vspace{0.01\linewidth}
 In brief, \textit{adam} algorithm could achieve satisfactory results in most cases, the optimization effect of \textit{sgd} is weaker and \textit{lbfgs} might be instable.
 
 \subsubsection{Activation Function}
 
-Activation function is an indispensable component of MLP. It extends the scope MLP can represent with introducing non-linear factors into MLP. I compare the effects of 3 commonly used activation functions (\textbf{relu} \cite{relu}, \textbf{sigmoid} and \textbf{tanh}) on two datasets (Fig. \ref{fig:mlp-activation}).
+Activation function is an indispensable component of MLP. It extends the scope that MLP can represent by introducing non-linear factors into MLP. I compare the effects of 3 commonly used activation functions (\textbf{relu} \cite{relu}, \textbf{sigmoid} and \textbf{tanh}) on the two datasets (Fig. \ref{fig:mlp-activation}).
 
 \begin{figure}[H]
 	\centering
@@ -330,11 +335,11 @@ Activation function is an indispensable component of MLP. It extends the scope M
 	\label{fig:mlp-activation}
 \end{figure}
 
-Similar to Sec. \ref{sec:optim}, the effects of different activation function are widely divergent, especially on \textit{satimage}. In most cases, \textit{relu} is undoubtedly the best choice. \textit{sigmoid} and \textit{tanh} could be applied to simple problems, their effects will be greatly reduced when confronted with complex problems.
+Similar to Sec. \ref{sec:optim}, the effects of different activation function are widely divergent, especially on \textit{satimage}. In most cases, \textit{relu} is undoubtedly the best choice. \textit{sigmoid} and \textit{tanh} could be applied to simple problems, their effects would be greatly reduced when confronted with complex problems.
 
 \subsubsection{Learning Rate}
 
-In training process, learning rate controls the speed of updating parameters. Researchers often pours quantities of time into adjusting learning rate due to its large effect to training results. I investigate the classification results on several orders of magnitude of learning rate (Fig. \ref{fig:mlp-lr}).
+In training process, learning rate controls the speed of parameters updating. Researchers often pours quantities of time into adjusting learning rate due to its large effect to training results. I investigate the classification results on several orders of magnitude of learning rate (Fig. \ref{fig:mlp-lr}).
 
 \begin{figure}[H]
 	\centering
@@ -348,11 +353,11 @@ In training process, learning rate controls the speed of updating parameters. Re
 	\label{fig:mlp-lr}
 \end{figure}
 
-According to above results, learning rates of 0.003 and 0.001 could provide best performance for MLP on \textit{splice} and \textit{satimage} respectively. Unfortunately, even the best results in Fig. \ref{fig:mlp-lr} have no improvement compared with baseline (Fig. \ref{fig:mlp-baseline}), this also illustrates the difficulty of learning rate adjustment.
+According to above results, learning rates of 0.003 and 0.001 could provide the best performances for MLP on \textit{splice} and \textit{satimage} respectively. Unfortunately, even the best results in Fig. \ref{fig:mlp-lr} have no improvement compared with baseline (Fig. \ref{fig:mlp-baseline}), this also illustrates the difficulty on choosing a appropriate learning rate.
 
 \subsubsection{Network Architecture}
 
-In addition to the above configuration factors, the network architecture of MLP also contributes a lot to final results. There are two simple changes to the network architecture: deepening the network and increasing the number of nuerons of each layer. I have tried several architectures based on these two changes (Fig. \ref{fig:mlp-archi}).
+In addition to the above configuration factors, the network architecture of MLP also contributes a lot to final results. There are two simple changes to the network architecture: deepening the network and increasing the number of neurons of each layer. I have tried several architectures based on these two changes (Fig. \ref{fig:mlp-archi}).
 
 \begin{figure}[H]
 	\centering
@@ -376,9 +381,11 @@ In addition to the above configuration factors, the network architecture of MLP 
 	\label{fig:mlp-archi}
 \end{figure}
 
-For a certain dataset, appropriate architectures would be propitious to good performance, like red and yellow lines in Fig. \ref{fig:mlp-archi-b} and yellow line in Fig. \ref{fig:mlp-archi-d}. Otherwise, unsuitable architectures might crash the whole training process (blue line in Fig. \ref{fig:mlp-archi-b} and red line in Fig. \ref{fig:mlp-archi-d}).
+For a certain dataset, appropriate architectures would bring about good performances, like red and yellow lines in Fig. \ref{fig:mlp-archi-b} and yellow line in Fig. \ref{fig:mlp-archi-d}. Otherwise, unsuitable architectures might crash the whole training process (blue line in Fig. \ref{fig:mlp-archi-b} and red line in Fig. \ref{fig:mlp-archi-d}).
 
 \subsubsection{Dimension of Features}
+
+Similar to Sec. \ref{sec:pca}, I also fit my MLP model under different variance radios of features (Fig. \ref{fig:mlp-dim}).
 
 \begin{figure}[H]
 	\centering
@@ -394,23 +401,25 @@ For a certain dataset, appropriate architectures would be propitious to good per
 	\subfigure[Satimage-Testing Set]{
 		\includegraphics[width=0.45\linewidth]{img/mlp_dim_sat_t.png}
 	}
-	\caption{The performances of MLP under different dimensions of features.}
+	\caption{The performances of MLP under different variance radios of features.}
 	\label{fig:mlp-dim}
 \end{figure}
+
+The above result has the same trend as that in Fig. \ref{fig:svm-dim}, which is reasonable due to the same datasets are used.
 
 \subsubsection{Summarization}
 \label{sec:sum-mlp}
 
 MLP is a common way for a variety of problems. It owns a broader representation ability and stability compared with SVM and the baselines (Fig. \ref{fig:svm-baseline} and Fig. \ref{fig:mlp-baseline}) also prove this. Still, an available MLP model often takes much time to finetune, even a small change on any one component might make a great difference.
 
-\section{Comparison Between SVM and Deep Learning Algorithm Benchmark}
+\section{Comparison Between SVM and Deep Learning Algorithm Benchmarks}
 
-In this section, I would show the application of SVM on CIFAR-10 dataset \cite{cifar-10} and compare the results to \href{https://code.google.com/archive/p/cuda-convnet/}{corresponding deep learning algorithm benchmark}. These results were obtained with a convolutional neural network. Briefly, the best of them is 18\% test error without data augmentation and 11\% with.
+In this section, I would show the application of SVM on CIFAR-10 dataset \cite{cifar-10} and compare the results to corresponding deep learning algorithm benchmarks. These results were obtained with convolutional neural networks or some other fancy network architectures.
 
 \subsection{Baseline of SVM}
 \vspace{0.01\linewidth}
 
-I first fit SVM with default parameters of \textit{sklearn} on CIFAR-10 and get a terrible result: 0.123 training error and 0.105 test error for about 6 minutes on INTEL I5-5200U. I infer that such result might be out of the high dimension of features and large scale of samples. Then I start to adjust the SVM to improve the baseline performance.
+I first fit SVM with default parameters of \textit{sklearn} on CIFAR-10 and get a terrible result: 0.123 training error and 0.105 test error for about 6 minutes on INTEL I5-5200U. I infer that such result might be out of the high dimension of features and large scale of samples. Then I start to adjust the SVM model to improve its performance.
 
 \subsection{Finetune}
 \label{sec:finetune}
@@ -452,10 +461,10 @@ As is shown in the above table, linear kernel achieves best performance, polynom
 
 \paragraph{2. Parameters of Rbf Kernel}
 
-Basically, rbf kernel ($K(x_i, x_j)=exp(-\gamma\|x_i-x_j\|^2), \gamma>0$) is the most commonly applied kernel function, linear kernel is just a special case of rbf kernel and sigmoid kernel tend to be similar with rbf kernel under some parameters. Compared with poly kernel, rbf kernel has less parameters to train and would reduce the difficulty of calculating.
+Basically, rbf kernel ($K(x_i, x_j)=exp(-\gamma\|x_i-x_j\|^2), \gamma>0$) is the most commonly applied kernel function, linear kernel is just a special case of rbf kernel and sigmoid kernel tend to be similar with rbf kernel under some special parameters. Compared with poly kernel, rbf kernel has less parameters to train and would reduce the difficulty of calculating.
 
 \vspace{0.01\linewidth}
-In consideration of the above factors, I decide to adjust the $\gamma$ of rbf kernel to obtain a better performance (Tab. \ref{tab:rbf-para}), the default value is the $1/number of features$, namely $1/3072=0.0003$.\footnote{The parameters adjustments on other kernels can refer to Appendix \ref{apd:para-adj}.}
+In consideration of the above factors, I decide to adjust the $\gamma$ of rbf kernel to obtain a better performance (Tab. \ref{tab:rbf-para}), the default value is the $1/numberOfFeatures$, namely $1/3072=0.0003$.\footnote{The parameters adjustments on other kernels can refer to Appendix \ref{apd:para-adj}.}
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -469,6 +478,9 @@ In consideration of the above factors, I decide to adjust the $\gamma$ of rbf ke
 		\hline
 		\hline
 		
+		$3 \times 10^{-7}$ & 0.411 & 0.318 \\
+		$3 \times 10^{-7}$ & 0.464 & 0.330 \\
+		$6 \times 10^{-7}$ & 0.470 & 0.304 \\
 		$1 \times 10^{-6}$ & 0.466 & 0.282 \\
 		$3 \times 10^{-6}$ & 0.423 & 0.229 \\
 		$6 \times 10^{-6}$ & 0.404 & 0.233 \\
@@ -521,6 +533,7 @@ Based on the above results, I infer that the most appropriate $C$ for SVM on CIF
 \end{table}
 
 \subsection{Final Result}
+\label{sec:final_res}
 
 So far, I have got a relatively good SVM model, then I compare it with some deep learning algorithm benchmarks \cite{bench} (Tab. \ref{tab:res}). To give full play to the performance of SVM, I also conduct some preprocessing methods.
 
@@ -557,11 +570,19 @@ So far, I have got a relatively good SVM model, then I compare it with some deep
 
 \subsection{Strengths and Weaknesses of SVM on Big Datasets}
 
-According to the results in Sec. \ref{sec:finetune}, SVM perform poorly on a big dataset CIFAR-10. Note that the so-called 'big dataset' here refer to those datasets with more than tens of thousands of samples or thousands of features. In combination with the theoretical and experimental results, I think the weaknesses of SVM on big datasets consist of the following aspects:
+According to the results in Sec. \ref{sec:finetune} and Sec. \ref{sec:final_res}, SVM performs poorly on a big dataset CIFAR-10. Note that the so-called 'big dataset' here refer to those datasets with more than 10,000 samples or 1,000 features. In combination with the theoretical and experimental results, I think the weaknesses of SVM on big datasets consist of the following aspects:
 
 \begin{enumerate}
 	\item 1
 \end{enumerate}
+
+Although SVM has the above weaknesses on big datasets, it also owns some unique strengths:
+
+\begin{enumerate}
+	\item 1
+\end{enumerate}
+
+In conclusion, SVM is a flexible and high-performanced model in small or medium datasets, where SVM can achieve similar performances to neural network (e.g. MLP). However, SVM is inappropriate for big datasets, where its weaknesses might conceal its strengths in most cases.
 
 \newpage
 \begin{appendix}

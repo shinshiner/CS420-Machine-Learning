@@ -54,18 +54,21 @@ def svm_bonus():
     res_t = []
     print('start to training')
     t = time.time()
-    for i in range(interval, max_iter + 1, interval):
-        model = SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
-                    decision_function_shape='ovr', degree=3, gamma=0.000001, kernel='rbf',
-                    max_iter=i, probability=False, random_state=None, shrinking=True,
-                    tol=0.001, verbose=False)
-        model.fit(x_tr, y_tr)
-        print('finish training, spending %.4f seconds' % (time.time() - t))
+    tmpl = [11.0, 12.0, 13.0, 14.0, 15.0]
+    #tmpl = [0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0]
+    for tmp in tmpl:
+        for i in range(interval, max_iter + 1, interval):
+            model = SVC(C=tmp, cache_size=200, class_weight=None, coef0=0.0,
+                        decision_function_shape='ovr', degree=3, gamma=0.0000003, kernel='rbf',
+                        max_iter=i, probability=False, random_state=666, shrinking=True,
+                        tol=0.001, verbose=False)
+            model.fit(x_tr, y_tr)
+            print('finish training, spending %.4f seconds' % (time.time() - t))
 
-        res_tr.append(round(model.score(x_tr, y_tr), 3))
-        res_t.append(round(model.score(x_t, y_t), 3))
-        # print(model.score(x_tr, y_tr))
-        # print(model.score(x_t, y_t))
+            res_tr.append(round(model.score(x_tr, y_tr), 3))
+            res_t.append(round(model.score(x_t, y_t), 3))
+            # print(model.score(x_tr, y_tr))
+            # print(model.score(x_t, y_t))
     print('train: ', res_tr)
     print('test: ', res_t)
 
@@ -89,8 +92,8 @@ def plot_poly_para():
 
 def plot_penalty():
     x = [0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0]
-    y_tr = [0.331, 0.328, 0.337, 0.344, 0.343, 0.356, 0.344, 0.201, 0.201]
-    y_t = [0.241, 0.235, 0.241, 0.248, 0.243, 0.255, 0.242, 0.118, 0.118]
+    y_tr = [0.328, 0.34, 0.392, 0.41, 0.473, 0.473, 0.464, 0.48, 0.484]
+    y_t = [0.276, 0.283, 0.316, 0.318, 0.347, 0.334, 0.33, 0.336, 0.338]
 
     x_ax = np.arange(9) * 0.9
     total_width, n = 0.75, 2
