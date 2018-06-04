@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{dataA}
 ``Libsvm data: Classification, regression, and multi-label.''
@@ -34,5 +34,52 @@ D.~Kingma and J.~Ba, ``Adam: A method for stochastic optimization,'' {\em arXiv
 V.~Nair and G.~E. Hinton, ``Rectified linear units improve restricted boltzmann
   machines,'' in {\em Proceedings of the 27th international conference on
   machine learning (ICML-10)}, pp.~807--814, 2010.
+
+\bibitem{bench}
+``Classification datasets results.''
+  \url{http://rodrigob.github.io/are_we_there_yet/build/classification_datasets_results.html}.
+
+\bibitem{bench2}
+B.~Graham, ``Fractional max-pooling,'' {\em arXiv preprint arXiv:1412.6071},
+  2014.
+
+\bibitem{bench10}
+B.~Graham, ``Spatially-sparse convolutional neural networks,'' {\em arXiv
+  preprint arXiv:1409.6070}, 2014.
+
+\bibitem{bench3}
+J.-R. Chang and Y.-S. Chen, ``Batch-normalized maxout network in network,''
+  {\em arXiv preprint arXiv:1511.02583}, 2015.
+
+\bibitem{bench4}
+M.~Lin, Q.~Chen, and S.~Yan, ``Network in network,'' {\em arXiv preprint
+  arXiv:1312.4400}, 2013.
+
+\bibitem{bench5}
+I.~J. Goodfellow, D.~Warde-Farley, M.~Mirza, A.~Courville, and Y.~Bengio,
+  ``Maxout networks,'' {\em arXiv preprint arXiv:1302.4389}, 2013.
+
+\bibitem{bench1}
+``cuda-convnet.'' \url{https://code.google.com/archive/p/cuda-convnet/}.
+
+\bibitem{bench6}
+D.~Ciregan, U.~Meier, and J.~Schmidhuber, ``Multi-column deep neural networks
+  for image classification,'' in {\em Computer vision and pattern recognition
+  (CVPR), 2012 IEEE conference on}, pp.~3642--3649, IEEE, 2012.
+
+\bibitem{bench9}
+F.~Visin, K.~Kastner, K.~Cho, M.~Matteucci, A.~Courville, and Y.~Bengio,
+  ``Renet: A recurrent neural network based alternative to convolutional
+  networks,'' {\em arXiv preprint arXiv:1505.00393}, 2015.
+
+\bibitem{bench7}
+J.~Mairal, P.~Koniusz, Z.~Harchaoui, and C.~Schmid, ``Convolutional kernel
+  networks,'' in {\em Advances in neural information processing systems},
+  pp.~2627--2635, 2014.
+
+\bibitem{bench8}
+T.-H. Chan, K.~Jia, S.~Gao, J.~Lu, Z.~Zeng, and Y.~Ma, ``Pcanet: A simple deep
+  learning baseline for image classification?,'' {\em IEEE Transactions on
+  Image Processing}, vol.~24, no.~12, pp.~5017--5032, 2015.
 
 \end{thebibliography}

@@ -43,9 +43,10 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Penalty Parameter}{4}{subsubsection.3.2.2}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The performances of SVM under different penalty parameter $C$.\relax }}{4}{figure.caption.5}}
 \newlabel{fig:svm-penalty}{{3}{4}{The performances of SVM under different penalty parameter $C$.\relax }{figure.caption.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Dimension of Features}{5}{subsubsection.3.2.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The performances of SVM under different dimensions of features.\relax }}{5}{figure.caption.6}}
-\newlabel{fig:svm-dim}{{4}{5}{The performances of SVM under different dimensions of features.\relax }{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Dimension of Features}{4}{subsubsection.3.2.3}}
+\newlabel{sec:pca}{{3.2.3}{4}{Dimension of Features}{subsubsection.3.2.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The performances of SVM under different variance radios of features.\relax }}{5}{figure.caption.6}}
+\newlabel{fig:svm-dim}{{4}{5}{The performances of SVM under different variance radios of features.\relax }{figure.caption.6}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}Summarization}{5}{subsubsection.3.2.4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Neural Network}{5}{subsection.3.3}}
 \citation{adam}
@@ -93,27 +94,44 @@
 \@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces The performances of different kernels on CIFAR-10\relax }}{12}{table.caption.16}}
 \newlabel{tab:bonus-kernel}{{4}{12}{The performances of different kernels on CIFAR-10\relax }{table.caption.16}{}}
 \@writefile{toc}{\contentsline {paragraph}{2. Parameters of Rbf Kernel}{12}{section*.17}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces The performances of different kernels on CIFAR-10\relax }}{12}{table.caption.18}}
-\newlabel{tab:rbf-para}{{5}{12}{The performances of different kernels on CIFAR-10\relax }{table.caption.18}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces The performances of different kernels on CIFAR-10 (Considering the limited computing resources, I treat the performance on batch 1 as a representation of that in whole data)\relax }}{13}{table.caption.18}}
+\newlabel{tab:rbf-para}{{5}{13}{The performances of different kernels on CIFAR-10 (Considering the limited computing resources, I treat the performance on batch 1 as a representation of that in whole data)\relax }{table.caption.18}{}}
 \@writefile{toc}{\contentsline {paragraph}{3. Penalty Parameter}{13}{section*.19}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Final Result}{13}{subsection.4.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Strengths and Weaknesses of SVM on Big Datasets}{13}{subsection.4.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces The performances of SVM model under different penalty parameters.\relax }}{13}{figure.caption.20}}
+\newlabel{fig:penalty-para}{{12}{13}{The performances of SVM model under different penalty parameters.\relax }{figure.caption.20}{}}
+\citation{bench}
+\citation{bench2}
+\citation{bench10}
+\citation{bench3}
+\citation{bench4}
+\citation{bench5}
+\citation{bench1}
+\citation{bench6}
+\citation{bench9}
+\citation{bench7}
+\citation{bench8}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces The performances of different penalty parameters $C$ on CIFAR-10\relax }}{14}{table.caption.21}}
+\newlabel{tab:penalty-para}{{6}{14}{The performances of different penalty parameters $C$ on CIFAR-10\relax }{table.caption.21}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Final Result}{14}{subsection.4.3}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces The comparisons between SVM and deep learning algorithm benchmarks\relax }}{14}{table.caption.22}}
+\newlabel{tab:res}{{7}{14}{The comparisons between SVM and deep learning algorithm benchmarks\relax }{table.caption.22}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Strengths and Weaknesses of SVM on Big Datasets}{14}{subsection.4.4}}
 \citation{splice}
 \citation{satimage}
 \citation{cifar-10}
 \bibstyle{ieeetr}
 \bibdata{bio}
 \bibcite{dataA}{1}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Appendix}{14}{appendix.A}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Details of Datasets in Experiments}{14}{subsection.A.1}}
-\newlabel{apd:dataset}{{A.1}{14}{Details of Datasets in Experiments}{subsection.A.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.1}Splice \cite  {splice}}{14}{subsubsection.A.1.1}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.2}Satimage \cite  {satimage}}{14}{subsubsection.A.1.2}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.3}CIFAR-10 \cite  {cifar-10}}{14}{subsubsection.A.1.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}The Parameters Adjustments of Kernels.}{14}{subsection.A.2}}
-\newlabel{apd:para-adj}{{A.2}{14}{The Parameters Adjustments of Kernels}{subsection.A.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces The performances of polynomial kernel under different degrees.\relax }}{14}{figure.caption.20}}
-\newlabel{fig:para-adj-poly}{{12}{14}{The performances of polynomial kernel under different degrees.\relax }{figure.caption.20}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Appendix}{16}{appendix.A}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Details of Datasets in Experiments}{16}{subsection.A.1}}
+\newlabel{apd:dataset}{{A.1}{16}{Details of Datasets in Experiments}{subsection.A.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.1}Splice \cite  {splice}}{16}{subsubsection.A.1.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.2}Satimage \cite  {satimage}}{16}{subsubsection.A.1.2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {A.1.3}CIFAR-10 \cite  {cifar-10}}{16}{subsubsection.A.1.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}The Parameters Adjustments of Kernels.}{16}{subsection.A.2}}
+\newlabel{apd:para-adj}{{A.2}{16}{The Parameters Adjustments of Kernels}{subsection.A.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces The performances of polynomial kernel under different degrees.\relax }}{16}{figure.caption.23}}
+\newlabel{fig:para-adj-poly}{{13}{16}{The performances of polynomial kernel under different degrees.\relax }{figure.caption.23}{}}
 \bibcite{splice}{2}
 \bibcite{satimage}{3}
 \bibcite{cifar-10}{4}
@@ -122,3 +140,14 @@
 \bibcite{adam}{7}
 \bibcite{optim_example}{8}
 \bibcite{relu}{9}
+\bibcite{bench}{10}
+\bibcite{bench2}{11}
+\bibcite{bench10}{12}
+\bibcite{bench3}{13}
+\bibcite{bench4}{14}
+\bibcite{bench5}{15}
+\bibcite{bench1}{16}
+\bibcite{bench6}{17}
+\bibcite{bench9}{18}
+\bibcite{bench7}{19}
+\bibcite{bench8}{20}

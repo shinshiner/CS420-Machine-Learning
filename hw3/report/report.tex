@@ -200,8 +200,9 @@ Although SVM would encounter difficulties on non-linear data, it can still handl
 According to the results, the introduction of $C$ is sometimes beneficial to the classification. More specifically, proper $C$ could improve the performance of SVM while excessive $C$ might produce additional errors. In general, the circumstances might vary a little bit according to the data, where $C$ should be determined by large scale of experiments.
 
 \subsubsection{Dimension of Features}
+\label{sec:pca}
 
-
+In some cases, the performance of a classification model might be reduced due to the redundant features in dataset. Therefore, I test the performance of SVM under different variance radios of features (Fig. \ref{fig:svm-dim}).
 
 \begin{figure}[H]
 	\centering
@@ -217,9 +218,11 @@ According to the results, the introduction of $C$ is sometimes beneficial to the
 	\subfigure[Satimage-Testing Set]{
 		\includegraphics[width=0.45\linewidth]{img/svm_dim_sat_t.png}
 	}
-	\caption{The performances of SVM under different dimensions of features.}
+	\caption{The performances of SVM under different variance radios of features.}
 	\label{fig:svm-dim}
 \end{figure}
+
+This result indicates both of \textit{splice} and \textit{satimage} have few redundant features and less features 
 
 \subsubsection{Summarization}
 
@@ -456,29 +459,101 @@ In consideration of the above factors, I decide to adjust the $\gamma$ of rbf ke
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
-	\caption{The performances of different kernels on CIFAR-10}
+	\caption{The performances of different kernels on CIFAR-10 (Considering the limited computing resources, I treat the performance on batch 1 as a representation of that in whole data)}
 	\label{tab:rbf-para}
 	\centering
 	
 	\begin{tabular}{c|c|c}
 		\centering
-		The value of $\gamma$ & Training error on batch 1& Test error on batch 1 \\
+		The value of $\gamma$ & Training error on batch 1 & Test error on batch 1 \\
 		\hline
 		\hline
 		
-		0.00006 & & \\
-		0.0001 & 0.309 & 0.227 \\
-		0.0003 & 0.193 & 0.105 \\
-		0.001 & 0.188 & 0.100 \\
-		0.003 & 0.188 & 0.100 \\
+		$1 \times 10^{-6}$ & 0.466 & 0.282 \\
+		$3 \times 10^{-6}$ & 0.423 & 0.229 \\
+		$6 \times 10^{-6}$ & 0.404 & 0.233 \\
+		$1 \times 10^{-5}$ & 0.344 & 0.242 \\
+		$3 \times 10^{-5}$ & 0.320 & 0.239 \\
+		$6 \times 10^{-5}$ & 0.319 & 0.238 \\
+		$1 \times 10^{-4}$ & 0.309 & 0.227 \\
+		$3 \times 10^{-4}$ & 0.193 & 0.105 \\
+		$1 \times 10^{-3}$ & 0.188 & 0.100 \\
+		$3 \times 10^{-3}$ & 0.188 & 0.100 \\
+		$6 \times 10^{-3}$ & 0.188 & 0.100 \\
+		$1 \times 10^{-2}$ & 0.188 & 0.100 \\
 	\end{tabular}
 \end{table}
 
 \paragraph{3. Penalty Parameter}
 
-Ultimately, I focus on finetuning penalty parameter $C$. $C$ represents the tolerance for error, inappropriate $C$ would reduce the generalization ability of SVM model. I adjust $C$ based on the best result above.
+Ultimately, I focus on finetuning penalty parameter $C$. $C$ represents the tolerance for error, inappropriate $C$ would reduce the generalization ability of SVM model. I adjust $C$ based on the best result above (results can be found in Fig. \ref{fig:penalty-para}).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/para_penalty.png}
+	\caption{The performances of SVM model under different penalty parameters.}
+	\label{fig:penalty-para}
+\end{figure}
+
+Based on the above results, I infer that the most appropriate $C$ for SVM on CIFAR-10 might near 0.6. Further explorations narrow this scope (Tab \ref{tab:penalty-para}).
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{The performances of different penalty parameters $C$ on CIFAR-10}
+	\label{tab:penalty-para}
+	\centering
+	
+	\begin{tabular}{c|c|c}
+		\centering
+		The value of $C$ & Training error on batch 1 & Test error on batch 1 \\
+		\hline
+		\hline
+		
+		0.3 & 0.343 & 0.243 \\
+		0.4 & 0.346 & 0.242 \\
+		0.5 & 0.341 & 0.241 \\
+		0.6 & 0.356 & 0.255 \\
+		0.7 & & \\
+		0.8 & & \\
+		0.9 & & \\
+		1.0 & 0.344 & 0.242 \\
+	\end{tabular}
+\end{table}
 
 \subsection{Final Result}
+
+So far, I have got a relatively good SVM model, then I compare it with some deep learning algorithm benchmarks \cite{bench} (Tab. \ref{tab:res}). To give full play to the performance of SVM, I also conduct some preprocessing methods.
+
+\begin{table}[H]
+	\renewcommand\arraystretch{1.35}
+	\caption{The comparisons between SVM and deep learning algorithm benchmarks}
+	\label{tab:res}
+	\centering
+	
+	\begin{tabular}{c|c}
+		\centering
+		Model & Test error on CIFAR-10 \\
+		\hline
+		\hline
+		
+		SVM (standardization) & \\
+		SVM (max-min normalization) & \\
+		SVM (pca 90\% variance) & \\
+		SVM (pca 80\% variance) & \\
+		\hline
+		Fractional Max-Pooling \cite{bench2} & 3.47\% \\
+		Spatially-sparse CNN \cite{bench10} & 6.28\% \\
+		Batch-normalized maxout NIN \cite{bench3} & 6.75\% \\
+		NIN \cite{bench4} & 8.20\% \\
+		Maxout Networks \cite{bench5} & 8.80\% \\
+		cuda-convnet \cite{bench1} (with data augmentation) & 11.00\% \\
+		Multi-Column DNN \cite{bench6} & 11.21\% \\
+		ReNet \cite{bench9} & 12.35\% \\
+		cuda-convnet (without data augmentation) & 13.00\% \\
+		Convolutional Kernel Networks \cite{bench7} & 17.82\% \\
+		PCANet \cite{bench8} & 21.33\% \\
+	\end{tabular}
+\end{table}
 
 \subsection{Strengths and Weaknesses of SVM on Big Datasets}
 

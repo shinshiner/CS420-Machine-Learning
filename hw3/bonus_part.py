@@ -1,5 +1,6 @@
 from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.decomposition import PCA
 import numpy as np
 import pickle
 import time
@@ -7,6 +8,12 @@ import matplotlib.pyplot as plt
 
 interval = 100
 max_iter = 100
+
+def pca(x):
+    model = PCA(n_components=9)
+    data = model.fit_transform(x)
+    print(model.explained_variance_ratio_.sum())
+    return data
 
 def cifar_sample():
     with open('data/cifar-10-batches-py/test_batch', 'rb') as f:
@@ -49,7 +56,7 @@ def svm_bonus():
     t = time.time()
     for i in range(interval, max_iter + 1, interval):
         model = SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
-                    decision_function_shape='ovr', degree=3, gamma=0.00006, kernel='rbf',
+                    decision_function_shape='ovr', degree=3, gamma=0.000001, kernel='rbf',
                     max_iter=i, probability=False, random_state=None, shrinking=True,
                     tol=0.001, verbose=False)
         model.fit(x_tr, y_tr)
@@ -80,6 +87,33 @@ def plot_poly_para():
     plt.savefig('report/img/svm_poly_para')
     plt.show()
 
+def plot_penalty():
+    x = [0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0]
+    y_tr = [0.331, 0.328, 0.337, 0.344, 0.343, 0.356, 0.344, 0.201, 0.201]
+    y_t = [0.241, 0.235, 0.241, 0.248, 0.243, 0.255, 0.242, 0.118, 0.118]
+
+    x_ax = np.arange(9) * 0.9
+    total_width, n = 0.75, 2
+    width = total_width / n
+    x_ax = x_ax - (total_width - width) / 2
+
+    plt.bar(x_ax, y_tr, width=width, facecolor='#9999ff', edgecolor='white', label='Training set')
+    plt.bar(x_ax + width, y_t, width=width, facecolor='#ffa07a', edgecolor='white', label='Testing set')
+    for x, y1, y2 in zip(x_ax, y_tr, y_t):
+        plt.text(x - 0.02, y1, '%.2f' % y1, ha='center', va='bottom')
+        plt.text(x + width + 0.075, y2, '%.2f' % y2, ha='center', va='bottom')
+
+    ax = plt.gca()
+    ax.set_xticks(x_ax + width / 2)
+    ax.set_xticklabels((0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0))
+    plt.xlabel('Penalty parameter')
+    plt.ylabel('Accuracy')
+    #plt.ylim(0, 1.245)
+    plt.legend()
+    plt.savefig('report/img/para_penalty')
+    plt.show()
+
 if __name__ == '__main__':
     svm_bonus()
+    #plot_penalty()
     #cifar_sample()
