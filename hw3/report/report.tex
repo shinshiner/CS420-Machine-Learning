@@ -156,11 +156,13 @@ The ability of SVM might be constrainted when dealing with non-linear features, 
 	\label{fig:svm-kernel}
 \end{figure}
 
+\vspace{0.015\linewidth}
 It is apparent that the effect of these kernels differ greatly. Rbf (Radial Basis Function) kernel is most suitable for \textit{splice} while no kernel function is the best choice for \textit{satimage}. 
 
-\vspace{0.01\linewidth}
+\vspace{0.015\linewidth}
 Additionally, the selection of specific parameters of a kernel would also affect the results. I test polynomial kernel with different degrees, the test error can refer to Tab. \ref{tab:kernel-poly}.
 
+\vspace{0.015\linewidth}
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
 	\caption{The performances of polynomial kernel under different degrees}
@@ -184,30 +186,47 @@ Additionally, the selection of specific parameters of a kernel would also affect
 	\end{tabular}
 \end{table}
 
-The trend reflected in the table is that higher degree can reduce training error, but lead to more test error in the meantime. Still, the performance would also drop a lot in both training set and test set when the degree is too large. This result also proves the significance of choosing the complexity of model properly.
+The trend reflected in the above table is that higher degree can reduce training error, but lead to more test error in the meantime. Still, the performance would also drop a lot in both training set and testing set when the degree is too large. In short, this result proves the significance of choosing the complexity of model properly.
 
+\vspace{0.01\linewidth}
 \subsubsection{Penalty Parameter}
 
-Although SVM would encounter difficulties on non-linear data, it can still handle slightly non-separable data via soft-margin technique (transforming the optimization object into $\dfrac{1}{2}w^Tw+C\sum\limits_{n=1}^{N}\xi_n$), where the penalty parameter $C$ is critical for classification performance. I have tried the $C$ on different orders of magnitude, and the results can be found in Fig. \ref{fig:svm-penalty}.
+Although SVM would encounter difficulties on non-linear data, it can still handle slightly non-separable data via soft-margin technique: transforming the optimization object from 
+\begin{equation*}
+\dfrac{1}{2}w^Tw
+\end{equation*}
+into
+
+\begin{equation*}
+\dfrac{1}{2}w^Tw+C\sum\limits_{n=1}^{N}\xi_n,
+\end{equation*}
+where the penalty parameter $C$ is critical for classification performance. 
+
+\vspace{0.01\linewidth}
+I have tried the $C$ on different orders of magnitude, and the results can be found in Fig. \ref{fig:svm-penalty}.
 
 \begin{figure}[H]
 	\centering
 	\subfigure[Splice]{
-		\includegraphics[width=0.45\linewidth]{img/svm_penalty_splice.png}
+		\includegraphics[width=0.48\linewidth]{img/svm_penalty_splice.png}
 	}
 	\subfigure[Satimage]{
-		\includegraphics[width=0.45\linewidth]{img/svm_penalty_sat.png}
+		\includegraphics[width=0.48\linewidth]{img/svm_penalty_sat.png}
 	}
 	\caption{The performances of SVM under different penalty parameter $C$.}
 	\label{fig:svm-penalty}
 \end{figure}
 
-According to the results, the introduction of $C$ is sometimes beneficial to the classification. More specifically, proper $C$ could improve the performance of SVM while excessive $C$ might produce additional errors. In general, the circumstances might vary a little bit according to the data, where $C$ should be determined by large scale of experiments.
+According to the results, the introduction of $C$ is sometimes beneficial to the classification. More specifically, proper $C$ could improve the performance of SVM while excessive $C$ might produce additional errors.
 
+\vspace{0.01\linewidth}
+In general, the circumstances might vary a little bit according to the data, where $C$ should be determined by large scale of experiments.
+
+\vspace{0.01\linewidth}
 \subsubsection{Dimension of Features}
 \label{sec:pca}
 
-In some cases, the performance of a classification model might be reduced due to the redundant features of the dataset. Therefore, I test the performances of SVM under different variance radios of features (Fig. \ref{fig:svm-dim}).
+In some cases, the performance of a classification model might be reduced due to the redundant features of the dataset. Therefore, I test the performances of SVM under different variance radios of features. I implement this dimension reduction via PCA, corresponding results can refer to Fig. \ref{fig:svm-dim}.
 
 \begin{figure}[H]
 	\centering
@@ -320,16 +339,16 @@ Activation function is an indispensable component of MLP. It extends the scope t
 \begin{figure}[H]
 	\centering
 	\subfigure[Splice-Training Set]{
-		\includegraphics[width=0.45\linewidth]{img/mlp_activation_splice_tr.png}
+		\includegraphics[width=0.43\linewidth]{img/mlp_activation_splice_tr.png}
 	}
 	\subfigure[Splice-Tetsing Set]{
-		\includegraphics[width=0.45\linewidth]{img/mlp_activation_splice_t.png}
+		\includegraphics[width=0.43\linewidth]{img/mlp_activation_splice_t.png}
 	}
 	\subfigure[Satimage-Training Set]{
-		\includegraphics[width=0.45\linewidth]{img/mlp_activation_sat_tr.png}
+		\includegraphics[width=0.43\linewidth]{img/mlp_activation_sat_tr.png}
 	}
 	\subfigure[Satimage-Testing Set]{
-		\includegraphics[width=0.45\linewidth]{img/mlp_activation_sat_t.png}
+		\includegraphics[width=0.43\linewidth]{img/mlp_activation_sat_t.png}
 	}
 	\caption{The performances of MLP under different activation functions.}
 	\label{fig:mlp-activation}
@@ -341,13 +360,14 @@ Similar to Sec. \ref{sec:optim}, the effects of different activation function ar
 
 In training process, learning rate controls the speed of parameters updating. Researchers often pours quantities of time into adjusting learning rate due to its large effect to training results. I investigate the classification results on several orders of magnitude of learning rate (Fig. \ref{fig:mlp-lr}).
 
+\vspace{-0.01\linewidth}
 \begin{figure}[H]
 	\centering
 	\subfigure[Splice]{
-		\includegraphics[width=0.45\linewidth]{img/mlp_lr_splice.png}
+		\includegraphics[width=0.43\linewidth]{img/mlp_lr_splice.png}
 	}
 	\subfigure[Satimage]{
-		\includegraphics[width=0.45\linewidth]{img/mlp_lr_sat.png}
+		\includegraphics[width=0.43\linewidth]{img/mlp_lr_sat.png}
 	}
 	\caption{The performances of MLP under different learning rate.}
 	\label{fig:mlp-lr}
@@ -502,12 +522,12 @@ Ultimately, I focus on finetuning penalty parameter $C$. $C$ represents the tole
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\linewidth]{img/para_penalty.png}
+	\includegraphics[width=0.65\linewidth]{img/para_penalty.png}
 	\caption{The performances of SVM model under different penalty parameters.}
 	\label{fig:penalty-para}
 \end{figure}
 
-Based on the above results, I infer that the most appropriate $C$ for SVM on CIFAR-10 might near 0.6. Further explorations narrow this scope (Tab \ref{tab:penalty-para}).
+Based on the above results, I infer that the most appropriate $C$ for SVM on CIFAR-10 might near 10.0. Further explorations narrow this scope (Tab \ref{tab:penalty-para}).
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.35}
@@ -521,16 +541,17 @@ Based on the above results, I infer that the most appropriate $C$ for SVM on CIF
 		\hline
 		\hline
 		
-		0.3 & 0.343 & 0.243 \\
-		0.4 & 0.346 & 0.242 \\
-		0.5 & 0.341 & 0.241 \\
-		0.6 & 0.356 & 0.255 \\
-		0.7 & & \\
-		0.8 & & \\
-		0.9 & & \\
-		1.0 & 0.344 & 0.242 \\
+		7.5 & 0.484 & 0.338 \\
+		8.0 & 0.484 & 0.338 \\
+		8.5 & 0.484 & 0.338 \\
+		9.0 & 0.484 & 0.338 \\
+		9.5 & 0.484 & 0.338 \\
+		10.0 & 0.484 & 0.338 \\
+		10.5 & 0.484 & 0.338 \\
 	\end{tabular}
 \end{table}
+
+Since the values of $C$ in the above table correspond to the same performance, I just select $C$ as 10.0 for my SVM model.
 
 \subsection{Final Result}
 \label{sec:final_res}
@@ -553,6 +574,7 @@ So far, I have got a relatively good SVM model, then I compare it with some deep
 		SVM (max-min normalization) & \\
 		SVM (pca 90\% variance) & \\
 		SVM (pca 80\% variance) & \\
+		SVM (standardization and pca 80\% variance) & \\
 		\hline
 		Fractional Max-Pooling \cite{bench2} & 3.47\% \\
 		Spatially-sparse CNN \cite{bench10} & 6.28\% \\

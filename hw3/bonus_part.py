@@ -9,11 +9,50 @@ import matplotlib.pyplot as plt
 interval = 100
 max_iter = 100
 
-def pca(x):
-    model = PCA(n_components=9)
-    data = model.fit_transform(x)
-    print(model.explained_variance_ratio_.sum())
-    return data
+# zero mean
+def zeroMean(dataMat):
+    meanVal = np.mean(dataMat,axis=0)     # get the mean value of each feature
+    newData = dataMat - meanVal
+    return newData, meanVal
+
+def percentage2n(eigVals,percentage):
+    sortArray = np.sort(eigVals)   # ascending order
+    sortArray = sortArray[-1::-1]  # descending order
+    arraySum = sum(sortArray)
+    tmpSum = 0
+    num = 0
+    for i in sortArray:
+        tmpSum += i
+        num += 1
+        if tmpSum >= arraySum * percentage:
+            return num
+
+def pca(dataMat,percentage=0.99):
+    dataMat,meanVal=zeroMean(dataMat)
+    # print "datamat type :" + str(type(dataMat))
+
+    print ("Now computing covariance matrix...")
+    covMat=np.cov(dataMat,rowvar=0)    #求协方差矩阵,return ndarray；若rowvar非0，一列代表一个样本，为0，一行代表一个样本
+    # print "covmat type :" + str(type(covMat))
+
+    print ("Finished. Now solve eigen values and vectors...")
+    eigVals,eigVects=np.linalg.eig(np.mat(covMat))#求特征值和特征向量,特征向量是按列放的，即一列代表一个特征向量
+    # print "eigVals type :" + str(type(eigVals))
+    # print "eigVects type :" + str(type(eigVects))
+
+    print ("Finished. Now select eigen vectors...")
+    n=percentage2n(eigVals,percentage)                 #要达到percent的方差百分比，需要前n个特征向量
+    eigValIndice=np.argsort(eigVals)            #对特征值从小到大排序
+    # print "eigValIndice type :" + str(type(eigValIndice))
+
+    n_eigValIndice=eigValIndice[-1:-(n+1):-1]   #最大的n个特征值的下标
+    n_eigVect=eigVects[:,n_eigValIndice]        #最大的n个特征值对应的特征向量
+    print ("Finished. Now generating new data...")
+    # print "n_eigVect type :" + str(type(n_eigVect))
+
+    lowDDataMat=dataMat*n_eigVect               #低维特征空间的数据
+    # reconMat=(lowDDataMat*n_eigVect.T)+meanVal  #重构数据
+    return np.array(lowDDataMat)
 
 def cifar_sample():
     with open('data/cifar-10-batches-py/test_batch', 'rb') as f:
@@ -39,9 +78,9 @@ def merge_batches():
 
 
 def svm_bonus():
-    x_tr = np.load('data/cifar-10-batches-py/cifar10-data.npy')[:10000]
-    y_tr = np.load('data/cifar-10-batches-py/cifar10-labels.npy')[:10000]
-    x_t = np.load('data/cifar-10-batches-py/cifar10-data.t.npy')
+    x_tr = pca(np.load('data/cifar-10-batches-py/cifar10-data.npy'), 0.9)
+    y_tr = np.load('data/cifar-10-batches-py/cifar10-labels.npy')
+    x_t = pca(np.load('data/cifar-10-batches-py/cifar10-data.t.npy'), 0.9)
     y_t = np.load('data/cifar-10-batches-py/cifar10-labels.t.npy')
 
     # scaler = StandardScaler()
@@ -54,7 +93,7 @@ def svm_bonus():
     res_t = []
     print('start to training')
     t = time.time()
-    tmpl = [11.0, 12.0, 13.0, 14.0, 15.0]
+    tmpl = [10.0]
     #tmpl = [0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0]
     for tmp in tmpl:
         for i in range(interval, max_iter + 1, interval):
@@ -91,24 +130,25 @@ def plot_poly_para():
     plt.show()
 
 def plot_penalty():
-    x = [0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0]
-    y_tr = [0.328, 0.34, 0.392, 0.41, 0.473, 0.473, 0.464, 0.48, 0.484]
-    y_t = [0.276, 0.283, 0.316, 0.318, 0.347, 0.334, 0.33, 0.336, 0.338]
+    x = [0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0, 11.0, 12.0]
+    y_tr = [0.328, 0.34, 0.392, 0.41, 0.473, 0.473, 0.464, 0.48, 0.484, 0.484, 0.484]
+    y_t = [0.276, 0.283, 0.316, 0.318, 0.347, 0.334, 0.33, 0.336, 0.338, 0.338, 0.338]
 
-    x_ax = np.arange(9) * 0.9
+    x_ax = np.arange(11) * 0.9
     total_width, n = 0.75, 2
     width = total_width / n
     x_ax = x_ax - (total_width - width) / 2
 
+    plt.figure(figsize=(10, 8))
     plt.bar(x_ax, y_tr, width=width, facecolor='#9999ff', edgecolor='white', label='Training set')
     plt.bar(x_ax + width, y_t, width=width, facecolor='#ffa07a', edgecolor='white', label='Testing set')
     for x, y1, y2 in zip(x_ax, y_tr, y_t):
         plt.text(x - 0.02, y1, '%.2f' % y1, ha='center', va='bottom')
-        plt.text(x + width + 0.075, y2, '%.2f' % y2, ha='center', va='bottom')
+        plt.text(x + width + 0.03, y2, '%.2f' % y2, ha='center', va='bottom')
 
     ax = plt.gca()
     ax.set_xticks(x_ax + width / 2)
-    ax.set_xticklabels((0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0))
+    ax.set_xticklabels((0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0, 11.0, 12.0))
     plt.xlabel('Penalty parameter')
     plt.ylabel('Accuracy')
     #plt.ylim(0, 1.245)
