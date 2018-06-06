@@ -54,6 +54,12 @@ def pca(dataMat,percentage=0.99):
     # reconMat=(lowDDataMat*n_eigVect.T)+meanVal  #重构数据
     return np.array(lowDDataMat)
 
+def skpca(x, i):
+    model = PCA(n_components=i)
+    data = model.fit_transform(x)
+    print(model.explained_variance_ratio_.sum())
+    return data
+
 def cifar_sample():
     with open('data/cifar-10-batches-py/test_batch', 'rb') as f:
         dic = pickle.load(f, encoding='bytes')
@@ -80,14 +86,14 @@ def merge_batches():
 def svm_bonus():
     x_tr = pca(np.load('data/cifar-10-batches-py/cifar10-data.npy'), 0.9)
     y_tr = np.load('data/cifar-10-batches-py/cifar10-labels.npy')
-    x_t = pca(np.load('data/cifar-10-batches-py/cifar10-data.t.npy'), 0.9)
+    x_t = skpca(np.load('data/cifar-10-batches-py/cifar10-data.t.npy'), x_tr.shape[1])
     y_t = np.load('data/cifar-10-batches-py/cifar10-labels.t.npy')
 
-    # scaler = StandardScaler()
-    # scaler.fit(x_tr)
-    # x_tr = scaler.transform(x_tr)
-    # scaler.fit(x_t)
-    # x_t = scaler.transform(x_t)
+    scaler = StandardScaler()
+    scaler.fit(x_tr)
+    x_tr = scaler.transform(x_tr)
+    scaler.fit(x_t)
+    x_t = scaler.transform(x_t)
 
     res_tr = []
     res_t = []
@@ -105,7 +111,7 @@ def svm_bonus():
             print('finish training, spending %.4f seconds' % (time.time() - t))
 
             res_tr.append(round(model.score(x_tr, y_tr), 3))
-            res_t.append(round(model.score(x_t, y_t), 3))
+            res_t.append(round(model.score(x_t, y_t), 6))
             # print(model.score(x_tr, y_tr))
             # print(model.score(x_t, y_t))
     print('train: ', res_tr)
