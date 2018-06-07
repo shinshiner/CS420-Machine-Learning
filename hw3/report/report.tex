@@ -437,17 +437,17 @@ Still, an available MLP model often takes much time to finetune, even a small ch
 
 \section{Comparison Between SVM and Deep Learning Algorithm Benchmarks}
 
-In this section, I would show the application of SVM on CIFAR-10 dataset \cite{cifar-10} and compare the results to corresponding deep learning algorithm benchmarks. These results were obtained with convolutional neural networks or some other fancy network architectures.
+In this section, I would apply SVM on CIFAR-10 dataset \cite{cifar-10} and compare the results to corresponding deep learning algorithm benchmarks. These results were obtained with convolutional neural networks or some other fancy network architectures.
 
 \subsection{Baseline of SVM}
 \vspace{0.01\linewidth}
 
-I first fit SVM with default parameters of \textit{sklearn} on CIFAR-10 and get a terrible result: 88\% training error and 90\% test error for about 6 minutes on a INTEL I5-5200U CPU. I infer that such result might be out of the high dimension of features and large scale of samples. Then I start to adjust the SVM model to improve its performance.
+I first fit SVM with default parameters of \textit{sklearn} on CIFAR-10 and get a terrible result: 88\% training error and 90\% test error with 10000 iterations, taking about 20 minutes on a INTEL I5-5200U CPU. I infer that such result might be out of the high dimension of features and large scale of samples. Then I start to adjust the SVM model to improve its performance.
 
 \subsection{Finetune}
 \label{sec:finetune}
 
-In this section, I would show the process of finetuning my SVM model. Due to the limited computing resources, I can hardly conduct perfectly comprehensive experiments. I tend to focus on the points I think is pivotal.
+In this section, I would show the process of finetuning my SVM model. Due to the limited computing resources, I can hardly conduct perfectly comprehensive experiments. I tend to focus on the points I think are pivotal. Note that I only need to observe the trend here, so I just use the original data to finetune parameters in 1000 iterations.
 
 \paragraph{1. Kernel}
 
@@ -455,7 +455,7 @@ In this section, I would show the process of finetuning my SVM model. Due to the
 Since the performance of SVM on CIFAR-10 is pretty poor, I think it is difficult to improving this just by adjusting some numerical parameters. Therefore, I start with picking out the most appropriate kernel.
 
 \vspace{0.01\linewidth}
-I have tried 3 kinds of kernels on each batch of CIFAR-10 with 100 iterations (more iterations does not make any difference) and default parameters of \textit{sklearn}. The results can refer to Tab. \ref{tab:bonus-kernel}.
+I have tried 3 kinds of kernels on each batch of CIFAR-10 with 1000 iterations and default parameters of \textit{sklearn}. The results can refer to Tab. \ref{tab:bonus-kernel}.
 
 \begin{table}[H]
 	\renewcommand\arraystretch{1.5}
@@ -534,7 +534,7 @@ Based on the above results, I infer that the most appropriate $C$ for SVM on CIF
 
 \vspace{-0.005\linewidth}
 \begin{table}[H]
-	\renewcommand\arraystretch{1.35}
+	\renewcommand\arraystretch{1.2}
 	\caption{The performances of different penalty parameters $C$ on CIFAR-10}
 	\label{tab:penalty-para}
 	\centering
@@ -558,34 +558,42 @@ Based on the above results, I infer that the most appropriate $C$ for SVM on CIF
 \vspace{-0.005\linewidth}
 Since the values of $C$ in the above table correspond to the same performance, I just select $C$ as 10.0 for my SVM model.
 
-\vspace{-0.005\linewidth}
+\vspace{-0.015\linewidth}
 \subsection{Final Result}
 \label{sec:final_res}
 
-So far, I have got a relatively good SVM model, then I compare it with some deep learning algorithm benchmarks \cite{bench} (Tab. \ref{tab:res}). To give full play to the performance of SVM, I also conduct some preprocessing methods.
-
 \vspace{-0.01\linewidth}
+So far, I have got relatively appropriate parameters of SVM model, then I compare it with some deep learning algorithm benchmarks \cite{bench} (Tab. \ref{tab:res}). To give full play to the performance of SVM, I also employ some preprocessing methods. Note that I remove the limitation of the number of training iterations and train SVM model until it converges.
+
+\vspace{-0.015\linewidth}
 \begin{table}[H]
-	\renewcommand\arraystretch{1.35}
-	\caption{The comparisons between SVM and deep learning algorithm benchmarks}
+	\renewcommand\arraystretch{1.25}
+	\caption{The comparisons between SVM (without limitation of the number of iterations) and deep learning algorithm benchmarks, some results might be missing due to the massive time consumption}
 	\label{tab:res}
 	\centering
 	
 	\begin{tabular}{c|c}
 		\centering
-		Model & Test error on CIFAR-10 \\
+		Model & Test error on CIFAR-10 (\& training time) \\
 		\hline
 		\hline
 		
-		SVM & 74.05\% \\
-		SVM (standardization) & 77.69\% \\
-		SVM (max-min normalization) & 78.25\% \\
-		SVM (pca 90\% variance) & 88.60\% \\
-		SVM (pca 80\% variance) & 89.00\% \\
-		SVM (standardization and pca 90\% variance) & 93.97\% \\
+		SVM & ??\% \quad more than 10 hours \\
+		SVM (standardization) & 77.69\% \quad \\
+		SVM (max-min normalization) & 78.25\% \quad \\
+		SVM (pca 90\% variance radio) & 88.60\% \quad 21 min \\
+		SVM (pca 80\% variance radio) & 89.00\% \quad 5 min \\
+		SVM (standardization and pca 90\% variance) & 93.97\% \quad 16 min\\
+%		SVM & 74.05\% \\
+%		SVM (standardization) & 77.69\% \\
+%		SVM (max-min normalization) & 78.25\% \\
+%		SVM (pca 90\% variance) & 88.60\% \\
+%		SVM (pca 80\% variance) & 89.00\% \\
+%		SVM (standardization and pca 90\% variance) & 93.97\% \\
 		\hline
 		Fractional Max-Pooling \cite{bench2} & 3.47\% \\
 		Spatially-sparse CNN \cite{bench10} & 6.28\% \\
+		5-layers MLP & 6.37\% \\
 		Batch-normalized maxout NIN \cite{bench3} & 6.75\% \\
 		NIN \cite{bench4} & 8.20\% \\
 		Maxout Networks \cite{bench5} & 8.80\% \\

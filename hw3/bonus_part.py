@@ -6,8 +6,8 @@ import pickle
 import time
 import matplotlib.pyplot as plt
 
-interval = 100
-max_iter = 100
+interval = 1000
+max_iter = 1000
 
 # zero mean
 def zeroMean(dataMat):
