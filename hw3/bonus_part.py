@@ -32,26 +32,26 @@ def pca(dataMat,percentage=0.99):
     # print "datamat type :" + str(type(dataMat))
 
     print ("Now computing covariance matrix...")
-    covMat=np.cov(dataMat,rowvar=0)    #求协方差矩阵,return ndarray；若rowvar非0，一列代表一个样本，为0，一行代表一个样本
+    covMat=np.cov(dataMat,rowvar=0)    # solve covariance matrix
     # print "covmat type :" + str(type(covMat))
 
     print ("Finished. Now solve eigen values and vectors...")
-    eigVals,eigVects=np.linalg.eig(np.mat(covMat))#求特征值和特征向量,特征向量是按列放的，即一列代表一个特征向量
+    eigVals,eigVects=np.linalg.eig(np.mat(covMat))# solve eigen vectors & values
     # print "eigVals type :" + str(type(eigVals))
     # print "eigVects type :" + str(type(eigVects))
 
     print ("Finished. Now select eigen vectors...")
-    n=percentage2n(eigVals,percentage)                 #要达到percent的方差百分比，需要前n个特征向量
-    eigValIndice=np.argsort(eigVals)            #对特征值从小到大排序
+    n=percentage2n(eigVals,percentage)
+    eigValIndice=np.argsort(eigVals)            # sorting according to eigen values
     # print "eigValIndice type :" + str(type(eigValIndice))
 
-    n_eigValIndice=eigValIndice[-1:-(n+1):-1]   #最大的n个特征值的下标
-    n_eigVect=eigVects[:,n_eigValIndice]        #最大的n个特征值对应的特征向量
+    n_eigValIndice=eigValIndice[-1:-(n+1):-1]   # index of max_n features
+    n_eigVect=eigVects[:,n_eigValIndice]        # eigen vectors
     print ("Finished. Now generating new data...")
     # print "n_eigVect type :" + str(type(n_eigVect))
 
-    lowDDataMat=dataMat*n_eigVect               #低维特征空间的数据
-    # reconMat=(lowDDataMat*n_eigVect.T)+meanVal  #重构数据
+    lowDDataMat=dataMat*n_eigVect               # data in low dim
+    # reconMat=(lowDDataMat*n_eigVect.T)+meanVal  # reconstruct data
     return np.array(lowDDataMat)
 
 def skpca(x, i):
@@ -84,16 +84,22 @@ def merge_batches():
 
 
 def svm_bonus():
-    x_tr = pca(np.load('data/cifar-10-batches-py/cifar10-data.npy'), 0.9)
+    x_tr = np.load('data/cifar-10-batches-py/cifar10-data.npy')
     y_tr = np.load('data/cifar-10-batches-py/cifar10-labels.npy')
-    x_t = skpca(np.load('data/cifar-10-batches-py/cifar10-data.t.npy'), x_tr.shape[1])
+    x_t = np.load('data/cifar-10-batches-py/cifar10-data.t.npy')
     y_t = np.load('data/cifar-10-batches-py/cifar10-labels.t.npy')
 
+    x = np.vstack((x_tr, x_t))
+    print(x.shape)
+
     scaler = StandardScaler()
-    scaler.fit(x_tr)
-    x_tr = scaler.transform(x_tr)
-    scaler.fit(x_t)
-    x_t = scaler.transform(x_t)
+    scaler.fit(x)
+    x = scaler.transform(x)
+    
+    x = pca(x, 0.9)
+    print(x.shape)
+    x_tr = x[:50000]
+    x_t = x[50000:]
 
     res_tr = []
     res_t = []
@@ -105,7 +111,7 @@ def svm_bonus():
         for i in range(interval, max_iter + 1, interval):
             model = SVC(C=tmp, cache_size=200, class_weight=None, coef0=0.0,
                         decision_function_shape='ovr', degree=3, gamma=0.0000003, kernel='rbf',
-                        max_iter=i, probability=False, random_state=666, shrinking=True,
+                        max_iter=-1, probability=False, random_state=666, shrinking=True,
                         tol=0.001, verbose=False)
             model.fit(x_tr, y_tr)
             print('finish training, spending %.4f seconds' % (time.time() - t))
