@@ -84,23 +84,23 @@ def merge_batches():
 
 
 def svm_bonus():
+	# load data
     x_tr = np.load('data/cifar-10-batches-py/cifar10-data.npy')
     y_tr = np.load('data/cifar-10-batches-py/cifar10-labels.npy')
     x_t = np.load('data/cifar-10-batches-py/cifar10-data.t.npy')
     y_t = np.load('data/cifar-10-batches-py/cifar10-labels.t.npy')
 
-    x = np.vstack((x_tr, x_t))
-    print(x.shape)
-
-    scaler = StandardScaler()
-    scaler.fit(x)
-    x = scaler.transform(x)
+    # preprocessing
+    # scaler = StandardScaler()
+    # scaler.fit(x_tr)
+    # x_tr = scaler.transform(x_tr)
+    # scaler.fit(x_t)
+    # x_t = scaler.transform(x_t)
     
-    x = pca(x, 0.9)
-    print(x.shape)
-    x_tr = x[:50000]
-    x_t = x[50000:]
+    x_tr = pca(x_tr, 0.9)
+    x_t = skpca(x_t, x_tr.shape[1])
 
+    # training stage
     res_tr = []
     res_t = []
     print('start to training')
@@ -123,6 +123,7 @@ def svm_bonus():
     print('train: ', res_tr)
     print('test: ', res_t)
 
+# ploting
 def plot_poly_para():
     x = list(range(2, 9))
     y_tr = [0.259, 0.223, 0.200, 0.198, 0.218, 0.212, 0.176]
@@ -141,6 +142,7 @@ def plot_poly_para():
     plt.savefig('report/img/svm_poly_para')
     plt.show()
 
+# ploting
 def plot_penalty():
     x = [0.01, 0.03, 0.06, 0.1, 0.3, 0.6, 1.0, 3.0, 10.0, 11.0, 12.0]
     y_tr = [0.328, 0.34, 0.392, 0.41, 0.473, 0.473, 0.464, 0.48, 0.484, 0.484, 0.484]

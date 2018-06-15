@@ -27,6 +27,7 @@ def select(x, y):
 ################################### SVM Part #####################################
 
 def svm(data_name):
+    # load data
     x_tr = np.load('data/' + data_name + '_feature.npy')
     y_tr = np.load('data/' + data_name + '_target.npy')
     x_t = np.load('data/' + data_name + '.t_feature.npy')
@@ -41,6 +42,7 @@ def svm(data_name):
     res_tr = []
     res_t = []
 
+    # training stage
     for i in range(interval, max_iter + 1, interval):
         model = SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
                 decision_function_shape='ovr', degree=3, gamma='auto', kernel='rbf',
@@ -358,20 +360,13 @@ def plot_s_baseline():
 ################################### MLP Part #####################################
 
 def mlp(data_name):
+    # load data
     x_tr = np.load('data/' + data_name + '_feature.npy')
     y_tr = np.load('data/' + data_name + '_target.npy')
     x_t = np.load('data/' + data_name + '.t_feature.npy')
     y_t = np.load('data/' + data_name + '.t_target.npy')
-    # if data_name == 'madelon':
-    #     x_tr = select(x_tr, y_tr)
-    #     x_t = select(x_t, y_t)
 
-        # scaler = StandardScaler()
-        # scaler.fit(x_tr)
-        # x_tr = scaler.transform(x_tr)
-        # scaler.fit(x_t)
-        # x_t = scaler.transform(x_t)
-
+    # training stage
     res_tr = []
     res_t = []
     for i in range(interval, max_iter + 1, interval):
@@ -383,8 +378,7 @@ def mlp(data_name):
 
         res_tr.append(round(model.score(x_tr, y_tr), 3))
         res_t.append(round(model.score(x_t, y_t), 3))
-        # print(model.score(x_tr, y_tr))
-        # print(model.score(x_t, y_t))
+        
     print('train: ', res_tr)
     print('test: ', res_t)
 

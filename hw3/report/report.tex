@@ -52,8 +52,7 @@
 %==========================================================
 \noindent\framebox[\linewidth]{\shortstack[c]{
 \Large{\textbf{Report on Homework 3 -- SVM vs. Neural Networks}}\vspace{1mm}\\ 
-CS420, Machine Learning, Shikui Tu, Summer 2018 \vspace{1mm} \\
-Zelin Ye 515030910468}}
+CS420, Machine Learning, Shikui Tu, Summer 2018}}
 
 \section{Introduction}
 
@@ -442,7 +441,7 @@ In this section, I would apply SVM on CIFAR-10 dataset \cite{cifar-10} and compa
 \subsection{Baseline of SVM}
 \vspace{0.01\linewidth}
 
-I first fit SVM with default parameters of \textit{sklearn} on CIFAR-10 and get a terrible result: 88\% training error and 90\% test error with 10,000 iterations, taking about 150 minutes on a INTEL I5-5200U CPU. I infer that such result might be out of the high dimension of features and large scale of samples. Then I start to adjust the SVM model to improve its performance.
+I first fit SVM with default parameters of \textit{sklearn} on CIFAR-10 and get a terrible result: 88\% training error and 90\% test error with 10,000 iterations, taking about 3 hours on a INTEL I5-5200U CPU. I infer that such result might be out of the high dimension of features and large scale of samples. Then I start to adjust the SVM model to improve its performance.
 
 \subsection{Finetune}
 \label{sec:finetune}
@@ -581,9 +580,12 @@ So far, I have got relatively appropriate parameters of SVM model, then I compar
 		SVM & 77.05\% \quad more than 10 hours \\
 		SVM (standardization) & 71.69\% \quad more than 10 hours \\
 		SVM (max-min normalization) & 73.25\% \quad more than 10 hours \\
-		SVM (pca 90\% variance radio) & 66.74\% \quad 21 minutes \\
-		SVM (pca 80\% variance radio) & 70.01\% \quad 5 minutes \\
-		SVM (standardization and pca 90\% variance) & 61.33\% \quad 16 minutes \\
+		SVM (pca 90\% variance radio) & 68.74\% \quad 42 minutes \\
+		SVM (pca 80\% variance radio) & 70.01\% \quad 18 minutes \\
+		SVM (standardization \& pca 90\% variance radio) & 62.33\% \quad 38 minutes \\
+
+		% pca0.9 no norm 77.18
+		% pca0.8 no norm 77.40
 %		SVM & 74.05\% \\
 %		SVM (standardization) & 77.69\% \\
 %		SVM (max-min normalization) & 78.25\% \\
